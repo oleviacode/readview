@@ -11,6 +11,9 @@
     "emu": "npx react-native run-ios "
   },
   "dependencies": {
+    "@emotion/native": "^11.10.0",
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
     "react": "18.0.0",
     "react-native": "0.69.5"
   },
