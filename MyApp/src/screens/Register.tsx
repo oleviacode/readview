@@ -3,6 +3,7 @@ import {View, Text, TextInput, Button} from 'react-native';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {Dropdown} from 'react-native-element-dropdown';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const LoginSchema = Yup.object().shape({
   username: Yup.string().trim().lowercase().required('username is Required'),
@@ -22,6 +23,7 @@ export default function Register() {
   const [value, setValue] = useState({label: 'haha', value: '4'});
 
   return (
+    <SafeAreaView>
     <View>
       <Formik
         initialValues={{
@@ -92,5 +94,6 @@ export default function Register() {
       <Text>{errorMsg}</Text>
       <Text>{JSON.stringify(value)}</Text>
     </View>
+    </SafeAreaView>
   );
 }
