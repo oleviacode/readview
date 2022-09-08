@@ -1,6 +1,8 @@
 export interface AuthState {
-    username:string;
-    email:string;
+    username:string | null;
+    email:string | null;
     gender:string;
     birthday:Date | null;
+    loggedIn: boolean;
+    token: string | null;
 }

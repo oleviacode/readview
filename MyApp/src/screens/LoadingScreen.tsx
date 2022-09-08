@@ -1,6 +1,10 @@
+import AsyncStorage from '@react-native-community/async-storage';
+import { useNavigation } from '@react-navigation/native';
 import React, { useEffect } from 'react';
 import {View, Text, StyleSheet, ImageBackground} from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, } from 'react-redux';
+import { checkLogin, } from '../../redux/auth/action';
+import { useAppDispatch } from '../../redux/store';
 
 const styles = StyleSheet.create({
   container: {
@@ -35,10 +39,27 @@ const image = require('MyApp/images/cover-page-bg.jpeg');
 
 const LoadingScreen = () => {
 
-    // const name = useSelector((state: RootState) => state.auth.username)
-    // const dispatch = useDispatch()
+  const dispatch = useAppDispatch()
+  const navigation = useNavigation();
 
-    // useEffect()
+  useEffect(() => {
+
+    async function checkJwt(){
+      const token = await AsyncStorage.getItem('token')
+      if(token == null){
+        navigation.navigate('Cover')
+      } else {
+        const result = await dispatch(checkLogin(token))
+        if (result) {
+          navigation.navigate('Main')
+        } else {
+          navigation.navigate('Cover')
+        }
+      }
+    }
+
+    checkJwt()
+  }, [useDispatch])
 
   return (
     <>

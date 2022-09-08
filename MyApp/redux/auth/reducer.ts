@@ -2,23 +2,30 @@ import {AuthActions} from './action';
 import {AuthState} from './state';
 
 const initialState = {
-  username: 'Guest User',
-  email: 'user@123.com',
-  gender: 'Male',
+  username: null,
+  email: null,
+  gender: 'not provided',
   birthday: null,
+  loggedIn: false,
+  token: null,
 };
 
 export function authReducer(state: AuthState = initialState, action: AuthActions): AuthState {
   switch (action.type) {
-    case 'CHANGE_NAME':
+    case '@@auth/LOGGED_IN':
       return {
-        username: 'haha',
-        email: 'haha@123.com',
-        gender: 'Male',
-        birthday: null,
+        ...state,
+        email: action.email,
+        loggedIn: true,
+        token: action.token
       };
-    
-    default:
-        return state
+    case '@@auth/LOGGED_OUT':
+      return {
+        ...state,
+        email: null,
+        loggedIn: false
+      }
+    default: 
+      return state;
   }
 }
