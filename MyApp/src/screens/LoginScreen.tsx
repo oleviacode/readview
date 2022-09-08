@@ -1,33 +1,49 @@
 import React, {useState} from 'react';
 import {Pressable, Text, TextInput, View} from 'react-native';
+import Config from 'react-native-config';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import Config from "react-native-config"
+import { useDispatch } from 'react-redux';
+import {loggedIn } from '../../redux/auth/action';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
 export default function LoginScreen() {
   const [email, onChangeEmail] = useState('');
   const [password, onChangePassword] = useState('');
   const [error, setError] = useState('')
 
+  const dispatch = useDispatch()
+  const navigation = useNavigation();
+
   const login = async () => {
-    if(email == '' || password == ''){
-        setError('please fill in all the categories')
-    } else {
+      if(email == '' || password == ''){
+          setError('please fill in all the categories')
+      } else {
         const res = await fetch(`${Config.REACT_APP_BACKEND_URL}/auth/login`, {
-            method: "POST",
-            body: JSON.stringify({
-              email: email.toLowerCase(),
-              password: password,
-            }),
-            credentials:'include',
-            headers: {
-              "Content-Type": "application/json",
-            },
+          method: "POST",
+          body: JSON.stringify({
+            email: email.toLowerCase(),
+            password: password,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
         })
         const result = await res.json()
-        console.log(result)
+        if (result.statusCode == 200){
+          console.log(result)
+          await AsyncStorage.setItem('token', result.token)
+          dispatch(loggedIn(result.user.email, result.token))
+          navigation.navigate('Main')
+        } else {
+          setError(`please try again`)
+        }
+        
     }
 
   };
+
+
 
   return (
     <SafeAreaView>
