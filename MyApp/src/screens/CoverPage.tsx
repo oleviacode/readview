@@ -8,8 +8,51 @@ import {
   ImageBackground,
 } from 'react-native';
 import React from 'react';
-import { useNavigation } from '@react-navigation/native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {useNavigation} from '@react-navigation/native';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import {NaviProps} from '../model';
+
+const image = require('MyApp/images/cover-page-bg.jpeg');
+
+export default function CoverPage({navigation}: NaviProps) {
+  return (
+    <View style={styles.container}>
+      <ImageBackground source={image} resizeMode="cover" style={styles.bgImg}>
+        <SafeAreaView
+          style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <View
+            style={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: 'white',
+              width: '100%',
+              height: '60%',
+              borderRadius: 30,
+              padding: 30,
+            }}>
+            <Image style={styles.logo} source={require('../assets/logo.png')} />
+            <Text style={styles.title}>Readview</Text>
+
+            <Pressable
+              style={styles.button}
+              onPress={() => {
+                navigation.navigate('Login');
+              }}>
+              <Text style={styles.buttonText}>Login</Text>
+            </Pressable>
+            <Pressable
+              style={styles.button}
+              onPress={() => {
+                navigation.navigate('Register');
+              }}>
+              <Text style={styles.buttonText}>Register</Text>
+            </Pressable>
+          </View>
+        </SafeAreaView>
+      </ImageBackground>
+    </View>
+  );
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -63,45 +106,3 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
-
-const image = require('MyApp/images/cover-page-bg.jpeg');
-
-
-
-const CoverPage = () => {
-  const navigation = useNavigation();
-
-  return (
-    <View style={styles.container}>
-      <ImageBackground source={image} resizeMode="cover" style={styles.bgImg}>
-        <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <View
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: 'white',
-            width: '100%',
-            height: '60%',
-            borderRadius: 30,
-            padding: 30,
-          }}>
-          <Image
-            style={styles.logo}
-            source={require('../assets/logo.png')}
-          />
-          <Text style={styles.title}>Readview</Text>
-
-          <Pressable style={styles.button} onPress={() => {navigation.navigate('Login')}}>
-            <Text style={styles.buttonText}>Login</Text>
-          </Pressable>
-          <Pressable style={styles.button} onPress={() => {navigation.navigate('Register')}}>
-            <Text style={styles.buttonText}>Register</Text>
-          </Pressable>
-        </View>
-        </SafeAreaView>
-      </ImageBackground>
-    </View>
-  );
-};
-
-export default CoverPage;

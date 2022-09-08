@@ -3,13 +3,17 @@ import {View, Text, TextInput, Button} from 'react-native';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {Dropdown} from 'react-native-element-dropdown';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {SafeAreaView} from 'react-native-safe-area-context';
+import DatePicker from 'react-native-datepicker';
+import currentDate from '../../shared/currentDate';
+import {NaviProps} from '../../model';
 
 const LoginSchema = Yup.object().shape({
   username: Yup.string().trim().lowercase().required('username is Required'),
   email: Yup.string().required('email is Required').email(),
   password: Yup.string().required('password Required').min(3),
   gender: Yup.string(),
+  birthday: Yup.string(),
 });
 
 const gender = [
@@ -18,25 +22,27 @@ const gender = [
   {label: 'Other', value: '3'},
 ];
 
-export default function Register() {
+export default function RegisterPageOne({navigation}: NaviProps) {
   const [errorMsg, setErrorMsg] = useState<string>('');
-  const [value, setValue] = useState({label: 'haha', value: '4'});
+  const [date, setDate] = useState(currentDate());
 
   return (
     <SafeAreaView>
-    <View>
       <Formik
         initialValues={{
           username: '',
           email: '',
           password: '',
-          gender: value,
+          gender: '',
+          birthday: date,
         }}
         onSubmit={values => {
           LoginSchema.validate(values)
-            .then(valid => {
-              console.log('valid');
+            .then(() => {
               console.log(values);
+
+              // ADD FETCH HERE
+              navigation.navigate('Register2');
             })
             .catch(err => {
               setErrorMsg(err.errors);
@@ -82,8 +88,34 @@ export default function Register() {
               placeholder="Select gender"
               value={values.gender}
               onChange={item => {
-                setValue(item);
                 handleChange('gender')(item.label);
+              }}
+            />
+            <DatePicker
+              date={date} //initial date from state
+              mode="date" //The enum of date, datetime and time
+              placeholder="select date"
+              format="DD-MM-YYYY"
+              minDate="01-01-1900"
+              maxDate="01-01-2022"
+              confirmBtnText="Confirm"
+              cancelBtnText="Cancel"
+              customStyles={{
+                dateIcon: {
+                  //display: 'none',
+                  position: 'absolute',
+                  left: 0,
+                  top: 4,
+                  marginLeft: 0,
+                },
+                dateInput: {
+                  marginLeft: 36,
+                },
+              }}
+              onDateChange={date => {
+                setDate(date);
+                console.log('date is: ', date);
+                handleChange('birthday')(date);
               }}
             />
 
@@ -91,9 +123,10 @@ export default function Register() {
           </View>
         )}
       </Formik>
+      <Button title="go back" onPress={() => navigation.goBack()}></Button>
+
       <Text>{errorMsg}</Text>
-      <Text>{JSON.stringify(value)}</Text>
-    </View>
+      <Text>You have chosen {date}</Text>
     </SafeAreaView>
   );
 }
