@@ -83,7 +83,7 @@ export default function Register() {
               value={values.gender}
               onChange={item => {
                 setValue(item);
-                handleChange('gender');
+                handleChange('gender')(item.label);
               }}
             />
 

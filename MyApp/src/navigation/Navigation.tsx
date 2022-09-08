@@ -15,7 +15,7 @@ export default function Navigation() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="Cover" screenOptions={{ headerShown: false }}>
+        <Stack.Navigator initialRouteName="Cover">
           <Stack.Screen name="Cover" component={CoverPage} />
           <Stack.Screen name="Loading" component={LoadingScreen}/> 
           <Stack.Screen name="Main" component={Main} />
