@@ -9,7 +9,7 @@ const LoginSchema = Yup.object().shape({
   username: Yup.string().trim().lowercase().required('username is Required'),
   email: Yup.string().required('email is Required').email(),
   password: Yup.string().required('password Required').min(3),
-  gender: Yup.object(),
+  gender: Yup.string(),
 });
 
 const gender = [
@@ -39,7 +39,7 @@ export default function Register() {
               console.log(values);
             })
             .catch(err => {
-              console.log(err.errors);
+              setErrorMsg(err.errors);
             });
         }}>
         {({
