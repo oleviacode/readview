@@ -5,8 +5,8 @@ import { authReducer } from "./auth/reducer";
 
 //combining
 const reducers = combineReducers({
-    auth: authReducer
-})
+  auth: authReducer,
+});
 
 //exports
 export type RootState = ReturnType<typeof reducers>
