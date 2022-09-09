@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import {loggedIn } from '../../redux/auth/action';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+import { insertUserIntoRedux } from '../../redux/user/userinfo/action';
 
 export default function LoginScreen() {
   const [email, onChangeEmail] = useState('');
@@ -16,14 +17,10 @@ export default function LoginScreen() {
   const navigation = useNavigation();
 
   const login = async () => {
-    
+
       if(email == '' || password == ''){
           setError('please fill in all the categories')
       } else {
-        console.log(JSON.stringify({
-          email: email.toLowerCase(),
-          password: password,
-        }))
         const res = await fetch(`${Config.REACT_APP_BACKEND_URL}/auth/login`, {
           method: "POST",
           body: JSON.stringify({
@@ -38,6 +35,7 @@ export default function LoginScreen() {
         if (result.statusCode == 200){
           await AsyncStorage.setItem('token', result.token)
           dispatch(loggedIn(result.user.email, result.token))
+          dispatch(insertUserIntoRedux(result.user))
           navigation.navigate('Main')
         } else {
           setError(`please try again`)

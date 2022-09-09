@@ -50,6 +50,7 @@ const LoadingScreen = () => {
         navigation.navigate('Cover')
       } else {
         const result = await dispatch(checkLogin(token))
+        console.log(result)
         if (result) {
           navigation.navigate('Main')
         } else {

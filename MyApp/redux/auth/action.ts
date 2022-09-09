@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Config from 'react-native-config';
 import {AppDispatch} from '../store';
+import { insertUserIntoRedux } from '../user/userinfo/action';
 
 // -------------------------------------------------------------------------------------------------------------------
 // Login related
@@ -15,7 +16,7 @@ export function loggedIn(email: string, token: string) {
 }
 
 export function checkLogin(token:string){
-  return async () => {
+  return async (dispatch: AppDispatch) => {
     const res = await fetch(`${Config.REACT_APP_BACKEND_URL}/user`,{
       headers: {
         Authorization: `Bearer ${token}`
@@ -24,10 +25,10 @@ export function checkLogin(token:string){
 
     const result = await res.json()
     if (result.statusCode == 200){
-      console.log(result)
+      dispatch(loggedIn(result.user[0].email,token));
+      dispatch(insertUserIntoRedux(result.user[0]))
       return true
     } else {
-      console.log(result)
       return false
     }
 
@@ -40,8 +41,8 @@ export function checkLogin(token:string){
 // -------------------------------------------------------------------------------------------------------------------
 
 export function logOut() {
-  return (dispatch: AppDispatch) => {
-    AsyncStorage.removeItem('token');
+  return async (dispatch: AppDispatch) => {
+    await AsyncStorage.removeItem('token');
     dispatch(loggedOut()); 
   };
 }

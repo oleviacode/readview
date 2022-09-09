@@ -18,7 +18,10 @@ export default function Navigation() {
       <NavigationContainer>
         <Stack.Navigator
           initialRouteName="Loading"
-          screenOptions={{headerShown: false}}>
+          screenOptions={{
+              headerShown: false,
+              gestureEnabled: false
+            }}>
           <Stack.Screen name="Cover" component={CoverPage} />
           <Stack.Screen name="Loading" component={LoadingScreen} />
           <Stack.Screen name="Main" component={Main} />
