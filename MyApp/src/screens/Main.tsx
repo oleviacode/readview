@@ -7,9 +7,11 @@ import { useAppDispatch } from '../../redux/store';
 export default function Main() {
   const dispatch = useAppDispatch()
   const navigation = useNavigation();
+  const user = 'haha'
 
   return (
     <View>
+      <Text> Hello {user}</Text>
       <Text> I am Homepage Yah</Text>
       <Pressable>
           <Text onPress={() => {

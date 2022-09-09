@@ -16,7 +16,7 @@ export function loggedIn(email: string, token: string) {
 
 export function checkLogin(token:string){
   return async () => {
-    const res = await fetch(`${Config.REACT_APP_BACKEND_URL}/auth/check`,{
+    const res = await fetch(`${Config.REACT_APP_BACKEND_URL}/user`,{
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -24,8 +24,10 @@ export function checkLogin(token:string){
 
     const result = await res.json()
     if (result.statusCode == 200){
+      console.log(result)
       return true
     } else {
+      console.log(result)
       return false
     }
 
@@ -40,7 +42,7 @@ export function checkLogin(token:string){
 export function logOut() {
   return (dispatch: AppDispatch) => {
     AsyncStorage.removeItem('token');
-    dispatch(loggedOut());
+    dispatch(loggedOut()); 
   };
 }
 

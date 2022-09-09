@@ -16,9 +16,14 @@ export default function LoginScreen() {
   const navigation = useNavigation();
 
   const login = async () => {
+    
       if(email == '' || password == ''){
           setError('please fill in all the categories')
       } else {
+        console.log(JSON.stringify({
+          email: email.toLowerCase(),
+          password: password,
+        }))
         const res = await fetch(`${Config.REACT_APP_BACKEND_URL}/auth/login`, {
           method: "POST",
           body: JSON.stringify({
@@ -31,7 +36,6 @@ export default function LoginScreen() {
         })
         const result = await res.json()
         if (result.statusCode == 200){
-          console.log(result)
           await AsyncStorage.setItem('token', result.token)
           dispatch(loggedIn(result.user.email, result.token))
           navigation.navigate('Main')
