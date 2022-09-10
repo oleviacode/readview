@@ -6,6 +6,7 @@ import {useDispatch} from 'react-redux';
 import {loggedIn} from '../../redux/auth/action';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
+import {insertUserIntoRedux} from '../../redux/user/userinfo/action';
 
 export default function LoginScreen() {
   const [email, onChangeEmail] = useState('');
@@ -31,9 +32,9 @@ export default function LoginScreen() {
       });
       const result = await res.json();
       if (result.statusCode == 200) {
-        console.log(result);
         await AsyncStorage.setItem('token', result.token);
         dispatch(loggedIn(result.user.email, result.token));
+        dispatch(insertUserIntoRedux(result.user));
         navigation.navigate('Main');
       } else {
         setError(`please try again`);
