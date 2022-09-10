@@ -3,10 +3,10 @@ import React from 'react';
 import {View, Text, Pressable} from 'react-native';
 import {logOut} from '../../../redux/auth/action';
 import {useAppDispatch} from '../../../redux/store';
+import {NaviProps} from '../../model';
 
-export default function Main() {
+export default function Main({navigation}: NaviProps) {
   const dispatch = useAppDispatch();
-  const navigation = useNavigation();
 
   return (
     <View>
