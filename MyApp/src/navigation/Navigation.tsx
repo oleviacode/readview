@@ -1,7 +1,7 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Main from '../screens/Main';
+import Main from '../screens/main/Main';
 import Register from '../screens/register/Register';
 import RegisterPageTwo from '../screens/register/RegisterPageTwo';
 import {Provider} from 'react-redux';
@@ -17,7 +17,7 @@ export default function Navigation() {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="Loading"
+          initialRouteName="Cover"
           screenOptions={{headerShown: false}}>
           <Stack.Screen name="Cover" component={CoverPage} />
           <Stack.Screen name="Loading" component={LoadingScreen} />

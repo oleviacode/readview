@@ -7,6 +7,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 import DatePicker from 'react-native-datepicker';
 import currentDate from '../../shared/currentDate';
 import {NaviProps} from '../../model';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginSchema = Yup.object().shape({
   username: Yup.string().trim().lowercase().required('username is Required'),
@@ -25,7 +26,7 @@ const gender = [
 export default function RegisterPageOne({navigation}: NaviProps) {
   const [errorMsg, setErrorMsg] = useState<string>('');
   const [date, setDate] = useState(currentDate());
-
+  console.log('hi');
   return (
     <SafeAreaView>
       <Formik
@@ -38,8 +39,17 @@ export default function RegisterPageOne({navigation}: NaviProps) {
         }}
         onSubmit={values => {
           LoginSchema.validate(values)
-            .then(() => {
+            .then(async () => {
               console.log(values);
+
+              try {
+                const userInfo = JSON.stringify(values);
+                await AsyncStorage.setItem('@global_userinfo', userInfo);
+                console.log('async storage ran');
+              } catch (e) {
+                console.log('save error');
+                console.log(e);
+              }
 
               // ADD FETCH HERE
               navigation.navigate('Register2');
@@ -123,10 +133,8 @@ export default function RegisterPageOne({navigation}: NaviProps) {
           </View>
         )}
       </Formik>
-      <Button title="go back" onPress={() => navigation.goBack()}></Button>
-
+      <Button title="go back" onPress={() => navigation.goBack()} />
       <Text>{errorMsg}</Text>
-      <Text>You have chosen {date}</Text>
     </SafeAreaView>
   );
 }
