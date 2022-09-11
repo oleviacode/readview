@@ -4,75 +4,74 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NaviProps} from '../../model';
+import MainScreen from '../main/Main';
+import ShelfScreen from '../shelf/Shelf';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {faHome} from '@fortawesome/free-solid-svg-icons/faHome';
+import {faBook} from '@fortawesome/free-solid-svg-icons/faBook';
+import {faPerson} from '@fortawesome/free-solid-svg-icons/faPerson';
+import UserProfile from '../userProfile/UserProfile';
 
-function SettingsScreen({navigation}: NaviProps) {
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Settings Screen</Text>
-      <Button
-        title="Go to Profile"
-        onPress={() => navigation.navigate('Profile')}
-      />
-    </View>
-  );
-}
-
-function ProfileScreen({navigation}: NaviProps) {
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Profile Screen</Text>
-      <Button
-        title="Go to Settings"
-        onPress={() => navigation.navigate('Settings')}
-      />
-    </View>
-  );
-}
-
-function HomeScreen({navigation}: NaviProps) {
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Home Screen</Text>
-      <Button
-        title="Go to Details"
-        onPress={() => navigation.navigate('Details')}
-      />
-    </View>
-  );
-}
-
-function DetailsScreen({navigation}: NaviProps) {
-  return (
-    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-      <Text>Details Screen</Text>
-      <Button
-        title="Go to Details... again"
-        onPress={() => navigation.push('Details')}
-      />
-    </View>
-  );
-}
 const Tab = createBottomTabNavigator();
-const SettingsStack = createNativeStackNavigator();
-const HomeStack = createNativeStackNavigator();
+const MainStack = createNativeStackNavigator();
+const ShelfStack = createNativeStackNavigator();
 
 export default function DashBoard() {
   return (
-    <Tab.Navigator screenOptions={{headerShown: false}}>
-      <Tab.Screen name="First">
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: 'blue',
+        tabBarActiveBackgroundColor: '#5699ee',
+      }}>
+      <Tab.Screen
+        name="Home"
+        options={{
+          tabBarIcon: () => <FontAwesomeIcon icon={faHome} />,
+        }}>
         {() => (
-          <SettingsStack.Navigator>
-            <SettingsStack.Screen name="Settings" component={SettingsScreen} />
-            <SettingsStack.Screen name="Profile" component={ProfileScreen} />
-          </SettingsStack.Navigator>
+          <MainStack.Navigator>
+            <MainStack.Screen
+              name="Main"
+              component={MainScreen}
+              options={{headerShown: false}}
+            />
+          </MainStack.Navigator>
         )}
       </Tab.Screen>
-      <Tab.Screen name="Second">
+      <Tab.Screen
+        name="Shelf"
+        options={{
+          tabBarIcon: () => <FontAwesomeIcon icon={faBook} />,
+        }}>
         {() => (
-          <HomeStack.Navigator>
-            <HomeStack.Screen name="Home" component={HomeScreen} />
-            <HomeStack.Screen name="Details" component={DetailsScreen} />
-          </HomeStack.Navigator>
+          <ShelfStack.Navigator>
+            <ShelfStack.Screen
+              name="ShelfScreen"
+              component={ShelfScreen}
+              options={{headerShown: false}}
+            />
+          </ShelfStack.Navigator>
+        )}
+      </Tab.Screen>
+      <Tab.Screen
+        name="useProfile"
+        options={{
+          tabBarIcon: active =>
+            active.focused ? (
+              <FontAwesomeIcon style={{color: 'blue'}} icon={faPerson} />
+            ) : (
+              <FontAwesomeIcon style={{color: 'blue'}} icon={faPerson} />
+            ),
+        }}>
+        {() => (
+          <ShelfStack.Navigator>
+            <ShelfStack.Screen
+              name="userProfileScreen"
+              component={UserProfile}
+              options={{headerShown: false}}
+            />
+          </ShelfStack.Navigator>
         )}
       </Tab.Screen>
     </Tab.Navigator>

@@ -8,7 +8,7 @@ import {SafeAreaView} from 'react-native-safe-area-context';
 
 import Chat from '../chat/Chat';
 
-export default function Main({navigation}: NaviProps) {
+export default function MainScreen({navigation}: NaviProps) {
   const dispatch = useAppDispatch();
 
   return (

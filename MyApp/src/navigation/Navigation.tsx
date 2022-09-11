@@ -34,14 +34,7 @@ export default function Navigation() {
             options={{headerShown: false}}
           />
           <RootStack.Screen name="Loading" component={LoadingScreen} />
-          <RootStack.Screen
-            name="Main"
-            component={Main}
-            options={{
-              headerLeft: () => <MessageTop />,
-              headerRight: () => <QRCodeTop />,
-            }}
-          />
+
           <RootStack.Screen
             name="Register"
             component={Register}
@@ -54,7 +47,14 @@ export default function Navigation() {
           />
           <RootStack.Screen name="Login" component={LoginScreen} />
           <RootStack.Screen name="Chat" component={Chat} />
-          <RootStack.Screen name="DashBoard" component={DashBoard} />
+          <RootStack.Screen
+            name="DashBoard"
+            component={DashBoard}
+            options={{
+              headerLeft: () => <MessageTop />,
+              headerRight: () => <QRCodeTop />,
+            }}
+          />
         </RootStack.Navigator>
       </NavigationContainer>
     </Provider>
