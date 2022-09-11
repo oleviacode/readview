@@ -7,7 +7,7 @@ type RootStackParamList = {
   Cover: undefined;
   Main: undefined;
   Chat: undefined;
-  MessageTop: {something: NaviProps};
+  DashBoard: undefined;
 };
 
 export type NaviProps = NativeStackScreenProps<RootStackParamList>;

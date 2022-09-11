@@ -28,7 +28,7 @@ export default function RegisterPageTwo({navigation}: NaviProps) {
       <Button
         title="Next"
         onPress={() => {
-          navigation.navigate('Main');
+          navigation.navigate('DashBoard');
         }}
       />
 

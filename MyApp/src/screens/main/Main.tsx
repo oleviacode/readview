@@ -6,6 +6,8 @@ import {useAppDispatch} from '../../../redux/store';
 import {NaviProps} from '../../model';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
+import Chat from '../chat/Chat';
+
 export default function Main({navigation}: NaviProps) {
   const dispatch = useAppDispatch();
 

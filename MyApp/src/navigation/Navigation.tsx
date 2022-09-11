@@ -9,29 +9,32 @@ import {store} from '../../redux/store';
 import LoadingScreen from '../screens/LoadingScreen';
 import CoverPage from '../screens/CoverPage';
 import LoginScreen from '../screens/LoginScreen';
+import DashBoard from '../screens/dashboard/DashBoard';
 import TitleTop, {MessageTop, QRCodeTop} from '../shared/Title';
 import {NaviProps} from '../model';
 import Chat from '../screens/chat/Chat';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-const Stack = createNativeStackNavigator();
+const RootStack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
-export default function Navigation({navigation}: NaviProps) {
+export default function Navigation() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator
+        <RootStack.Navigator
           initialRouteName="Cover"
           screenOptions={{
             headerTitle: () => <TitleTop />,
             headerRight: () => <MessageTop />,
           }}>
-          <Stack.Screen
+          <RootStack.Screen
             name="Cover"
             component={CoverPage}
             options={{headerShown: false}}
           />
-          <Stack.Screen name="Loading" component={LoadingScreen} />
-          <Stack.Screen
+          <RootStack.Screen name="Loading" component={LoadingScreen} />
+          <RootStack.Screen
             name="Main"
             component={Main}
             options={{
@@ -39,19 +42,20 @@ export default function Navigation({navigation}: NaviProps) {
               headerRight: () => <QRCodeTop />,
             }}
           />
-          <Stack.Screen
+          <RootStack.Screen
             name="Register"
             component={Register}
             options={{headerShown: false}}
           />
-          <Stack.Screen
+          <RootStack.Screen
             name="Register2"
             component={RegisterPageTwo}
             options={{headerShown: false}}
           />
-          <Stack.Screen name="Login" component={LoginScreen} />
-          <Stack.Screen name="Chat" component={Chat} />
-        </Stack.Navigator>
+          <RootStack.Screen name="Login" component={LoginScreen} />
+          <RootStack.Screen name="Chat" component={Chat} />
+          <RootStack.Screen name="DashBoard" component={DashBoard} />
+        </RootStack.Navigator>
       </NavigationContainer>
     </Provider>
   );
