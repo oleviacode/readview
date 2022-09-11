@@ -3,6 +3,7 @@ import {Text, StyleSheet, View, Pressable} from 'react-native';
 import React, {useState, useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NaviProps} from '../../model';
+import {Button} from '@rneui/themed';
 
 export default function RegisterPageTwo({navigation}: NaviProps) {
   const [likedGenre, setLikedGenre] = useState<string[]>([]);
@@ -23,14 +24,19 @@ export default function RegisterPageTwo({navigation}: NaviProps) {
     <SafeAreaView>
       <Text>What do you like to read?</Text>
       <Text>I like to read {likedGenre}</Text>
+
+      <Button
+        title="Next"
+        onPress={() => {
+          navigation.navigate('Main');
+        }}
+      />
+
       <View style={styles.container}>
         {listOfGenres.map(genre => {
           return <ChooseBook title={genre} />;
         })}
       </View>
-      <Pressable onPress={() => {}}>
-        <Text>Next</Text>
-      </Pressable>
     </SafeAreaView>
   );
 }

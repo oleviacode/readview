@@ -1,15 +1,18 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {View, Text, Pressable} from 'react-native';
+import {View, Text, Pressable, StyleSheet} from 'react-native';
 import {logOut} from '../../../redux/auth/action';
 import {useAppDispatch} from '../../../redux/store';
 import {NaviProps} from '../../model';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 export default function Main({navigation}: NaviProps) {
   const dispatch = useAppDispatch();
 
   return (
     <View>
+      <Text>hello</Text>
+
       <Text> I am Homepage Yah</Text>
       <Pressable>
         <Text
@@ -23,3 +26,8 @@ export default function Main({navigation}: NaviProps) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {},
+  topBar: {},
+});

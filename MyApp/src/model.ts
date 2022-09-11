@@ -6,6 +6,8 @@ type RootStackParamList = {
   Register2: undefined;
   Cover: undefined;
   Main: undefined;
+  Chat: undefined;
+  MessageTop: {something: NaviProps};
 };
 
 export type NaviProps = NativeStackScreenProps<RootStackParamList>;

@@ -9,22 +9,48 @@ import {store} from '../../redux/store';
 import LoadingScreen from '../screens/LoadingScreen';
 import CoverPage from '../screens/CoverPage';
 import LoginScreen from '../screens/LoginScreen';
+import TitleTop, {MessageTop, QRCodeTop} from '../shared/Title';
+import {NaviProps} from '../model';
+import Chat from '../screens/chat/Chat';
 
 const Stack = createNativeStackNavigator();
 
-export default function Navigation() {
+export default function Navigation({navigation}: NaviProps) {
   return (
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator
           initialRouteName="Cover"
-          screenOptions={{headerShown: false}}>
-          <Stack.Screen name="Cover" component={CoverPage} />
+          screenOptions={{
+            headerTitle: () => <TitleTop />,
+            headerRight: () => <MessageTop />,
+          }}>
+          <Stack.Screen
+            name="Cover"
+            component={CoverPage}
+            options={{headerShown: false}}
+          />
           <Stack.Screen name="Loading" component={LoadingScreen} />
-          <Stack.Screen name="Main" component={Main} />
-          <Stack.Screen name="Register" component={Register} />
-          <Stack.Screen name="Register2" component={RegisterPageTwo} />
+          <Stack.Screen
+            name="Main"
+            component={Main}
+            options={{
+              headerLeft: () => <MessageTop />,
+              headerRight: () => <QRCodeTop />,
+            }}
+          />
+          <Stack.Screen
+            name="Register"
+            component={Register}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="Register2"
+            component={RegisterPageTwo}
+            options={{headerShown: false}}
+          />
           <Stack.Screen name="Login" component={LoginScreen} />
+          <Stack.Screen name="Chat" component={Chat} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
