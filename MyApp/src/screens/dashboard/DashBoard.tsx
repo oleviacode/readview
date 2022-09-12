@@ -6,10 +6,12 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {NaviProps} from '../../model';
 import MainScreen from '../main/Main';
 import ShelfScreen from '../shelf/Shelf';
+import Search from '../search/Search';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faHome} from '@fortawesome/free-solid-svg-icons/faHome';
 import {faBook} from '@fortawesome/free-solid-svg-icons/faBook';
 import {faPerson} from '@fortawesome/free-solid-svg-icons/faPerson';
+import {faSearch} from '@fortawesome/free-solid-svg-icons/faSearch';
 import UserProfile from '../userProfile/UserProfile';
 
 const Tab = createBottomTabNavigator();
@@ -55,7 +57,22 @@ export default function DashBoard() {
         )}
       </Tab.Screen>
       <Tab.Screen
-        name="useProfile"
+        name="Search"
+        options={{
+          tabBarIcon: () => <FontAwesomeIcon icon={faSearch} />,
+        }}>
+        {() => (
+          <ShelfStack.Navigator>
+            <ShelfStack.Screen
+              name="SearchScreen"
+              component={Search}
+              options={{headerShown: false}}
+            />
+          </ShelfStack.Navigator>
+        )}
+      </Tab.Screen>
+      <Tab.Screen
+        name="userProfile"
         options={{
           tabBarIcon: active =>
             active.focused ? (

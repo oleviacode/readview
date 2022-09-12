@@ -10,23 +10,11 @@ import {faEnvelope} from '@fortawesome/free-solid-svg-icons/faEnvelope';
 
 library.add(fab, faSquareCheck);
 
-const theme = createTheme({
-  components: {
-    Button: {
-      buttonStyle: {
-        backgroundColor: '#5699EE',
-      },
-    },
-  },
-});
-
 const App = () => {
   return (
-    <ThemeProvider theme={theme}>
-      <Provider store={store}>
-        <Navigation />
-      </Provider>
-    </ThemeProvider>
+    <Provider store={store}>
+      <Navigation />
+    </Provider>
   );
 };
 export default App;

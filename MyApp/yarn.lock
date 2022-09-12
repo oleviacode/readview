@@ -1875,6 +1875,14 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/picker/-/picker-1.8.1.tgz#94f14f0aad98fa7592967b941be97deec95c3805"
   integrity sha512-Sj9DzX1CSnmYiuEQ5fQhExoo4XjSKoZkqLPAAybycq6RHtCuWppf+eJXRMCOJki25BlKSSt+qVqg0fIe//ujNQ==
 
+"@react-native-material/core@^1.3.7":
+  version "1.3.7"
+  resolved "https://registry.yarnpkg.com/@react-native-material/core/-/core-1.3.7.tgz#8233a3681b3ba046a400493daa0878aa3c0bf04a"
+  integrity sha512-N5d/zKrmL3+fVyWsc/jFRxsDl59N5t3tYx9RlxhV04tQlcFKo9UlyBqCWDZFlxrkLrq3JY5zTRCMJAM3yvOz5w==
+  dependencies:
+    chroma-js "^2.4.2"
+    react-native-flex-layout "^0.1.5"
+
 "@react-native/assets@1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@react-native/assets/-/assets-1.0.0.tgz#c6f9bf63d274bafc8e970628de24986b30a55c8e"
@@ -2994,6 +3002,11 @@ char-regex@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/char-regex/-/char-regex-1.0.2.tgz#d744358226217f981ed58f479b1d6bcc29545dcf"
   integrity sha512-kWWXztvZ5SBQV+eRgKFeh8q5sLuZY2+8WUIzlxWVTg+oGwY14qylx1KbKzHd8P6ZYkAg0xyIDU9JMHhyJMZ1jw==
+
+chroma-js@^2.4.2:
+  version "2.4.2"
+  resolved "https://registry.yarnpkg.com/chroma-js/-/chroma-js-2.4.2.tgz#dffc214ed0c11fa8eefca2c36651d8e57cbfb2b0"
+  integrity sha512-U9eDw6+wt7V8z5NncY2jJfZa+hUH8XEj8FQHgFJTrUFnJfXYf4Ml4adI2vXZOjqRDpFWtYVWypDfZwnJ+HIR4A==
 
 ci-info@^2.0.0:
   version "2.0.0"
@@ -6739,6 +6752,11 @@ react-native-element-dropdown@^2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/react-native-element-dropdown/-/react-native-element-dropdown-2.3.0.tgz#1d0d09778207f073b39216bb2ea10452648a8616"
   integrity sha512-HzuR1+PVS3YJD835ZAmJ7gNzkIvYJady8EwJS0Nnu6NoEeLXyJTvrD2G+dkeBmckZ+FuGjUKeYqhs508gok83w==
+
+react-native-flex-layout@^0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/react-native-flex-layout/-/react-native-flex-layout-0.1.5.tgz#147379c9286a6d6999cd942dc9f4bdec75514ddd"
+  integrity sha512-DrLir5Wl0RhgJXHeDBSaa1Y1LdpNuoz0PEe5E1T1+xVWt2DAz/r+1N8bnhtVkTKJE6WrH6jIH2hoe8kogR0X+w==
 
 react-native-gradle-plugin@^0.0.7:
   version "0.0.7"
