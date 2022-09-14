@@ -1,28 +1,69 @@
 import {useNavigation} from '@react-navigation/native';
-import React from 'react';
-import {View, Text, Pressable, StyleSheet, ScrollView} from 'react-native';
+import React, {useEffect} from 'react';
+import {
+  View,
+  Text,
+  Pressable,
+  StyleSheet,
+  ScrollView,
+  Alert,
+} from 'react-native';
 import {logOut} from '../../../redux/auth/action';
 import {useAppDispatch, useAppSelector} from '../../../redux/store';
 import {NaviProps} from '../../model';
 import {HStack} from '@react-native-material/core';
-import {Button} from '@rneui/themed';
+import DisplayBook from '../bookProfile/DisplayBook';
+import Config from 'react-native-config';
+import {getMethod} from '../../shared/fetchMethods';
+import {useState} from 'react';
+import {useAppSelector} from '../../../redux/store';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import Chat from '../chat/Chat';
 
 export default function MainScreen({navigation}: NaviProps) {
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.user.username)
+  const user = useAppSelector(state => state.user.username);
+
+  const [top3, setTop3] = useState<Array<number>>([]);
+
+  useEffect(() => {
+    async function main() {
+      const top3Books: number[] = [];
+      const _getMethod = await getMethod();
+      console.log('user user user 1: ', user);
+
+      // GET LATEST BOOKSs
+      try {
+        const resLatestBooks = await fetch(
+          `${Config.REACT_APP_BACKEND_URL}/book/latest`,
+          _getMethod,
+        );
+        const latestBooks = await resLatestBooks.json();
+        for (let book of latestBooks) {
+          top3Books.push(book['id']);
+        }
+        setTop3(top3Books);
+      } catch (e) {
+        console.log('no books found');
+      }
+    }
+    main();
+  }, []);
 
   return (
     <View style={styles.container}>
       <ScrollView>
-        <View><Text>hi {user}</Text></View>
+        <Text style={styles.titleText}>Hi {user}</Text>
         <View style={styles.latestBookSection}>
           <Text style={styles.titleText}>Latest Books</Text>
           <HStack style={styles.bookStack}>
-            <View style={styles.book} />
-            <View style={styles.book} />
-            <View style={styles.book} />
+            <>
+              {top3.map(book => {
+                return <DisplayBook bookId={book} />;
+              })}
+            </>
           </HStack>
         </View>
 
@@ -39,8 +80,9 @@ export default function MainScreen({navigation}: NaviProps) {
 
         <Pressable>
           <Text
-            onPress={() => {
+            onPress={async () => {
               dispatch(logOut());
+              AsyncStorage.removeItem('token');
               navigation.navigate('Cover');
             }}>
             Logout

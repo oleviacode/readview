@@ -3,7 +3,10 @@ import {Text, Pressable, TextInput, View} from 'react-native';
 import {faEnvelope} from '@fortawesome/free-solid-svg-icons/faEnvelope';
 import {faQrcode} from '@fortawesome/free-solid-svg-icons/faQrcode';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {useNavigation} from '@react-navigation/native';
 import {NaviProps} from '../model';
+
+// TAB BUTTONS
 
 export default function TitleTop() {
   return (
@@ -17,7 +20,8 @@ export default function TitleTop() {
   );
 }
 
-export function MessageTop({navigation}: NaviProps) {
+export function MessageTop() {
+  const navigation = useNavigation<NaviProps>();
   return (
     <Pressable onPress={() => navigation.navigate('Chat')}>
       <FontAwesomeIcon icon={faEnvelope} />

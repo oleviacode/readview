@@ -9,6 +9,7 @@ import {store} from '../../redux/store';
 import LoadingScreen from '../screens/LoadingScreen';
 import CoverPage from '../screens/CoverPage';
 import LoginScreen from '../screens/LoginScreen';
+import BookProfile from '../screens/bookProfile/BookProfile';
 import DashBoard from '../screens/dashboard/DashBoard';
 import TitleTop, {MessageTop, QRCodeTop} from '../shared/Title';
 import {NaviProps} from '../model';
@@ -47,6 +48,7 @@ export default function Navigation() {
           />
           <RootStack.Screen name="Login" component={LoginScreen} />
           <RootStack.Screen name="Chat" component={Chat} />
+          <RootStack.Screen name="BookProfile" component={BookProfile} />
           <RootStack.Screen
             name="DashBoard"
             component={DashBoard}

@@ -1,6 +1,12 @@
 import React from 'react';
 import {Text} from 'react-native';
 
-export default function UserProfile() {
-  return <Text>user profile</Text>;
+export type ProfileRoute = {
+  userId: number;
+};
+
+export default function UserProfile(route: ProfileRoute) {
+  console.log(route.userId);
+
+  return <Text>Hi userprofile {route.userId}</Text>;
 }

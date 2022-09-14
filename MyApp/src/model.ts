@@ -8,6 +8,10 @@ type RootStackParamList = {
   Main: undefined;
   Chat: undefined;
   DashBoard: undefined;
+  Profile: undefined;
+  Settings: undefined;
+  Details: undefined;
+  BookProfile: {bookId: number};
 };
 
 export type NaviProps = NativeStackScreenProps<RootStackParamList>;

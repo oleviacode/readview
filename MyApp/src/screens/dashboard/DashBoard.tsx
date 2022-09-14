@@ -17,6 +17,7 @@ import UserProfile from '../userProfile/UserProfile';
 const Tab = createBottomTabNavigator();
 const MainStack = createNativeStackNavigator();
 const ShelfStack = createNativeStackNavigator();
+const ProfileStack = createNativeStackNavigator();
 
 export default function DashBoard() {
   return (
@@ -82,13 +83,13 @@ export default function DashBoard() {
             ),
         }}>
         {() => (
-          <ShelfStack.Navigator>
-            <ShelfStack.Screen
+          <ProfileStack.Navigator>
+            <ProfileStack.Screen
               name="userProfileScreen"
               component={UserProfile}
               options={{headerShown: false}}
             />
-          </ShelfStack.Navigator>
+          </ProfileStack.Navigator>
         )}
       </Tab.Screen>
     </Tab.Navigator>
