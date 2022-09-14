@@ -8,6 +8,10 @@ import DatePicker from 'react-native-datepicker';
 import currentDate from '../../shared/currentDate';
 import {NaviProps} from '../../model';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Config from 'react-native-config';
+import {useDispatch} from 'react-redux';
+import {loggedIn} from '../../../redux/auth/action';
+import {insertUserIntoRedux} from '../../../redux/user/userinfo/action';
 
 const LoginSchema = Yup.object().shape({
   username: Yup.string().trim().lowercase().required('username is Required'),
@@ -26,6 +30,8 @@ const gender = [
 export default function RegisterPageOne({navigation}: NaviProps) {
   const [errorMsg, setErrorMsg] = useState<string>('');
   const [date, setDate] = useState(currentDate());
+  const dispatch = useDispatch();
+
   console.log('hi');
   return (
     <SafeAreaView>
@@ -42,17 +48,32 @@ export default function RegisterPageOne({navigation}: NaviProps) {
             .then(async () => {
               console.log(values);
 
-              try {
-                const userInfo = JSON.stringify(values);
-                await AsyncStorage.setItem('@global_userinfo', userInfo);
-                console.log('async storage ran');
-              } catch (e) {
-                console.log('save error');
-                console.log(e);
+              const res = await fetch(
+                `${Config.REACT_APP_BACKEND_URL}/auth/register`,
+                {
+                  method: 'POST',
+                  body: JSON.stringify({
+                    username: values.username,
+                    email: values.email.toLowerCase(),
+                    password: values.password,
+                    gender: values.gender,
+                    birthday: values.birthday,
+                  }),
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                },
+              );
+              const result = await res.json();
+              if (result.statusCode == 200) {
+                console.log(result.user);
+                await AsyncStorage.setItem('token', result.token);
+                dispatch(loggedIn(result.user.email, result.token));
+                dispatch(insertUserIntoRedux(result['user'][0]));
+                navigation.navigate('DashBoard');
+              } else {
+                setErrorMsg('The email has been registered');
               }
-
-              // ADD FETCH HERE
-              navigation.navigate('Register2');
             })
             .catch(err => {
               setErrorMsg(err.errors);

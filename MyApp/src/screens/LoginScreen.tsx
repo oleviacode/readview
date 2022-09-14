@@ -31,6 +31,7 @@ export default function LoginScreen() {
         },
       });
       const result = await res.json();
+
       if (result.statusCode == 200) {
         await AsyncStorage.setItem('token', result.token);
         dispatch(loggedIn(result.user.email, result.token));

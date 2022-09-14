@@ -30,17 +30,9 @@ export default function MainScreen({navigation}: NaviProps) {
 
   useEffect(() => {
     async function main() {
-      // try {
-      //   const userInfo = useAppSelector(state => {
-      //     state.user.username;
-      //   });
-      //   console.log('userInfo is: ', userInfo);
-      // } catch (e) {
-      //   console.log('get user info error');
-      // }
-
       const top3Books: number[] = [];
       const _getMethod = await getMethod();
+      console.log('user user user 1: ', user);
 
       // GET LATEST BOOKSs
       try {
@@ -58,7 +50,7 @@ export default function MainScreen({navigation}: NaviProps) {
       }
     }
     main();
-  });
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -88,8 +80,9 @@ export default function MainScreen({navigation}: NaviProps) {
 
         <Pressable>
           <Text
-            onPress={() => {
+            onPress={async () => {
               dispatch(logOut());
+              AsyncStorage.removeItem('token');
               navigation.navigate('Cover');
             }}>
             Logout
