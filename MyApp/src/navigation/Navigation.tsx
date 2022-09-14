@@ -23,7 +23,7 @@ export default function Navigation() {
     <Provider store={store}>
       <NavigationContainer>
         <RootStack.Navigator
-          initialRouteName="Cover"
+          initialRouteName="Loading"
           screenOptions={{
             headerTitle: () => <TitleTop />,
             headerRight: () => <MessageTop />,
