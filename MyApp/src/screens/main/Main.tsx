@@ -2,7 +2,7 @@ import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {View, Text, Pressable, StyleSheet, ScrollView} from 'react-native';
 import {logOut} from '../../../redux/auth/action';
-import {useAppDispatch} from '../../../redux/store';
+import {useAppDispatch, useAppSelector} from '../../../redux/store';
 import {NaviProps} from '../../model';
 import {HStack} from '@react-native-material/core';
 import {Button} from '@rneui/themed';
@@ -11,10 +11,12 @@ import Chat from '../chat/Chat';
 
 export default function MainScreen({navigation}: NaviProps) {
   const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.user.username)
 
   return (
     <View style={styles.container}>
       <ScrollView>
+        <View><Text>hi {user}</Text></View>
         <View style={styles.latestBookSection}>
           <Text style={styles.titleText}>Latest Books</Text>
           <HStack style={styles.bookStack}>
