@@ -56,7 +56,7 @@ export default function MainScreen({navigation}: NaviProps) {
     <View style={styles.container}>
       <ScrollView>
         <Text style={styles.titleText}>Hi {user}</Text>
-        <View style={[styles.regularBox, {borderRadius: 0}]}>
+        <View style={[styles.regularBox, {borderRadius: 0, padding: 0}]}>
           <Text style={styles.titleText}>Latest Books</Text>
           <HStack style={styles.bookStack}>
             <>

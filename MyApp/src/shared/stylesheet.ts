@@ -41,4 +41,21 @@ export const styles = StyleSheet.create({
     margin: 10,
     borderRadius: 10,
   },
+  smallText: {
+    fontSize: 12,
+  },
+  normalText: {
+    fontSize: 16,
+  },
+  quoteText: {
+    fontStyle: 'italic',
+    marginTop: 10,
+    marginBottom: 10,
+  },
+  smallProfilePic: {
+    width: 40,
+    height: 40,
+    backgroundColor: 'white',
+    borderRadius: 20,
+  },
 });
