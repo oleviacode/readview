@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Text, View, ScrollView} from 'react-native';
 import {styles} from '../../shared/stylesheet';
 import {HStack} from '@react-native-material/core';
 import {Button} from '@rneui/themed';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faBookmark} from '@fortawesome/free-solid-svg-icons/faBookmark';
+import {faPlusCircle} from '@fortawesome/free-solid-svg-icons/faPlusCircle';
 import BookProfileCard from './BookProfileCard';
 import Ranking from './RankingBox';
 import ReviewCard from './ReviewCard';
@@ -14,8 +15,10 @@ export type BookProfileProps = {
   key: number;
 };
 
-export default function BookProfile({route}) {
+export default function BookProfile({route, navigation}) {
   const {bookId} = route.params;
+
+  // TESTING DATA
 
   const testBook = {
     bookId: 101,
@@ -33,15 +36,18 @@ export default function BookProfile({route}) {
     'It takes a great deal of bravery to stand up to our enemies, but just as much to stand up to our friends.',
   ];
 
+  // TESTING DATA
+
+  navigation.setOptions({title: testBook['bookTitle']});
+
   return (
     <View style={styles.container}>
       <ScrollView>
         {/* STATUS & RANKING BUTTONS */}
         <HStack
-          spacing={120}
+          spacing={170}
           style={[styles.regularBox, {borderRadius: 0, flex: 1, padding: 0}]}>
-          <HStack spacing={6}>
-            <Button title="rank" color="#7380AA" size="sm" />
+          <HStack spacing={10}>
             <Button title="reading" color="#7380AA" size="sm" />
             <Button title="I've read" color="#7380AA" size="sm" />
           </HStack>
@@ -81,14 +87,38 @@ export default function BookProfile({route}) {
         </View>
 
         {/* REVIEWS */}
-        <View style={[styles.regularBox, {backgroundColor: '#F7F7F7'}]}>
-          <Text style={[styles.titleText]}>Reviews</Text>
+        <View style={[styles.regularBox, {backgroundColor: 'white'}]}>
+          <HStack style={{flex: 1, justifyContent: 'space-between'}}>
+            <Text style={styles.titleText}>Reviews</Text>
+            <Text
+              style={styles.smallText}
+              onPress={() =>
+                navigation.navigate('AllReviews', {bookId: [bookId]})
+              }>
+              All reviews →{' '}
+            </Text>
+          </HStack>
+
           <View style={{marginTop: 30}}>
             <ReviewCard />
             <ReviewCard />
             <ReviewCard />
           </View>
+          <HStack
+            style={{
+              flex: 1,
+              justifyContent: 'flex-end',
+              alignItems: 'center',
+              marginTop: 20,
+            }}>
+            <Text style={[styles.titleText, {color: '#5699ee'}]}>
+              Add my review{' '}
+            </Text>
+            <FontAwesomeIcon size={20} icon={faPlusCircle} color="#5699ee" />
+          </HStack>
         </View>
+
+        {/* RECOMMENDED BOOKS */}
       </ScrollView>
     </View>
   );

@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {View, Text} from 'react-native';
 import {HStack, Divider} from '@react-native-material/core';
 import {styles} from '../../shared/stylesheet';
 import {AirbnbRating} from '@rneui/themed';
+import {useState} from 'react';
 
 export interface ReviewCardProps {
   username: string;
@@ -12,6 +13,23 @@ export interface ReviewCardProps {
 }
 
 export default function ReviewCard() {
+  const originalText =
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed urna sed massa molestie condimentum. Nam convallis felis non lacus posuere, id lacinia lacus volutpat. Fusce vel dignissim orci, non ullamcorper leo. Pellentesque sed bibendum nunc. Maecenas molestie ex vitae nisi auctor, sed lacinia enim maximus.';
+  const [displayedText, setDisplayedText] = useState<string>('');
+  const [fullTextSwitch, setFullTextSwitch] = useState(false);
+  const [expansionButton, setExpansionButton] = useState('...more');
+
+  useEffect(() => {
+    if (fullTextSwitch) {
+      setDisplayedText(originalText);
+      setExpansionButton('...less');
+    } else {
+      const abridgedText = originalText.slice(0, 150);
+      setDisplayedText(abridgedText);
+      setExpansionButton('...more');
+    }
+  }, [fullTextSwitch, displayedText, expansionButton]);
+
   return (
     <View>
       <HStack style={{marginTop: 20}}>
@@ -33,11 +51,12 @@ export default function ReviewCard() {
         </View>
       </HStack>
       <Text style={[styles.normalText, {marginTop: 15, marginBottom: 20}]}>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed urna
-        sed massa molestie condimentum. Nam convallis felis non lacus posuere,
-        id lacinia lacus volutpat. Fusce vel dignissim orci, non ullamcorper
-        leo. Pellentesque sed bibendum nunc. Maecenas molestie ex vitae nisi
-        auctor, sed lacinia enim maximus.
+        {displayedText}
+        <Text
+          style={[styles.smallText, {color: 'grey'}]}
+          onPress={() => setFullTextSwitch(!fullTextSwitch)}>
+          {expansionButton}
+        </Text>
       </Text>
       <Divider />
     </View>

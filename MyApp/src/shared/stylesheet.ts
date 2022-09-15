@@ -55,7 +55,7 @@ export const styles = StyleSheet.create({
   smallProfilePic: {
     width: 40,
     height: 40,
-    backgroundColor: 'white',
+    backgroundColor: 'lightgrey',
     borderRadius: 20,
   },
 });

@@ -14,6 +14,7 @@ import {faBook} from '@fortawesome/free-solid-svg-icons/faBook';
 import {faPerson} from '@fortawesome/free-solid-svg-icons/faPerson';
 import {faSearch} from '@fortawesome/free-solid-svg-icons/faSearch';
 import UserProfile from '../userProfile/UserProfile';
+import AllReviews from '../bookProfile/AllReviews';
 
 const Tab = createBottomTabNavigator();
 const MainStack = createNativeStackNavigator();
@@ -44,7 +45,13 @@ export default function DashBoard() {
             <MainStack.Screen
               name="BookProfile"
               component={BookProfile}
-              options={{headerShown: false}}
+              options={{title: 'book'}}
+            />
+
+            <MainStack.Screen
+              name="AllReviews"
+              component={AllReviews}
+              options={{title: 'All reviews'}}
             />
           </MainStack.Navigator>
         )}
