@@ -48,7 +48,7 @@ export default function Navigation() {
           />
           <RootStack.Screen name="Login" component={LoginScreen} />
           <RootStack.Screen name="Chat" component={Chat} />
-          <RootStack.Screen name="BookProfile" component={BookProfile} />
+
           <RootStack.Screen
             name="DashBoard"
             component={DashBoard}

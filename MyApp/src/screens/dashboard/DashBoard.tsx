@@ -7,6 +7,7 @@ import {NaviProps} from '../../model';
 import MainScreen from '../main/Main';
 import ShelfScreen from '../shelf/Shelf';
 import Search from '../search/Search';
+import BookProfile from '../bookProfile/BookProfile';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faHome} from '@fortawesome/free-solid-svg-icons/faHome';
 import {faBook} from '@fortawesome/free-solid-svg-icons/faBook';
@@ -37,6 +38,12 @@ export default function DashBoard() {
             <MainStack.Screen
               name="Main"
               component={MainScreen}
+              options={{headerShown: false}}
+            />
+
+            <MainStack.Screen
+              name="BookProfile"
+              component={BookProfile}
               options={{headerShown: false}}
             />
           </MainStack.Navigator>
