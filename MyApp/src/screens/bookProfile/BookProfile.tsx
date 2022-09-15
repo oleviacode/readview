@@ -9,6 +9,7 @@ import {faPlusCircle} from '@fortawesome/free-solid-svg-icons/faPlusCircle';
 import BookProfileCard from './BookProfileCard';
 import Ranking from './RankingBox';
 import ReviewCard from './ReviewCard';
+import BookRecCard from './bookRecCard';
 
 export type BookProfileProps = {
   bookId: number;
@@ -25,6 +26,7 @@ export default function BookProfile({route, navigation}) {
     bookTitle: 'Harry Potter and the Chamber of Secrets',
     publishDate: '01-01-1997',
     bookPicture: 'default',
+    genre: 'Fantasy',
   };
   const testAuthor = 'JK. Rowling';
   const testPublisher = 'abc company';
@@ -118,7 +120,43 @@ export default function BookProfile({route, navigation}) {
           </HStack>
         </View>
 
-        {/* RECOMMENDED BOOKS */}
+        {/* DISCUSSIONS */}
+
+        <View style={[styles.regularBox, {backgroundColor: 'white'}]}>
+          <HStack style={{flex: 1, justifyContent: 'space-between'}}>
+            <Text style={styles.titleText}>Discussion</Text>
+            <Text
+              style={styles.smallText}
+              onPress={() =>
+                navigation.navigate('AllReviews', {bookId: [bookId]})
+              }>
+              All discussions →{' '}
+            </Text>
+          </HStack>
+
+          <View style={{marginTop: 30}}>
+            <ReviewCard />
+          </View>
+          <HStack
+            style={{
+              flex: 1,
+              justifyContent: 'flex-end',
+              alignItems: 'center',
+              marginTop: 20,
+            }}>
+            <Text style={[styles.titleText, {color: '#5699ee'}]}>
+              Add a topic{' '}
+            </Text>
+            <FontAwesomeIcon size={20} icon={faPlusCircle} color="#5699ee" />
+          </HStack>
+        </View>
+
+        {/* RECOMMENDATION */}
+        <Text style={[styles.titleText, {marginTop: 30}]}>Similar books</Text>
+        <View style={{marginTop: 20}}>
+          <BookRecCard />
+          <BookRecCard />
+        </View>
       </ScrollView>
     </View>
   );

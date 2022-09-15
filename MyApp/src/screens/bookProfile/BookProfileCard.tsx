@@ -10,6 +10,7 @@ export interface BookProfileCardProps {
     bookTitle: string;
     publishDate: string;
     bookPicture: string;
+    genre: string;
   };
   publisher: string;
   author: string;
@@ -30,9 +31,12 @@ export default function BookProfileCard(props: BookProfileCardProps) {
           {props['bookInfo']['bookTitle']}
         </Text>
         <View>
-          <Text>{props['author']}</Text>
-          <Text>{props['publisher']}</Text>
-          <Text>{props['bookInfo']['publishDate']}</Text>
+          <Text style={styles.smallText}>{props['author']}</Text>
+          <Text style={styles.smallText}>{props['publisher']}</Text>
+          <Text style={styles.smallText}>
+            {props['bookInfo']['publishDate']}
+          </Text>
+          <Text style={styles.smallText}>{props['bookInfo']['genre']}</Text>
         </View>
       </View>
     </HStack>

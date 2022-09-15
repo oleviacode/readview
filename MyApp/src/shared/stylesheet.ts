@@ -24,9 +24,9 @@ export const styles = StyleSheet.create({
     marginTop: 10,
   },
   book: {
-    width: 140,
-    height: 160,
-    backgroundColor: 'grey',
+    width: 120,
+    height: 150,
+    backgroundColor: 'lightgrey',
     borderRadius: 10,
   },
   rankingSection: {
