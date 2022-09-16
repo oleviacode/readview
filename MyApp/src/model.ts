@@ -35,8 +35,8 @@ export type DiscussionInfo = {
   text: string;
 };
 
-export interface RatingInfo {
-  numberOfRatings: number;
+export type RatingInfo = {
+  numOfRatings: number;
   rating: number;
   fiveStarsNum: number;
   fourStarsNum: number;
@@ -46,12 +46,14 @@ export interface RatingInfo {
   readerNum: number;
   readingNum: number;
   savedNum: number;
-}
+};
 
+export interface RatingCardProps {
+  ratingInfo: RatingInfo;
+}
 export interface BookProfileProps {
   bookInfo: BookInfo;
 }
-
 export interface DiscussionInfoProps {
   discussionInfo: DiscussionInfo;
 }
