@@ -13,12 +13,12 @@ export default function DisplayBook(props: Book) {
 
   return (
     <TouchableOpacity
-      style={styles.book}
+      style={styles.smallBook}
       onPress={() => navigation.navigate('BookProfile', {bookId: [bookId]})}
     />
   );
 }
 
 const styles = StyleSheet.create({
-  book: {width: 100, height: 110, backgroundColor: 'grey'},
+  smallBook: {width: 100, height: 110, backgroundColor: 'grey'},
 });

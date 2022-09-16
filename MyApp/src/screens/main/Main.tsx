@@ -16,6 +16,7 @@ import DisplayBook from '../bookProfile/DisplayBook';
 import Config from 'react-native-config';
 import {getMethod} from '../../shared/fetchMethods';
 import {useState} from 'react';
+import {styles} from '../../shared/stylesheet';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -31,7 +32,6 @@ export default function MainScreen({navigation}: NaviProps) {
     async function main() {
       const top3Books: number[] = [];
       const _getMethod = await getMethod();
-      console.log('user user user 1: ', user);
 
       // GET LATEST BOOKSs
       try {
@@ -55,12 +55,12 @@ export default function MainScreen({navigation}: NaviProps) {
     <View style={styles.container}>
       <ScrollView>
         <Text style={styles.titleText}>Hi {user}</Text>
-        <View style={styles.latestBookSection}>
+        <View style={[styles.regularBox, {borderRadius: 0, padding: 0}]}>
           <Text style={styles.titleText}>Latest Books</Text>
           <HStack style={styles.bookStack}>
             <>
               {top3.map(book => {
-                return <DisplayBook bookId={book} />;
+                return <DisplayBook bookId={book} key={book} />;
               })}
             </>
           </HStack>
@@ -91,43 +91,3 @@ export default function MainScreen({navigation}: NaviProps) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingLeft: 15,
-    paddingRight: 15,
-  },
-  latestBookSection: {
-    width: '100%',
-    height: 160,
-    backgroundColor: 'pink',
-    marginTop: 10,
-  },
-  titleText: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  bookStack: {
-    flex: 1,
-    justifyContent: 'space-between',
-    marginTop: 10,
-  },
-  book: {
-    width: 100,
-    height: 110,
-    backgroundColor: 'grey',
-  },
-  rankingSection: {
-    height: 250,
-    backgroundColor: 'pink',
-    marginTop: 10,
-  },
-  rankBox: {
-    width: 200,
-    height: 210,
-    backgroundColor: 'grey',
-    margin: 10,
-    borderRadius: 10,
-  },
-});

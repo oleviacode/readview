@@ -7,12 +7,14 @@ import {NaviProps} from '../../model';
 import MainScreen from '../main/Main';
 import ShelfScreen from '../shelf/Shelf';
 import Search from '../search/Search';
+import BookProfile from '../bookProfile/BookProfile';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faHome} from '@fortawesome/free-solid-svg-icons/faHome';
 import {faBook} from '@fortawesome/free-solid-svg-icons/faBook';
 import {faPerson} from '@fortawesome/free-solid-svg-icons/faPerson';
 import {faSearch} from '@fortawesome/free-solid-svg-icons/faSearch';
 import UserProfile from '../userProfile/UserProfile';
+import AllReviews from '../bookProfile/AllReviews';
 
 const Tab = createBottomTabNavigator();
 const MainStack = createNativeStackNavigator();
@@ -38,6 +40,18 @@ export default function DashBoard() {
               name="Main"
               component={MainScreen}
               options={{headerShown: false}}
+            />
+
+            <MainStack.Screen
+              name="BookProfile"
+              component={BookProfile}
+              options={{title: 'book'}}
+            />
+
+            <MainStack.Screen
+              name="AllReviews"
+              component={AllReviews}
+              options={{title: 'All reviews'}}
             />
           </MainStack.Navigator>
         )}

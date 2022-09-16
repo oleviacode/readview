@@ -12,6 +12,7 @@ type RootStackParamList = {
   Settings: undefined;
   Details: undefined;
   BookProfile: {bookId: number};
+  AllReviews: {bookId: number};
 };
 
 export type NaviProps = NativeStackScreenProps<RootStackParamList>;
