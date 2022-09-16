@@ -3,20 +3,10 @@ import {HStack} from '@react-native-material/core';
 import DisplayBook from './DisplayBook';
 import {View, Text} from 'react-native';
 import {styles} from '../../shared/stylesheet';
+import {BookProfileProps} from '../../model';
 
-export interface BookProfileCardProps {
-  bookInfo: {
-    bookId: number;
-    bookTitle: string;
-    publishDate: string;
-    bookPicture: string;
-    genre: string;
-  };
-  publisher: string;
-  author: string;
-}
-
-export default function BookProfileCard(props: BookProfileCardProps) {
+export default function BookProfileCard(props: BookProfileProps) {
+  const book = props['bookInfo'];
   return (
     <HStack style={[styles.regularBox, {padding: 0}]}>
       <View style={styles.book}></View>
@@ -28,15 +18,13 @@ export default function BookProfileCard(props: BookProfileCardProps) {
           marginLeft: 10,
         }}>
         <Text style={{fontSize: 15, fontWeight: 'bold'}}>
-          {props['bookInfo']['bookTitle']}
+          {book['bookTitle']}
         </Text>
         <View>
-          <Text style={styles.smallText}>{props['author']}</Text>
-          <Text style={styles.smallText}>{props['publisher']}</Text>
-          <Text style={styles.smallText}>
-            {props['bookInfo']['publishDate']}
-          </Text>
-          <Text style={styles.smallText}>{props['bookInfo']['genre']}</Text>
+          <Text style={styles.smallText}>{book['author']}</Text>
+          <Text style={styles.smallText}>{book['publisher']}</Text>
+          <Text style={styles.smallText}>{book['publishDate']}</Text>
+          <Text style={styles.smallText}>{book['genre']}</Text>
         </View>
       </View>
     </HStack>

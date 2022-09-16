@@ -1,13 +1,28 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {HStack, Badge, Divider} from '@react-native-material/core';
 import DisplayBook from './DisplayBook';
-import {View, Text} from 'react-native';
+import {View, Text, Pressable} from 'react-native';
 import {styles} from '../../shared/stylesheet';
 import {AirbnbRating} from '@rneui/themed';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faBookmark} from '@fortawesome/free-solid-svg-icons/faBookmark';
+import {BookProfileProps} from '../../model';
+import {useState} from 'react';
 
-export default function BookRecCard() {
+export default function BookRecCard(props: BookProfileProps) {
+  const [saveBook, setSaveBook] = useState('lightgrey');
+  const [saveBookSwitch, setSaveBookSwitch] = useState(false);
+  const book = props['bookInfo'];
+
+  useEffect(() => {
+    if (book['readerStatus'] == 'want to read' || saveBookSwitch == true) {
+      setSaveBook('#eac645');
+    } else {
+      setSaveBookSwitch(false);
+      setSaveBook('lightgrey');
+    }
+  }, [saveBook, saveBookSwitch]);
+
   return (
     <View>
       <HStack style={[styles.regularBox, {padding: 0}]}>
@@ -17,16 +32,18 @@ export default function BookRecCard() {
           style={{flex: 1, justifyContent: 'space-between', marginLeft: 10}}>
           <View>
             <Text style={{fontSize: 15, fontWeight: 'bold'}}>
-              Harry Potter and the Prisoner of Azkaban
+              {book['bookTitle']}
             </Text>
-            <Text style={[styles.smallText, {marginTop: 8}]}>J.K. Rowling</Text>
-            <Text style={styles.smallText}>Fantasy</Text>
+            <Text style={[styles.smallText, {marginTop: 8}]}>
+              {book['author']}
+            </Text>
+            <Text style={styles.smallText}>{book['genre']}</Text>
           </View>
           <HStack style={{justifyContent: 'space-between'}}>
             <AirbnbRating
               size={15}
               showRating={false}
-              defaultRating={5}
+              defaultRating={book['rating']}
               count={5}
               selectedColor="#eac645"
             />
@@ -36,21 +53,24 @@ export default function BookRecCard() {
                 justifyContent: 'flex-end',
                 alignItems: 'center',
               }}>
-              <Badge label={"I've read"} />
-              <FontAwesomeIcon
-                size={20}
-                icon={faBookmark}
-                color="lightgrey"
-                style={{marginLeft: 20}}
+              <Badge
+                label={book['readerStatus'] ? book['readerStatus'] : 'unread'}
               />
+
+              <Pressable onPress={() => setSaveBookSwitch(!saveBookSwitch)}>
+                <FontAwesomeIcon
+                  size={20}
+                  icon={faBookmark}
+                  color={saveBook}
+                  style={{marginLeft: 20}}
+                />
+              </Pressable>
             </HStack>
           </HStack>
         </View>
       </HStack>
       <Text style={{marginTop: 15, marginBottom: 20}}>
-        dolor sit amet, consectetur adipiscing elit. Sed sed urna sed massa
-        molestie condimentum. Nam convallis felis non lacus posuere, id lacinia
-        lacus volutpat. Fusce vel dignissim orci, non ullamcorper leo.
+        {book['synopsis'].slice(0, 150)}...
       </Text>
       <Divider />
     </View>

@@ -20,5 +20,10 @@ export default function DisplayBook(props: Book) {
 }
 
 const styles = StyleSheet.create({
-  smallBook: {width: 100, height: 110, backgroundColor: 'grey'},
+  smallBook: {
+    width: 100,
+    height: 110,
+    backgroundColor: 'lightgrey',
+    borderRadius: 10,
+  },
 });
