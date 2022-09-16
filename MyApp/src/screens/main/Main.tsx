@@ -16,7 +16,6 @@ import DisplayBook from '../bookProfile/DisplayBook';
 import Config from 'react-native-config';
 import {getMethod} from '../../shared/fetchMethods';
 import {useState} from 'react';
-import {useAppSelector} from '../../../redux/store';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
