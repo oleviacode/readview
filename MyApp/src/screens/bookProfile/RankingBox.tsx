@@ -3,8 +3,20 @@ import {View, Text, StyleSheet} from 'react-native';
 import {styles} from '../../shared/stylesheet';
 import {HStack, Divider} from '@react-native-material/core';
 import {AirbnbRating, LinearProgress} from '@rneui/themed';
+import {RatingCardProps} from '../../model';
 
-export default function Ranking() {
+function calculate(
+  totalRatingsNum: number,
+  numOfCertainRating: number,
+): number {
+  const res = numOfCertainRating / totalRatingsNum;
+  const num = Math.round(res * 10) / 10;
+  return num;
+}
+
+export default function Ranking(props: RatingCardProps) {
+  const book = props.ratingInfo;
+
   return (
     <View
       style={[styles.regularBox, {backgroundColor: '#3766A6', marginTop: 25}]}>
@@ -16,7 +28,9 @@ export default function Ranking() {
         <Text style={{color: 'white', fontSize: 20, fontWeight: 'bold'}}>
           Ratings
         </Text>
-        <Text style={[styles.smallText, {color: 'white'}]}>ratings</Text>
+        <Text style={[styles.smallText, {color: 'white'}]}>
+          {book['numOfRatings']} ratings
+        </Text>
       </HStack>
 
       <HStack style={{marginTop: 30}}>
@@ -27,9 +41,13 @@ export default function Ranking() {
             alignItems: 'center',
           }}>
           <Text style={{fontSize: 30, fontWeight: 'bold', color: '#eac645'}}>
-            4.1
+            {book['rating']}
           </Text>
-          <AirbnbRating size={10} showRating={false} />
+          <AirbnbRating
+            size={10}
+            showRating={false}
+            defaultRating={Math.round(book['rating'])}
+          />
         </View>
 
         <View
@@ -81,31 +99,31 @@ export default function Ranking() {
           }}>
           <LinearProgress
             style={{width: 130}}
-            value={0.8}
+            value={calculate(book['numOfRatings'], book['fiveStarsNum'])}
             variant="determinate"
             animation={{duration: 1000}}
           />
           <LinearProgress
             style={{width: 130}}
-            value={0.4}
+            value={calculate(book['numOfRatings'], book['fourStarsNum'])}
             variant="determinate"
             animation={{duration: 1000}}
           />
           <LinearProgress
             style={{width: 130}}
-            value={0.2}
+            value={calculate(book['numOfRatings'], book['threeStarsNum'])}
             variant="determinate"
             animation={{duration: 1000}}
           />
           <LinearProgress
             style={{width: 130}}
-            value={0}
+            value={calculate(book['numOfRatings'], book['twoStarsNum'])}
             variant="determinate"
             animation={{duration: 1000}}
           />
           <LinearProgress
             style={{width: 130}}
-            value={0}
+            value={calculate(book['numOfRatings'], book['oneStarNum'])}
             variant="determinate"
             animation={{duration: 1000}}
           />
@@ -115,15 +133,15 @@ export default function Ranking() {
       <View style={{marginTop: 10}}>
         <HStack spacing={50}>
           <Text style={[styles.smallText, {color: 'white'}]}>
-            45123 has read this
+            {book['readNum']} has read this
           </Text>
           <Text style={[styles.smallText, {color: 'white'}]}>
-            1123 are reading this
+            {book['readingNum']} are reading this
           </Text>
         </HStack>
 
         <Text style={[styles.smallText, {color: 'white', marginTop: 10}]}>
-          45 has saved this
+          {book['savedNum']} has saved this
         </Text>
       </View>
     </View>

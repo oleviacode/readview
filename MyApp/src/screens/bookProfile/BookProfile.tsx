@@ -13,6 +13,7 @@ import BookRecCard from './bookRecCard';
 import DiscussionCard from './DiscussionCard';
 import {BookInfo} from '../../model';
 import {DiscussionInfo} from '../../model';
+import {RatingInfo} from '../../model';
 
 export default function BookProfile({route, navigation}) {
   const {bookId} = route.params;
@@ -39,6 +40,19 @@ export default function BookProfile({route, navigation}) {
       'I solemnly swear I am up to no good.',
       'It takes a great deal of bravery to stand up to our enemies, but just as much to stand up to our friends.',
     ],
+  };
+
+  const rating: RatingInfo = {
+    numOfRatings: 10,
+    rating: 4.2,
+    fiveStarsNum: 6,
+    fourStarsNum: 1,
+    threeStarsNum: 2,
+    twoStarsNum: 1,
+    oneStarNum: 0,
+    readNum: 15512,
+    readingNum: 514,
+    savedNum: 8591,
   };
 
   const discussionInfo: DiscussionInfo = {
@@ -72,7 +86,7 @@ export default function BookProfile({route, navigation}) {
         <BookProfileCard bookInfo={testBook} />
 
         {/* RANKING */}
-        <Ranking />
+        <Ranking ratingInfo={rating} />
 
         {/* SYNOPSIS */}
         <Text style={[styles.titleText, {marginTop: 25}]}>Synopsis</Text>

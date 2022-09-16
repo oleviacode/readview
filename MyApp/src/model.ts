@@ -16,16 +16,18 @@ type RootStackParamList = {
 };
 
 export type BookInfo = {
-  bookId: number;
-  bookTitle: string;
-  author: string;
-  publisher: string;
-  publishDate: string;
-  bookPicture: string;
-  genre: string;
-  synopsis: string;
+  id: number;
+  title: string;
+  author_name: string;
+  publisher_name: string;
+  publish_date: string;
+  book_picture: string;
+  genre: string[];
+  info: string;
   rating: number | undefined;
   readerStatus: 'read' | 'reading' | 'want to read' | undefined;
+  isbn: string;
+  page: number;
 };
 
 export type DiscussionInfo = {
@@ -43,7 +45,7 @@ export type RatingInfo = {
   threeStarsNum: number;
   twoStarsNum: number;
   oneStarNum: number;
-  readerNum: number;
+  readNum: number;
   readingNum: number;
   savedNum: number;
 };
