@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {Text, View, ScrollView} from 'react-native';
+import {Text, View, ScrollView, TouchableOpacity} from 'react-native';
 import {styles} from '../../shared/stylesheet';
 import {HStack} from '@react-native-material/core';
 import {Button} from '@rneui/themed';
@@ -10,33 +10,43 @@ import BookProfileCard from './BookProfileCard';
 import Ranking from './RankingBox';
 import ReviewCard from './ReviewCard';
 import BookRecCard from './bookRecCard';
-
-export type BookProfileProps = {
-  bookId: number;
-  key: number;
-};
+import DiscussionCard from './DiscussionCard';
+import {BookInfo} from '../../model';
+import {DiscussionInfo} from '../../model';
 
 export default function BookProfile({route, navigation}) {
   const {bookId} = route.params;
 
   // TESTING DATA
 
-  const testBook = {
+  const testBook: BookInfo = {
     bookId: 101,
     bookTitle: 'Harry Potter and the Chamber of Secrets',
+    author: 'J.K. Rowling',
     publishDate: '01-01-1997',
     bookPicture: 'default',
     genre: 'Fantasy',
+    synopsis:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed urna sed massa molestie condimentum. Nam convallis felis non lacus posuere, id lacinia lacus volutpat. Fusce vel dignissim orci, non ullamcorper leo. Pellentesque sed bibendum nunc. Maecenas molestie ex vitae nisi auctor, sed lacinia enim maximus.',
+    rating: 5,
+    publisher: 'abc company',
+    readerStatus: undefined,
   };
-  const testAuthor = 'JK. Rowling';
-  const testPublisher = 'abc company';
-  const testSynopsis =
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed urna sed massa molestie condimentum. Nam convallis felis non lacus posuere, id lacinia lacus volutpat. Fusce vel dignissim orci, non ullamcorper leo. Pellentesque sed bibendum nunc. Maecenas molestie ex vitae nisi auctor, sed lacinia enim maximus.';
-  const testQuote = [
-    "You're a wizard Harry",
-    'I solemnly swear I am up to no good.',
-    'It takes a great deal of bravery to stand up to our enemies, but just as much to stand up to our friends.',
-  ];
+
+  const bookProfileInfo = {
+    quotes: [
+      "You're a wizard Harry",
+      'I solemnly swear I am up to no good.',
+      'It takes a great deal of bravery to stand up to our enemies, but just as much to stand up to our friends.',
+    ],
+  };
+
+  const discussionInfo: DiscussionInfo = {
+    authorName: 'VoldemortLover123',
+    publishDate: '24-05-1990',
+    topic: 'guyz Who the hell killed Dumbledore?',
+    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed urna sed massa molestie condimentum. Nam convallis felis non lacus posuere, id lacinia lacus volutpat. Fusce vel dignissim orci, non ullamcorper leo.',
+  };
 
   // TESTING DATA
 
@@ -59,11 +69,7 @@ export default function BookProfile({route, navigation}) {
         </HStack>
 
         {/* BOOK PROFILE CARD */}
-        <BookProfileCard
-          bookInfo={testBook}
-          publisher={testPublisher}
-          author={testAuthor}
-        />
+        <BookProfileCard bookInfo={testBook} />
 
         {/* RANKING */}
         <Ranking />
@@ -71,14 +77,14 @@ export default function BookProfile({route, navigation}) {
         {/* SYNOPSIS */}
         <Text style={[styles.titleText, {marginTop: 25}]}>Synopsis</Text>
         <Text style={{fontSize: 16, marginTop: 15, marginBottom: 25}}>
-          {testSynopsis}
+          {testBook['synopsis']}
         </Text>
 
         {/* QUOTES */}
         <View style={[styles.regularBox, {backgroundColor: '#CCBD95'}]}>
           <Text style={[styles.titleText]}>Quotes</Text>
           <View style={{marginTop: 10}}>
-            {testQuote.map(quote => {
+            {bookProfileInfo['quotes'].map(quote => {
               return (
                 <Text style={[styles.quoteText]} key={quote}>
                   "{quote}"
@@ -95,7 +101,7 @@ export default function BookProfile({route, navigation}) {
             <Text
               style={styles.smallText}
               onPress={() =>
-                navigation.navigate('AllReviews', {bookId: [bookId]})
+                navigation.navigate('AllReviews', {bookId: bookId})
               }>
               All reviews →{' '}
             </Text>
@@ -135,7 +141,8 @@ export default function BookProfile({route, navigation}) {
           </HStack>
 
           <View style={{marginTop: 30}}>
-            <ReviewCard />
+            <DiscussionCard />
+            <DiscussionCard />
           </View>
           <HStack
             style={{
@@ -154,8 +161,12 @@ export default function BookProfile({route, navigation}) {
         {/* RECOMMENDATION */}
         <Text style={[styles.titleText, {marginTop: 30}]}>Similar books</Text>
         <View style={{marginTop: 20}}>
-          <BookRecCard />
-          <BookRecCard />
+          <TouchableOpacity
+            onPress={() =>
+              navigation.push('BookProfile', {bookId: testBook['bookId']})
+            }>
+            <BookRecCard bookInfo={testBook} />
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </View>

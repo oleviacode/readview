@@ -14,7 +14,7 @@ export default function Ranking() {
           justifyContent: 'space-between',
         }}>
         <Text style={{color: 'white', fontSize: 20, fontWeight: 'bold'}}>
-          Ranking
+          Ratings
         </Text>
         <Text style={[styles.smallText, {color: 'white'}]}>ratings</Text>
       </HStack>
