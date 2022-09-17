@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {HStack, Badge, Divider} from '@react-native-material/core';
 import DisplayBook from './DisplayBook';
-import {View, Text, Pressable} from 'react-native';
+import {View, Text, Pressable, Image} from 'react-native';
 import {styles} from '../../shared/stylesheet';
 import {AirbnbRating} from '@rneui/themed';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
@@ -26,16 +26,18 @@ export default function BookRecCard(props: BookProfileProps) {
   return (
     <View>
       <HStack style={[styles.regularBox, {padding: 0}]}>
-        <View style={styles.book} />
-
+        <View >
+          <Image style={styles.book} source={{uri:`${book.book_picture}`}}></Image>
+        </View>
+        
         <View
           style={{flex: 1, justifyContent: 'space-between', marginLeft: 10}}>
           <View>
             <Text style={{fontSize: 15, fontWeight: 'bold'}}>
-              {book['bookTitle']}
+              {book['title']}
             </Text>
             <Text style={[styles.smallText, {marginTop: 8}]}>
-              {book['author']}
+              {book['author_name']}
             </Text>
             <Text style={styles.smallText}>{book['genre']}</Text>
           </View>
@@ -70,7 +72,7 @@ export default function BookRecCard(props: BookProfileProps) {
         </View>
       </HStack>
       <Text style={{marginTop: 15, marginBottom: 20}}>
-        {book['synopsis'].slice(0, 150)}...
+        {book['info'].slice(0, 150)}...
       </Text>
       <Divider />
     </View>

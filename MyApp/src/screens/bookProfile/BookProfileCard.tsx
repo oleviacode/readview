@@ -18,12 +18,12 @@ export default function BookProfileCard(props: BookProfileProps) {
           marginLeft: 10,
         }}>
         <Text style={{fontSize: 15, fontWeight: 'bold'}}>
-          {book['bookTitle']}
+          {book['title']}
         </Text>
         <View>
-          <Text style={styles.smallText}>{book['author']}</Text>
-          <Text style={styles.smallText}>{book['publisher']}</Text>
-          <Text style={styles.smallText}>{book['publishDate']}</Text>
+          <Text style={styles.smallText}>{book['author_name']}</Text>
+          <Text style={styles.smallText}>{book['publisher_name']}</Text>
+          <Text style={styles.smallText}>{book['publish_date']}</Text>
           <Text style={styles.smallText}>{book['genre']}</Text>
         </View>
       </View>

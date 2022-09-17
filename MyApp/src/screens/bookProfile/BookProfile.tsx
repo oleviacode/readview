@@ -21,17 +21,19 @@ export default function BookProfile({route, navigation}) {
   // TESTING DATA
 
   const testBook: BookInfo = {
-    bookId: 101,
-    bookTitle: 'Harry Potter and the Chamber of Secrets',
-    author: 'J.K. Rowling',
-    publishDate: '01-01-1997',
-    bookPicture: 'default',
-    genre: 'Fantasy',
-    synopsis:
+    id: 101,
+    title: 'Harry Potter and the Chamber of Secrets',
+    author_name: 'J.K. Rowling',
+    publish_date: '01-01-1997',
+    book_picture: 'default',
+    genre: ['Fantasy'],
+    info:
       'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed urna sed massa molestie condimentum. Nam convallis felis non lacus posuere, id lacinia lacus volutpat. Fusce vel dignissim orci, non ullamcorper leo. Pellentesque sed bibendum nunc. Maecenas molestie ex vitae nisi auctor, sed lacinia enim maximus.',
     rating: 5,
-    publisher: 'abc company',
+    publisher_name: 'abc company',
     readerStatus: undefined,
+    isbn: '9789862001034',
+    page: 264
   };
 
   const bookProfileInfo = {
@@ -64,7 +66,7 @@ export default function BookProfile({route, navigation}) {
 
   // TESTING DATA
 
-  navigation.setOptions({title: testBook['bookTitle']});
+  navigation.setOptions({title: testBook['title']});
 
   return (
     <View style={styles.container}>
@@ -91,7 +93,7 @@ export default function BookProfile({route, navigation}) {
         {/* SYNOPSIS */}
         <Text style={[styles.titleText, {marginTop: 25}]}>Synopsis</Text>
         <Text style={{fontSize: 16, marginTop: 15, marginBottom: 25}}>
-          {testBook['synopsis']}
+          {testBook['info']}
         </Text>
 
         {/* QUOTES */}
@@ -177,7 +179,7 @@ export default function BookProfile({route, navigation}) {
         <View style={{marginTop: 20}}>
           <TouchableOpacity
             onPress={() =>
-              navigation.push('BookProfile', {bookId: testBook['bookId']})
+              navigation.push('BookProfile', {bookId: testBook['id']})
             }>
             <BookRecCard bookInfo={testBook} />
           </TouchableOpacity>
