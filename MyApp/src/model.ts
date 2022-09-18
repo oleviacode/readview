@@ -22,12 +22,12 @@ export type BookInfo = {
   publisher_name: string;
   publish_date: string;
   book_picture: string;
-  genre: string[];
+  genre: string[] | undefined;
   info: string;
   rating: number | undefined;
   readerStatus: 'read' | 'reading' | 'want to read' | undefined;
   isbn: string;
-  page: number;
+  pages: number;
 };
 
 export type DiscussionInfo = {

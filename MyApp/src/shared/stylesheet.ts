@@ -28,6 +28,7 @@ export const styles = StyleSheet.create({
     height: 150,
     backgroundColor: 'lightgrey',
     borderRadius: 10,
+    overflow: 'hidden',
   },
   rankingSection: {
     height: 250,

@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Text, View, ScrollView, TouchableOpacity} from 'react-native';
 import {styles} from '../../shared/stylesheet';
 import {HStack} from '@react-native-material/core';
@@ -14,33 +14,57 @@ import DiscussionCard from './DiscussionCard';
 import {BookInfo} from '../../model';
 import {DiscussionInfo} from '../../model';
 import {RatingInfo} from '../../model';
+import {getMethod} from '../../shared/fetchMethods';
+import Config from 'react-native-config';
+import {useAppSelector} from '../../../redux/store';
 
 export default function BookProfile({route, navigation}) {
+  const userId = useAppSelector(state => state.user.id);
   const {bookId} = route.params;
 
-  // TESTING DATA
-
-  const testBook: BookInfo = {
-    bookId: 101,
-    bookTitle: 'Harry Potter and the Chamber of Secrets',
-    author: 'J.K. Rowling',
-    publishDate: '01-01-1997',
-    bookPicture: 'default',
-    genre: 'Fantasy',
-    synopsis:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed urna sed massa molestie condimentum. Nam convallis felis non lacus posuere, id lacinia lacus volutpat. Fusce vel dignissim orci, non ullamcorper leo. Pellentesque sed bibendum nunc. Maecenas molestie ex vitae nisi auctor, sed lacinia enim maximus.',
-    rating: 5,
-    publisher: 'abc company',
+  const initialBookInfo = {
+    id: 0,
+    title: '',
+    author_name: '',
+    publisher_name: '',
+    publish_date: '',
+    book_picture: '',
+    genre: undefined,
+    info: '',
+    rating: undefined,
     readerStatus: undefined,
+    pages: 0,
+    isbn: '',
   };
 
-  const bookProfileInfo = {
-    quotes: [
-      "You're a wizard Harry",
-      'I solemnly swear I am up to no good.',
-      'It takes a great deal of bravery to stand up to our enemies, but just as much to stand up to our friends.',
-    ],
-  };
+  // USE STATES
+  const [activeBook, setActiveBook] = useState<BookInfo>(initialBookInfo);
+  const [quotes, setQuotes] = useState(['no quotes']);
+
+  useEffect(() => {
+    async function main() {
+      const _getMethod = await getMethod();
+      const resBookInfo = await fetch(
+        `${Config.REACT_APP_BACKEND_URL}/book/setProfile/${bookId}/${userId}`,
+        _getMethod,
+      );
+      const activeBookInfo = await resBookInfo.json();
+      const resQuotes = await fetch(
+        `${Config.REACT_APP_BACKEND_URL}/book/topQuotes/${bookId}/`,
+        _getMethod,
+      );
+      const quotes = await resQuotes.json();
+
+      setActiveBook(activeBookInfo);
+      setQuotes(quotes);
+    }
+
+    main();
+
+    // CALL API
+  }, []);
+
+  // TESTING DATA
 
   const rating: RatingInfo = {
     numOfRatings: 10,
@@ -64,8 +88,6 @@ export default function BookProfile({route, navigation}) {
 
   // TESTING DATA
 
-  navigation.setOptions({title: testBook['bookTitle']});
-
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -83,7 +105,7 @@ export default function BookProfile({route, navigation}) {
         </HStack>
 
         {/* BOOK PROFILE CARD */}
-        <BookProfileCard bookInfo={testBook} />
+        <BookProfileCard bookInfo={activeBook} />
 
         {/* RANKING */}
         <Ranking ratingInfo={rating} />
@@ -91,20 +113,21 @@ export default function BookProfile({route, navigation}) {
         {/* SYNOPSIS */}
         <Text style={[styles.titleText, {marginTop: 25}]}>Synopsis</Text>
         <Text style={{fontSize: 16, marginTop: 15, marginBottom: 25}}>
-          {testBook['synopsis']}
+          {activeBook['info']}
         </Text>
 
         {/* QUOTES */}
         <View style={[styles.regularBox, {backgroundColor: '#CCBD95'}]}>
           <Text style={[styles.titleText]}>Quotes</Text>
           <View style={{marginTop: 10}}>
-            {bookProfileInfo['quotes'].map(quote => {
-              return (
-                <Text style={[styles.quoteText]} key={quote}>
-                  "{quote}"
-                </Text>
-              );
-            })}
+            {quotes &&
+              quotes.map(quote => {
+                return (
+                  <Text style={[styles.quoteText]} key={quote}>
+                    "{quote}"
+                  </Text>
+                );
+              })}
           </View>
         </View>
 
@@ -177,9 +200,9 @@ export default function BookProfile({route, navigation}) {
         <View style={{marginTop: 20}}>
           <TouchableOpacity
             onPress={() =>
-              navigation.push('BookProfile', {bookId: testBook['bookId']})
+              navigation.push('BookProfile', {bookId: activeBook['id']})
             }>
-            <BookRecCard bookInfo={testBook} />
+            <BookRecCard bookInfo={activeBook} />
           </TouchableOpacity>
         </View>
       </ScrollView>
