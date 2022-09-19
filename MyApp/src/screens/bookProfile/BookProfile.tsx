@@ -37,6 +37,8 @@ export default function BookProfile({route, navigation}) {
   const [readButton, setReadButton] = useState('lightgrey');
   const [readingButton, setReadingButton] = useState('lightgrey');
   const [visible, setVisible] = useState(false);
+  const [addReview, setAddReview] = useState(false);
+  const [addTopic, setAddTopic] = useState(false);
 
   console.log('hi');
 
@@ -240,7 +242,11 @@ export default function BookProfile({route, navigation}) {
               <ReviewCard />
               <ReviewCard />
             </View>
-            <TouchableOpacity onPress={() => setVisible(!visible)}>
+            <TouchableOpacity
+              onPress={() => {
+                setAddReview(true);
+                setVisible(!visible);
+              }}>
               <HStack
                 style={{
                   flex: 1,
@@ -279,18 +285,28 @@ export default function BookProfile({route, navigation}) {
               <DiscussionCard />
               <DiscussionCard />
             </View>
-            <HStack
-              style={{
-                flex: 1,
-                justifyContent: 'flex-end',
-                alignItems: 'center',
-                marginTop: 20,
+            <TouchableOpacity
+              onPress={() => {
+                setAddTopic(true);
+                setVisible(!visible);
               }}>
-              <Text style={[styles.titleText, {color: '#5699ee'}]}>
-                Add a topic{' '}
-              </Text>
-              <FontAwesomeIcon size={20} icon={faPlusCircle} color="#5699ee" />
-            </HStack>
+              <HStack
+                style={{
+                  flex: 1,
+                  justifyContent: 'flex-end',
+                  alignItems: 'center',
+                  marginTop: 20,
+                }}>
+                <Text style={[styles.titleText, {color: '#5699ee'}]}>
+                  Add a topic{' '}
+                </Text>
+                <FontAwesomeIcon
+                  size={20}
+                  icon={faPlusCircle}
+                  color="#5699ee"
+                />
+              </HStack>
+            </TouchableOpacity>
           </View>
 
           {/* RECOMMENDATION */}
@@ -309,15 +325,38 @@ export default function BookProfile({route, navigation}) {
 
         <Overlay
           isVisible={visible}
-          onBackdropPress={() => setVisible(!visible)}>
-          <Text style={styles.titleText}>Add my review</Text>
-          <Text>Welcome to React Native Elements</Text>
-          <Button
-            title="Start Building"
-            onPress={() => {
-              setVisible(!visible);
-            }}
-          />
+          onBackdropPress={() => {
+            setAddReview(false);
+            setAddTopic(false);
+
+            setVisible(!visible);
+          }}>
+          <View style={styles.regularBox}>
+            {addReview && (
+              <View>
+                <Text style={styles.titleText}>Add my review</Text>
+                <Button
+                  title="Start Building"
+                  onPress={() => {
+                    setAddReview(false);
+                    setVisible(!visible);
+                  }}
+                />
+              </View>
+            )}
+            {addTopic && (
+              <View>
+                <Text style={styles.titleText}>Add a topic</Text>
+                <Button
+                  title="Start Building"
+                  onPress={() => {
+                    setAddTopic(false);
+                    setVisible(!visible);
+                  }}
+                />
+              </View>
+            )}
+          </View>
         </Overlay>
       </View>
     );
