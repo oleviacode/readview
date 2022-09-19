@@ -76,17 +76,6 @@ export default function MainScreen({navigation}: NaviProps) {
             </HStack>
           </ScrollView>
         </View>
-
-        <Pressable>
-          <Text
-            onPress={async () => {
-              dispatch(logOut());
-              AsyncStorage.removeItem('token');
-              navigation.navigate('Cover');
-            }}>
-            Logout
-          </Text>
-        </Pressable>
       </ScrollView>
     </View>
   );

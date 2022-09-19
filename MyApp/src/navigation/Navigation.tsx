@@ -24,17 +24,17 @@ export default function Navigation() {
     <Provider store={store}>
       <NavigationContainer>
         <RootStack.Navigator
-          initialRouteName="Loading"
-          screenOptions={{
-            headerTitle: () => <TitleTop />,
-            headerRight: () => <MessageTop />,
-          }}>
+          initialRouteName="Loading">
           <RootStack.Screen
             name="Cover"
             component={CoverPage}
-            options={{headerShown: false}}
+            options={{headerShown: false, gestureEnabled: false}}
           />
-          <RootStack.Screen name="Loading" component={LoadingScreen} />
+          <RootStack.Screen
+            name="Loading"
+            component={LoadingScreen}
+            options={{headerShown: false, gestureEnabled: false}}
+          />
 
           <RootStack.Screen
             name="Register"
@@ -46,7 +46,7 @@ export default function Navigation() {
             component={RegisterPageTwo}
             options={{headerShown: false}}
           />
-          <RootStack.Screen name="Login" component={LoginScreen} />
+          <RootStack.Screen name="Login" component={LoginScreen} options={{headerShown: false}}/>
           <RootStack.Screen name="Chat" component={Chat} />
 
           <RootStack.Screen
@@ -55,6 +55,7 @@ export default function Navigation() {
             options={{
               headerLeft: () => <MessageTop />,
               headerRight: () => <QRCodeTop />,
+              headerTitle: () => <TitleTop />
             }}
           />
         </RootStack.Navigator>

@@ -22,11 +22,13 @@ import {
 import {getMethod, patchMethod} from '../../shared/fetchMethods';
 import Config from 'react-native-config';
 import {useAppSelector} from '../../../redux/store';
+import { useNavigation } from '@react-navigation/native';
 
-export default function BookProfile({route, navigation}) {
+export default function BookProfile({route, navigation}: any) {
   const userId = useAppSelector(state => state.user.id);
   const {bookId} = route.params;
   let _getMethod = {};
+
 
   // USE STATES
   const [activeBook, setActiveBook] = useState<BookInfo>(initialBookInfo);
@@ -39,8 +41,6 @@ export default function BookProfile({route, navigation}) {
   const [visible, setVisible] = useState(false);
   const [addReview, setAddReview] = useState(false);
   const [addTopic, setAddTopic] = useState(false);
-
-  console.log('hi');
 
   useEffect(() => {
     async function main() {
@@ -63,7 +63,10 @@ export default function BookProfile({route, navigation}) {
       const quotes = await resQuotes.json();
       const rating = await resRatingInfo.json();
 
-      navigation.setOptions({title: activeBookInfo['title']});
+      navigation.setOptions({
+        title: activeBookInfo['title'],
+        headerLeft: () => {<Button title={'<'} onPress={() => {navigation.goBack()}}></Button>}
+      });
 
       if (activeBookInfo['readerstatus'] == 'want to read') {
         setSaveButton('#eac645');
@@ -82,7 +85,7 @@ export default function BookProfile({route, navigation}) {
     main();
 
     // CALL API
-  }, [isLoading]);
+  }, [isLoading, bookId]);
 
   // TESTING DATA
 

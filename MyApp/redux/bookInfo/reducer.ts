@@ -3,38 +3,57 @@ import {BookInfoState} from './state';
 
 const initialState = {
   id: 0,
-  title: '',
-  author_name: '',
-  publisher_name: '',
-  publish_date: '',
-  book_picture: '',
-  genre: [''],
-  info: '',
-  rating: undefined,
-  readerStatus:undefined,
-  isbn: '',
-  page: 0,
+  isloading: null,
+  lastType: '',
+  isLoadingSingle: null,
 };
 
-export function bookInfoReducer(state: BookInfoState = initialState, action: BookInfoActions): BookInfoState {
+export function bookInfoReducer(
+  state: BookInfoState = initialState,
+  action: BookInfoActions,
+): BookInfoState {
   switch (action.type) {
-    case '@@book_info/BOOK_INFO':
+    case '@@book_info/SAVE_LAST':
+      return {
+        ...state,
+        lastType: action.lastType,
+      };
+    case '@@book_info/START_LOADING':
+      return {
+        ...state,
+        isloading: true,
+      };
+    case '@@book_info/FINISH_LOADING':
+      return {
+        ...state,
+        isloading: false,
+      };
+    case '@@book_info/FAIL_LOADING':
+      return {
+        ...state,
+        isloading: null,
+      };
+    case '@@book_info/BOOK_ID':
       return {
         ...state,
         id: action.id,
-        title: action.title,
-        author_name: action.author_name,
-        publisher_name: action.publisher_name,
-        publish_date: action.publish_date,
-        book_picture: action.book_picture,
-        genre: action.genre,
-        info: action.info,
-        rating: action.rating,
-        readerStatus: action.readerStatus,
-        isbn: action.isbn,
-        page: action.page,
       };
-    default: 
+    case '@@book_info/START_LOADING_SINGLE':
+      return {
+        ...state,
+        isLoadingSingle: true,
+      };
+    case '@@book_info/FINISH_LOADING_SINGLE':
+      return {
+        ...state,
+        isLoadingSingle: false,
+      };
+    case '@@book_info/FAIL_LOADING_SINGLE':
+      return {
+        ...state,
+        isLoadingSingle: null,
+      };
+    default:
       return state;
   }
 }

@@ -1,6 +1,5 @@
 import React, {useEffect} from 'react';
 import {HStack, Badge, Divider} from '@react-native-material/core';
-import DisplayBook from './DisplayBook';
 import {View, Text, Pressable, Image} from 'react-native';
 import {styles} from '../../shared/stylesheet';
 import {AirbnbRating} from '@rneui/themed';
@@ -9,6 +8,7 @@ import {faBookmark} from '@fortawesome/free-solid-svg-icons/faBookmark';
 import {BookProfileProps} from '../../model';
 import {useState} from 'react';
 import Config from 'react-native-config';
+import { useNavigation } from '@react-navigation/native';
 
 export default function BookRecCard(props: BookProfileProps) {
   const [saveBook, setSaveBook] = useState('lightgrey');
@@ -17,6 +17,7 @@ export default function BookRecCard(props: BookProfileProps) {
     `${Config.REACT_APP_BACKEND_URL}/uploads/default.jpg`,
   );
   const book = props['bookInfo'];
+  const navigation = useNavigation()
 
   useEffect(() => {
     if (book['readerstatus'] == 'want to read' || saveBookSwitch == true) {
@@ -28,39 +29,17 @@ export default function BookRecCard(props: BookProfileProps) {
     if (book.book_picture) {
       setPicture(`${book.book_picture}`);
     }
-  }, [saveBook, saveBookSwitch, picture, setPicture]);
+  }, [saveBook, saveBookSwitch, picture]);
 
   return (
     <View>
-      <HStack style={[styles.regularBox, {padding: 0}]}/>
-        <View>
-          <Image
-            style={styles.book}
-            source={{uri: `${book.book_picture}`}}></Image>
-        </View>
-
-        <View
-          style={{flex: 1, justifyContent: 'space-between', marginLeft: 10}}>
+      <Pressable onPress={() => {
+        navigation.navigate('BookProfile', {bookId: [book.id]})
+      }}>
+        <HStack style={[styles.regularBox, {padding: 0}]}>
           <View>
             <Image style={styles.book} source={{uri: picture}}></Image>
           </View>
-          <HStack style={{justifyContent: 'space-between'}} />
-            <AirbnbRating
-              size={15}
-              showRating={false}
-              defaultRating={book['rating']}
-              count={5}
-              selectedColor="#eac645"
-            />
-            <HStack
-              style={{
-                flex: 1,
-                justifyContent: 'flex-end',
-                alignItems: 'center',
-              }}>
-              <Badge
-                label={book['readerstatus'] ? book['readerstatus'] : 'unread'}
-              />
 
           <View
             style={{flex: 1, justifyContent: 'space-between', marginLeft: 10}}>
@@ -88,7 +67,7 @@ export default function BookRecCard(props: BookProfileProps) {
                   alignItems: 'center',
                 }}>
                 <Badge
-                  label={book['readerStatus'] ? book['readerStatus'] : 'unread'}
+                  label={book['readerstatus'] ? book['readerstatus'] : 'unread'}
                 />
 
                 <Pressable onPress={() => setSaveBookSwitch(!saveBookSwitch)}>
@@ -107,7 +86,7 @@ export default function BookRecCard(props: BookProfileProps) {
           {book['info'].slice(0, 150)}...
         </Text>
         <Divider />
-    </View>
+      </Pressable>
     </View>
   );
 }

@@ -1,9 +1,6 @@
 import React from 'react';
-import {Button, View, Text} from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {NaviProps} from '../../model';
 import MainScreen from '../main/Main';
 import ShelfScreen from '../shelf/Shelf';
 import Search from '../search/Search';
@@ -15,6 +12,9 @@ import {faPerson} from '@fortawesome/free-solid-svg-icons/faPerson';
 import {faSearch} from '@fortawesome/free-solid-svg-icons/faSearch';
 import UserProfile from '../userProfile/UserProfile';
 import AllReviews from '../bookProfile/AllReviews';
+import ChangeUsername from '../userProfile/ChangeUsername';
+import ChangeEmail from '../userProfile/ChangeEmail';
+import ChangeInfo from '../userProfile/ChangeInfo';
 
 const Tab = createBottomTabNavigator();
 const MainStack = createNativeStackNavigator();
@@ -101,6 +101,24 @@ export default function DashBoard() {
             <ProfileStack.Screen
               name="userProfileScreen"
               component={UserProfile}
+              options={{headerShown: false}}
+            />
+
+            <ProfileStack.Screen
+              name="changeUsername"
+              component={ChangeUsername}
+              options={{headerShown: false}}
+            />
+
+            <ProfileStack.Screen
+              name="changeEmail"
+              component={ChangeEmail}
+              options={{headerShown: false}}
+            />
+
+            <ProfileStack.Screen
+              name="changeInfo"
+              component={ChangeInfo}
               options={{headerShown: false}}
             />
           </ProfileStack.Navigator>

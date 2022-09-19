@@ -2,13 +2,10 @@ import React, {useEffect, useState} from 'react';
 import {useAppSelector} from '../../../redux/store';
 import {
   Bar,
-  VictoryAxis,
   VictoryBar,
   VictoryChart,
-  VictoryLabel,
   VictoryLine,
   VictoryPie,
-  VictoryStack,
   VictoryTheme,
 } from 'victory-native';
 import {ScrollView, Text, View} from 'react-native';
@@ -34,9 +31,10 @@ export default function UserData() {
     Array<{author_name: string; count: number}>
   >([{author_name: '', count: 0}]);
   const [fictionDatas, setFictionDatas] = useState<
-  Array<{x:string ; y: number}>
->([{x:'', y: 0}]);
-const [nonfictionDatas, setNonFictionDatas] = useState<number>(0);
+    Array<{x: string; y: number}>
+  >([{x: '', y: 0}]);
+  const [nonfictionDatas, setNonFictionDatas] = useState<number>(0);
+  const [error, setError] = useState('');
 
   const user = useAppSelector(state => state.user.username);
 
@@ -56,28 +54,26 @@ const [nonfictionDatas, setNonFictionDatas] = useState<number>(0);
       setRatingDatas(result.rating);
       setGenreDatas(result.genre);
       setTimelineDatas(result.readingTimeline);
-      setAuthorDatas(result.author)
-      const dataA = {x: 'fiction & nonfiction', y: parseInt(result.fiction[0].fiction, 10)}
-      const dataB = parseInt(result.fiction[0].nonfiction, 10)
-      setFictionDatas([dataA])
-      setNonFictionDatas(dataB)
+      setAuthorDatas(result.author);
+      const dataA = {
+        x: 'fiction & nonfiction',
+        y: parseInt(result.fiction[0].fiction, 10),
+      };
+      const dataB = parseInt(result.fiction[0].nonfiction, 10);
+      setFictionDatas([dataA]);
+      setNonFictionDatas(dataB);
     }
 
     fetchdata();
   }, [
     ratingDatas,
-    setRatingDatas,
     genreDatas,
-    setGenreDatas,
     timelineDatas,
-    setTimelineDatas,
     authorDatas,
-    setAuthorDatas,
     fictionDatas,
-    setFictionDatas,
     nonfictionDatas,
-    setNonFictionDatas,
-    user]);
+    user,
+  ]);
 
   return (
     <>
@@ -87,7 +83,7 @@ const [nonfictionDatas, setNonFictionDatas] = useState<number>(0);
           <Text
             style={{
               alignItems: 'center',
-              justifyContent:'center',
+              justifyContent: 'center',
             }}>
             User Rating record
           </Text>
@@ -145,5 +141,5 @@ const [nonfictionDatas, setNonFictionDatas] = useState<number>(0);
         </View>
       </ScrollView>
     </>
-  )
+  );
 }

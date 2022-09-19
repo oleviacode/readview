@@ -13,7 +13,6 @@ export type RootStackParamList = {
   Details: undefined;
   BookProfile: {bookId: number};
   AllReviews: {bookId: number};
-  Search:{searchParams : string};
 };
 
 export type BookInfo = {
@@ -28,6 +27,19 @@ export type BookInfo = {
   rating: number | undefined;
   readerstatus: 'read' | 'reading' | 'want to read' | undefined;
   isbn: string;
+  pages: number;
+};
+
+export type AuthorInfoTitle = {
+  book_id: number;
+  book_picture: string;
+}
+
+export type AuthorInfo = {
+  id: number;
+  author_name: string;
+  titles:AuthorInfoTitle[]
+  info: string;
   pages: number;
 };
 
@@ -85,11 +97,9 @@ export interface RatingCardProps {
 export interface BookProfileProps {
   bookInfo: BookInfo;
 }
-
-export interface SearchProps {
-  searchParams: string;
+export interface AuthorProfileProps {
+  Author: AuthorInfo;
 }
-
 export interface DiscussionInfoProps {
   discussionInfo: DiscussionInfo;
 }
