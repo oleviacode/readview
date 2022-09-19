@@ -1,3 +1,5 @@
 export interface SearchState {
-    search:string 
+    lastSearch:string;
+    search:string;
+    isLoading: boolean | null;
 }
