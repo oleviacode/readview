@@ -11,3 +11,15 @@ export const getMethod = async () => {
 
   return fullThing;
 };
+
+export const patchMethod = async () => {
+  const token = await AsyncStorage.getItem('token');
+  const fullThing = {
+    method: 'PATCH',
+    headers: {
+      Authorization: 'Bearer ' + token,
+    },
+  };
+
+  return fullThing;
+};

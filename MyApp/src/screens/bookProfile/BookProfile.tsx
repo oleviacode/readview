@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Text, View, ScrollView, TouchableOpacity} from 'react-native';
 import {styles} from '../../shared/stylesheet';
 import {HStack, ActivityIndicator} from '@react-native-material/core';
-import {Button} from '@rneui/themed';
+import {Button, Overlay} from '@rneui/themed';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faBookmark} from '@fortawesome/free-solid-svg-icons/faBookmark';
 import {faPlusCircle} from '@fortawesome/free-solid-svg-icons/faPlusCircle';
@@ -19,23 +19,31 @@ import {
   initialRatingInfo,
 } from '../../model';
 
-import {getMethod} from '../../shared/fetchMethods';
+import {getMethod, patchMethod} from '../../shared/fetchMethods';
 import Config from 'react-native-config';
 import {useAppSelector} from '../../../redux/store';
 
 export default function BookProfile({route, navigation}: any) {
   const userId = useAppSelector(state => state.user.id);
   const {bookId} = route.params;
+  let _getMethod = {};
 
   // USE STATES
   const [activeBook, setActiveBook] = useState<BookInfo>(initialBookInfo);
   const [quotes, setQuotes] = useState(['no quotes']);
   const [ratingInfo, setRatingInfo] = useState<RatingInfo>(initialRatingInfo);
   const [isLoading, setIsLoading] = useState(true);
+  const [saveButton, setSaveButton] = useState('lightgrey');
+  const [readButton, setReadButton] = useState('lightgrey');
+  const [readingButton, setReadingButton] = useState('lightgrey');
+  const [visible, setVisible] = useState(false);
+
+  console.log('hi');
 
   useEffect(() => {
     async function main() {
-      const _getMethod = await getMethod();
+      _getMethod = await getMethod();
+
       const resBookInfo = await fetch(
         `${Config.REACT_APP_BACKEND_URL}/book/setProfile/${bookId}`,
         _getMethod,
@@ -54,6 +62,14 @@ export default function BookProfile({route, navigation}: any) {
       const rating = await resRatingInfo.json();
 
       navigation.setOptions({title: activeBookInfo['title']});
+
+      if (activeBookInfo['readerstatus'] == 'want to read') {
+        setSaveButton('#eac645');
+      } else if (activeBookInfo['readerstatus'] == 'read') {
+        setReadButton('#7380AA');
+      } else if (activeBookInfo['readerstatus'] == 'reading') {
+        setReadingButton('#7380AA');
+      }
 
       setActiveBook(activeBookInfo);
       setQuotes(quotes);
@@ -94,17 +110,88 @@ export default function BookProfile({route, navigation}: any) {
     return (
       <View style={styles.container}>
         <ScrollView>
-          <Text>{isLoading}</Text>
           {/* STATUS & RANKING BUTTONS */}
           <HStack
             spacing={170}
             style={[styles.regularBox, {borderRadius: 0, flex: 1, padding: 0}]}>
             <HStack spacing={10}>
-              <Button title="reading" color="#7380AA" size="sm" />
-              <Button title="I've read" color="#7380AA" size="sm" />
+              <Button
+                title="reading"
+                color={readingButton}
+                size="sm"
+                onPress={() => {
+                  async function reading() {
+                    const patch = await patchMethod();
+
+                    const res = await fetch(
+                      `${Config.REACT_APP_BACKEND_URL}/book/saveBookStatus/${bookId}/reading`,
+                      patch,
+                    );
+
+                    if (readingButton == 'lightgrey') {
+                      setReadingButton('#7380AA');
+                    } else {
+                      setReadingButton('lightgrey');
+                    }
+                    setSaveButton('lightgrey');
+                    setReadButton('lightgrey');
+                  }
+                  reading();
+                }}
+              />
+              <Button
+                title="I've read"
+                color={readButton}
+                size="sm"
+                onPress={() => {
+                  async function read() {
+                    const patch = await patchMethod();
+
+                    const res = await fetch(
+                      `${Config.REACT_APP_BACKEND_URL}/book/saveBookStatus/${bookId}/read`,
+                      patch,
+                    );
+
+                    if (readingButton == 'lightgrey') {
+                      setReadButton('#7380AA');
+                    } else {
+                      setReadButton('lightgrey');
+                    }
+
+                    setSaveButton('lightgrey');
+                    setReadingButton('lightgrey');
+                  }
+                  read();
+                }}
+              />
             </HStack>
             <View style={{flex: 1, alignSelf: 'center'}}>
-              <FontAwesomeIcon size={30} icon={faBookmark} color="lightgrey" />
+              <TouchableOpacity
+                onPress={() => {
+                  async function save() {
+                    const patch = await patchMethod();
+
+                    const res = await fetch(
+                      `${Config.REACT_APP_BACKEND_URL}/book/saveBookStatus/${bookId}/save`,
+                      patch,
+                    );
+
+                    if (saveButton == 'lightgrey') {
+                      setSaveButton('#eac645');
+                    } else {
+                      setSaveButton('lightgrey');
+                    }
+                    setReadButton('lightgrey');
+                    setReadingButton('lightgrey');
+                  }
+                  save();
+                }}>
+                <FontAwesomeIcon
+                  size={30}
+                  icon={faBookmark}
+                  color={saveButton}
+                />
+              </TouchableOpacity>
             </View>
           </HStack>
 
@@ -153,18 +240,25 @@ export default function BookProfile({route, navigation}: any) {
               <ReviewCard />
               <ReviewCard />
             </View>
-            <HStack
-              style={{
-                flex: 1,
-                justifyContent: 'flex-end',
-                alignItems: 'center',
-                marginTop: 20,
-              }}>
-              <Text style={[styles.titleText, {color: '#5699ee'}]}>
-                Add my review{' '}
-              </Text>
-              <FontAwesomeIcon size={20} icon={faPlusCircle} color="#5699ee" />
-            </HStack>
+            <TouchableOpacity onPress={() => setVisible(!visible)}>
+              <HStack
+                style={{
+                  flex: 1,
+                  justifyContent: 'flex-end',
+                  alignItems: 'center',
+                  marginTop: 20,
+                }}>
+                <Text style={[styles.titleText, {color: '#5699ee'}]}>
+                  Add my review{' '}
+                </Text>
+
+                <FontAwesomeIcon
+                  size={20}
+                  icon={faPlusCircle}
+                  color="#5699ee"
+                />
+              </HStack>
+            </TouchableOpacity>
           </View>
 
           {/* DISCUSSIONS */}
@@ -210,6 +304,21 @@ export default function BookProfile({route, navigation}: any) {
             </TouchableOpacity>
           </View>
         </ScrollView>
+
+        {/* OVER LAY */}
+
+        <Overlay
+          isVisible={visible}
+          onBackdropPress={() => setVisible(!visible)}>
+          <Text style={styles.titleText}>Add my review</Text>
+          <Text>Welcome to React Native Elements</Text>
+          <Button
+            title="Start Building"
+            onPress={() => {
+              setVisible(!visible);
+            }}
+          />
+        </Overlay>
       </View>
     );
   }
