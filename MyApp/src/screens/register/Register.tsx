@@ -32,7 +32,6 @@ export default function RegisterPageOne({navigation}: NaviProps) {
   const [date, setDate] = useState(currentDate());
   const dispatch = useDispatch();
 
-  console.log('hi');
   return (
     <SafeAreaView>
       <Formik

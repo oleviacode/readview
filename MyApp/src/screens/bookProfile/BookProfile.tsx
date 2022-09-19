@@ -23,7 +23,7 @@ import {getMethod} from '../../shared/fetchMethods';
 import Config from 'react-native-config';
 import {useAppSelector} from '../../../redux/store';
 
-export default function BookProfile({route, navigation}) {
+export default function BookProfile({route, navigation}: any) {
   const userId = useAppSelector(state => state.user.id);
   const {bookId} = route.params;
 
@@ -64,7 +64,7 @@ export default function BookProfile({route, navigation}) {
     main();
 
     // CALL API
-  }, [isLoading]);
+  }, [isLoading, bookId]);
 
   // TESTING DATA
 

@@ -3,16 +3,23 @@ import {Text, Pressable, TextInput, View} from 'react-native';
 import {faEnvelope} from '@fortawesome/free-solid-svg-icons/faEnvelope';
 import {faQrcode} from '@fortawesome/free-solid-svg-icons/faQrcode';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {faSearch} from '@fortawesome/free-solid-svg-icons';
+import { useAppDispatch } from '../../redux/store';
+import { saveSearchParams } from '../../redux/search/action';
+import { HStack } from '@react-native-material/core';
 
 // TAB BUTTONS
 
 export default function TitleTop() {
+  const dispatch = useAppDispatch();
   const [search, onChangeSearchParams] = useState('');
   const navigation = useNavigation();
+  const route = useRoute()
+
   return (
-    <View style={{backgroundColor: 'pink', borderRadius: 5}}>
+    <View style={{backgroundColor: 'yellow', borderRadius: 10, marginTop: 9, padding:5}}>
+      <HStack>
       <TextInput
         style={{width: 200}}
         onChangeText={onChangeSearchParams}
@@ -21,11 +28,16 @@ export default function TitleTop() {
       />
       <Pressable
         onPress={() => {
-          /* 1. Navigate to the Details route with params */
-          navigation.navigate('Search');
+          dispatch(saveSearchParams(search))
+          if(route.name == 'Search'){
+            //do nothing
+          } else {
+            navigation.navigate('Search');
+          }
         }}>
         <FontAwesomeIcon icon={faSearch} />
       </Pressable>
+      </HStack>
     </View>
   );
 }

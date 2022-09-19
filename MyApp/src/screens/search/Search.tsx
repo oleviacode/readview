@@ -2,16 +2,16 @@ import React, {useEffect, useState} from 'react';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {Button} from '@rneui/themed';
 import {HStack} from '@react-native-material/core';
-import {useAppDispatch} from '../../../redux/store';
-import {fetchBookInfo, fetchSearch} from '../../../redux/bookInfo/action';
+import {useAppDispatch, useAppSelector} from '../../../redux/store';
+import {fetchSearch} from '../../../redux/bookInfo/action';
 import {BookInfo} from '../../model';
 import BookRecCard from '../bookProfile/bookRecCard';
-import {useRoute } from '@react-navigation/native';
 
-export default function Search({ route, navigation }:any) {
+export default function Search() {
   const dispatch = useAppDispatch();
-  // const {search} = route.params
-  console.log(route)
+  const search = useAppSelector(state => state.search.search)
+  const [error, setError] = useState('')
+  const [isLoading, setIsLoading] = useState(true)
   const [books, setBook] = useState<BookInfo[]>([{
     id: 0,
     title: '',
@@ -22,39 +22,46 @@ export default function Search({ route, navigation }:any) {
     genre: [''],
     info: '',
     rating: undefined,
-    readerStatus: undefined,
+    readerstatus: undefined,
     isbn: '',
-    page: 0,
+    pages: 0,
   }]);
   
 
   useEffect(() => {
     async function fetchBook() {
-      const result = await dispatch(fetchSearch('file'));
-      setBook(result);
+      if(search === '' || search.length < 3){
+        setError('please input at least 3 characters')
+      } else {
+        setError('')
+        const result = await dispatch(fetchSearch(search));
+        setBook(result);
+        setIsLoading(false)
+      }
     }
     fetchBook()
-    return () => {;}
+    return () => {}
     
-  }, [books,setBook]);
+  }, [books, isLoading, error, search]);
 
   return (
     <>
       <View>
         <HStack spacing={6}>
           <Button>Book</Button>
-          <Button style={{backgroundColor: 'pink'}}>Author</Button>
+          {/* <Button style={{backgroundColor: 'pink'}}>Author</Button>
           <Button color="green">User</Button>
-          <Button color="red">Booklist</Button>
+          <Button color="red">Booklist</Button> */}
         </HStack>
       </View>
       <ScrollView>
       <View>
-        <Text></Text>
+        <Text>{isLoading && 'hahaha'}{error}</Text>
+        
       </View>
-      <View>
+      {<View>
         {books.map(book => <BookRecCard bookInfo={book} key={book.id}/>)}
-      </View>
+      </View>}
       </ScrollView>
     </>
   );

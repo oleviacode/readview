@@ -15,6 +15,9 @@ import {faPerson} from '@fortawesome/free-solid-svg-icons/faPerson';
 import {faSearch} from '@fortawesome/free-solid-svg-icons/faSearch';
 import UserProfile from '../userProfile/UserProfile';
 import AllReviews from '../bookProfile/AllReviews';
+import ChangeUsername from '../userProfile/ChangeUsername';
+import ChangeEmail from '../userProfile/ChangeEmail';
+import ChangeInfo from '../userProfile/ChangeInfo';
 
 const Tab = createBottomTabNavigator();
 const MainStack = createNativeStackNavigator();
@@ -101,6 +104,24 @@ export default function DashBoard() {
             <ProfileStack.Screen
               name="userProfileScreen"
               component={UserProfile}
+              options={{headerShown: false}}
+            />
+
+            <ProfileStack.Screen
+              name="changeUsername"
+              component={ChangeUsername}
+              options={{headerShown: false}}
+            />
+
+            <ProfileStack.Screen
+              name="changeEmail"
+              component={ChangeEmail}
+              options={{headerShown: false}}
+            />
+
+            <ProfileStack.Screen
+              name="changeInfo"
+              component={ChangeInfo}
               options={{headerShown: false}}
             />
           </ProfileStack.Navigator>

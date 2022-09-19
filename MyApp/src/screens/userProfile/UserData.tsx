@@ -37,6 +37,7 @@ export default function UserData() {
   Array<{x:string ; y: number}>
 >([{x:'', y: 0}]);
 const [nonfictionDatas, setNonFictionDatas] = useState<number>(0);
+const [error, setError] = useState('');
 
   const user = useAppSelector(state => state.user.username);
 
@@ -66,23 +67,18 @@ const [nonfictionDatas, setNonFictionDatas] = useState<number>(0);
     fetchdata();
   }, [
     ratingDatas,
-    setRatingDatas,
     genreDatas,
-    setGenreDatas,
     timelineDatas,
-    setTimelineDatas,
     authorDatas,
-    setAuthorDatas,
     fictionDatas,
-    setFictionDatas,
     nonfictionDatas,
-    setNonFictionDatas,
     user]);
 
   return (
     <>
       <ScrollView>
         {/* User Rating Record */}
+        <View><Text>{error}</Text></View>
         <View>
           <Text
             style={{

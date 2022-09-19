@@ -22,26 +22,24 @@ export default function Search() {
       genre: [''],
       info: '',
       rating: undefined,
-      readerStatus: undefined,
+      readerstatus: undefined,
       isbn: '',
-      page: 0,
+      pages: 0,
     },
   ]);
 
   useEffect(() => {
     async function fetchBook() {
       const result = await dispatch(fetchUserBookList(status));
-      console.log('hi')
       setBook(result);
     }
-
+    
     fetchBook();
-  }, [books, setBook, status]);
+  }, [books, status]);
 
   return (
     <>
       <View>
-        <Text>{status}</Text>
         <HStack spacing={6} >
           <Button onPress={() => {
             setStatus('readinglist')
@@ -58,9 +56,6 @@ export default function Search() {
         </HStack>
       </View>
       <ScrollView>
-        <View>
-          <Text></Text>
-        </View>
         <View>
           {books.map(book => (
             <BookRecCard bookInfo={book} key={book.id}/>

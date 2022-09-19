@@ -66,7 +66,7 @@ const LoadingScreen = () => {
       <View style={styles.container}>
         <ImageBackground source={image} resizeMode="cover" style={styles.bgImg}>
           <View style={styles.centerBox}>
-            <Text style={styles.text}>meow</Text>
+            <Text style={styles.text}>Loading</Text>
           </View>
         </ImageBackground>
       </View>
