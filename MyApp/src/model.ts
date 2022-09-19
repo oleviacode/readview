@@ -1,6 +1,6 @@
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
 
-type RootStackParamList = {
+export type RootStackParamList = {
   Register: undefined;
   Login: undefined;
   Register2: undefined;
@@ -13,6 +13,7 @@ type RootStackParamList = {
   Details: undefined;
   BookProfile: {bookId: number};
   AllReviews: {bookId: number};
+  Search:{searchParams : string};
 };
 
 export type BookInfo = {
@@ -56,6 +57,11 @@ export interface RatingCardProps {
 export interface BookProfileProps {
   bookInfo: BookInfo;
 }
+
+export interface SearchProps {
+  searchParams: string;
+}
+
 export interface DiscussionInfoProps {
   discussionInfo: DiscussionInfo;
 }

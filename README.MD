@@ -3,3 +3,8 @@ yarn add
 - @reduxjs/toolkit
 - redux-thunk
 - @react-native-community/async-storage
+- react-native-webview
+- victory-native
+- react-native-svg
+- @react-navigation/stack
+- react-native-image-picker
