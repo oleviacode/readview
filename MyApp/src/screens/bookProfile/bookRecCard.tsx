@@ -19,7 +19,7 @@ export default function BookRecCard(props: BookProfileProps) {
   const book = props['bookInfo'];
 
   useEffect(() => {
-    if (book['readerStatus'] == 'want to read' || saveBookSwitch == true) {
+    if (book['readerstatus'] == 'want to read' || saveBookSwitch == true) {
       setSaveBook('#eac645');
     } else {
       setSaveBookSwitch(false);
@@ -32,13 +32,35 @@ export default function BookRecCard(props: BookProfileProps) {
 
   return (
     <View>
-      <Pressable onPress={() => {
-        
-      }}>
-        <HStack style={[styles.regularBox, {padding: 0}]}>
+      <HStack style={[styles.regularBox, {padding: 0}]}/>
+        <View>
+          <Image
+            style={styles.book}
+            source={{uri: `${book.book_picture}`}}></Image>
+        </View>
+
+        <View
+          style={{flex: 1, justifyContent: 'space-between', marginLeft: 10}}>
           <View>
             <Image style={styles.book} source={{uri: picture}}></Image>
           </View>
+          <HStack style={{justifyContent: 'space-between'}} />
+            <AirbnbRating
+              size={15}
+              showRating={false}
+              defaultRating={book['rating']}
+              count={5}
+              selectedColor="#eac645"
+            />
+            <HStack
+              style={{
+                flex: 1,
+                justifyContent: 'flex-end',
+                alignItems: 'center',
+              }}>
+              <Badge
+                label={book['readerstatus'] ? book['readerstatus'] : 'unread'}
+              />
 
           <View
             style={{flex: 1, justifyContent: 'space-between', marginLeft: 10}}>
@@ -85,7 +107,7 @@ export default function BookRecCard(props: BookProfileProps) {
           {book['info'].slice(0, 150)}...
         </Text>
         <Divider />
-      </Pressable>
+    </View>
     </View>
   );
 }
