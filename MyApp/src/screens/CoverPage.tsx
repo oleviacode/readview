@@ -8,7 +8,6 @@ import {
   ImageBackground,
 } from 'react-native';
 import React from 'react';
-import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {NaviProps} from '../model';
 

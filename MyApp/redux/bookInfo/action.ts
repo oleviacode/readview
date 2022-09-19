@@ -6,15 +6,43 @@ import {BookInfoState} from './state';
 export function fetchBookInfo(bookId:number){
   return async (dispatch: AppDispatch) => {
     const token = await AsyncStorage.getItem('token')
-    const res = await fetch(`${Config.REACT_APP_BACKEND_URL}/book/setProfile/${bookId}`,{
+    const res = await fetch(`${Config.REACT_APP_BACKEND_URL}/book/${bookId}`,{
       headers: {
         Authorization: `Bearer ${token}`
       }
     })
     const result = await res.json()
-    dispatch(insertBookInfoIntoRedux(result))
+    dispatch(insertBookInfoIntoRedux(result[0]))
+    return result[0]
+
+  }
+}
+
+export function fetchSearch(search:string){
+  return async (dispatch: AppDispatch) => {
+    const token = await AsyncStorage.getItem('token')
+    const res = await fetch(`${Config.REACT_APP_BACKEND_URL}/search/title?search=${search}`,{
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    const result = await res.json()
     return result
 
+  }
+}
+
+
+export function fetchUserBookList(type:string){
+  return async (dispatch: AppDispatch) => {
+    const token = await AsyncStorage.getItem('token')
+    const res = await fetch(`${Config.REACT_APP_BACKEND_URL}/user-interaction/${type}`,{
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+    const result = await res.json()
+    return result
   }
 }
 
