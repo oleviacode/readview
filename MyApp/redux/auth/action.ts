@@ -24,9 +24,9 @@ export function checkLogin(token:string){
     })
 
     const result = await res.json()
-    if (result.statusCode == 200){
-      dispatch(loggedIn(result.user[0].email,token));
-      dispatch(insertUserIntoRedux(result.user[0]))
+    if (result[0].statusCode == 200){
+      dispatch(loggedIn(result[0].user[0].email,token));
+      dispatch(insertUserIntoRedux(result[0].user[0]))
       return true
     } else {
       return false

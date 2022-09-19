@@ -4,6 +4,7 @@ import {styles} from '../../shared/stylesheet';
 import {HStack, Divider} from '@react-native-material/core';
 import {AirbnbRating, LinearProgress} from '@rneui/themed';
 import {RatingCardProps} from '../../model';
+import conversion from '../../shared/conversion';
 
 function calculate(
   totalRatingsNum: number,
@@ -41,12 +42,12 @@ export default function Ranking(props: RatingCardProps) {
             alignItems: 'center',
           }}>
           <Text style={{fontSize: 30, fontWeight: 'bold', color: '#eac645'}}>
-            {book['rating']}
+            {conversion(book['rating'])}
           </Text>
           <AirbnbRating
             size={10}
             showRating={false}
-            defaultRating={Math.round(book['rating'])}
+            defaultRating={Math.round((book['rating'] / 10) * 5)}
           />
         </View>
 

@@ -9,14 +9,13 @@ import {
   Alert,
 } from 'react-native';
 import {logOut} from '../../../redux/auth/action';
-import {useAppDispatch} from '../../../redux/store';
+import {useAppDispatch, useAppSelector} from '../../../redux/store';
 import {NaviProps} from '../../model';
 import {HStack} from '@react-native-material/core';
 import DisplayBook from '../bookProfile/DisplayBook';
 import Config from 'react-native-config';
 import {getMethod} from '../../shared/fetchMethods';
 import {useState} from 'react';
-import {useAppSelector} from '../../../redux/store';
 import {styles} from '../../shared/stylesheet';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';

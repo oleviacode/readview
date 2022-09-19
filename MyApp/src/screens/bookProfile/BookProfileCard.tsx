@@ -7,6 +7,12 @@ import {BookProfileProps} from '../../model';
 
 export default function BookProfileCard(props: BookProfileProps) {
   const book = props['bookInfo'];
+  let genres = '';
+
+  for (let genre of book['genre']!) {
+    genres = genres.concat(genre, ' ');
+  }
+
   return (
     <HStack style={[styles.regularBox, {padding: 0}]}>
       <View style={styles.book}>
@@ -26,8 +32,10 @@ export default function BookProfileCard(props: BookProfileProps) {
         <View>
           <Text style={styles.smallText}>{book['author_name']}</Text>
           <Text style={styles.smallText}>{book['publisher_name']}</Text>
-          <Text style={styles.smallText}>{book['publish_date']}</Text>
-          <Text style={styles.smallText}>genre to be fixed</Text>
+          <Text style={styles.smallText}>
+            {book['publish_date'].slice(0, 10)}
+          </Text>
+          <Text style={styles.smallText}>{genres}</Text>
         </View>
       </View>
     </HStack>
