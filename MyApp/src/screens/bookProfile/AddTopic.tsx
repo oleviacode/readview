@@ -1,3 +1,5 @@
+import AsyncStorage from '@react-native-community/async-storage';
+import {AsyncLocalStorage} from 'async_hooks';
 import React, {useState} from 'react';
 import {
   Text,
@@ -10,12 +12,25 @@ import {
   StyleSheet,
   Platform,
   Pressable,
+  TouchableOpacity,
 } from 'react-native';
 
 export default function AddTopic({route}: any) {
   const {bookId} = route.params;
-  const [text, setText] = useState<string>('');
-  const [rating, setRating] = useState<number>();
+  const [topic, setTopic] = useState<string>('');
+  const [body, setBody] = useState('');
+  const [fail, setFail] = useState('');
+
+  async function submit() {
+    if (topic == '' || body == '') {
+      setFail('One or more of the above fields are empty');
+      return;
+    }
+
+    const token = await AsyncStorage.getItem('token');
+
+    // MORE CODE HERE
+  }
 
   return (
     <KeyboardAvoidingView
@@ -34,22 +49,27 @@ export default function AddTopic({route}: any) {
           </Text>
           <Text style={{fontWeight: 'bold', marginBottom: 10}}>Your topic</Text>
           <TextInput
-            placeholder="Type here.."
+            placeholder="max length 100 chars.."
             style={[styles.textInput, {height: 40}]}
+            maxLength={100}
+            onChangeText={value => setTopic(value)}
           />
 
           <Text style={{fontWeight: 'bold', marginBottom: 10}}>Body</Text>
           <TextInput
-            placeholder="Type here.."
+            placeholder="max length 350 chars.."
             style={styles.textInput}
             multiline
+            maxLength={350}
+            onChangeText={value => setBody(value)}
           />
 
-          <Pressable style={styles.btnContainer}>
+          <TouchableOpacity style={styles.btnContainer} onPress={submit}>
             <Text style={{color: 'white', fontSize: 20, fontWeight: 'bold'}}>
               Submit
             </Text>
-          </Pressable>
+          </TouchableOpacity>
+          <Text>{fail}</Text>
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>

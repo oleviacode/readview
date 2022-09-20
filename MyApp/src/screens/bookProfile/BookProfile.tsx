@@ -17,7 +17,9 @@ import {
   initialBookInfo,
   BookInfo,
   initialRatingInfo,
+  ReviewCardInfo,
 } from '../../model';
+import {initialReviewInfo} from '../../model';
 
 import {getMethod, patchMethod} from '../../shared/fetchMethods';
 import Config from 'react-native-config';
@@ -37,9 +39,9 @@ export default function BookProfile({route, navigation}: any) {
   const [saveButton, setSaveButton] = useState('lightgrey');
   const [readButton, setReadButton] = useState('lightgrey');
   const [readingButton, setReadingButton] = useState('lightgrey');
-  const [visible, setVisible] = useState(false);
-  const [addReview, setAddReview] = useState(false);
-  const [addTopic, setAddTopic] = useState(false);
+  const [latestReviews, setLatestReviews] = useState<Array<ReviewCardInfo>>([
+    initialReviewInfo,
+  ]);
 
   // -------------------------------------------------------------------------------------------------------------------
   // functions on updating the user_reading status
@@ -111,6 +113,7 @@ export default function BookProfile({route, navigation}: any) {
         const activeBookInfo = result.activeBookInfo;
         const quotes = result.quotes;
         const rating = result.rating;
+        const threeReviews = result.threeReviews;
 
         navigation.setOptions({title: activeBookInfo['title']});
 
@@ -125,6 +128,7 @@ export default function BookProfile({route, navigation}: any) {
         setActiveBook(activeBookInfo);
         setQuotes(quotes);
         setRatingInfo(rating);
+        setLatestReviews(threeReviews);
       }
     }
 
@@ -214,87 +218,87 @@ export default function BookProfile({route, navigation}: any) {
             </View>
 
             {/* REVIEWS */}
-          <View style={[styles.regularBox, {backgroundColor: 'white'}]}>
-            <HStack style={{flex: 1, justifyContent: 'space-between'}}>
-              <Text style={styles.titleText}>Reviews</Text>
-              <Text
-                style={styles.smallText}
-                onPress={() =>
-                  navigation.navigate('AllReviews', {bookId: bookId})
-                }>
-                All reviews →{' '}
-              </Text>
-            </HStack>
-
-            <View style={{marginTop: 30}}>
-              <ReviewCard />
-              <ReviewCard />
-              <ReviewCard />
-            </View>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('AddReview', {bookId: bookId});
-              }}>
-              <HStack
-                style={{
-                  flex: 1,
-                  justifyContent: 'flex-end',
-                  alignItems: 'center',
-                  marginTop: 20,
-                }}>
-                <Text style={[styles.titleText, {color: '#5699ee'}]}>
-                  Add my review{' '}
+            <View style={[styles.regularBox, {backgroundColor: 'white'}]}>
+              <HStack style={{flex: 1, justifyContent: 'space-between'}}>
+                <Text style={styles.titleText}>Reviews</Text>
+                <Text
+                  style={styles.smallText}
+                  onPress={() =>
+                    navigation.navigate('AllReviews', {bookId: bookId})
+                  }>
+                  All reviews →{' '}
                 </Text>
-
-                <FontAwesomeIcon
-                  size={20}
-                  icon={faPlusCircle}
-                  color="#5699ee"
-                />
               </HStack>
-            </TouchableOpacity>
-          </View>
 
-          {/* DISCUSSIONS */}
-
-          <View style={[styles.regularBox, {backgroundColor: 'white'}]}>
-            <HStack style={{flex: 1, justifyContent: 'space-between'}}>
-              <Text style={styles.titleText}>Discussion</Text>
-              <Text
-                style={styles.smallText}
-                onPress={() =>
-                  navigation.navigate('AllReviews', {bookId: [bookId]})
-                }>
-                All discussions →{' '}
-              </Text>
-            </HStack>
-
-            <View style={{marginTop: 30}}>
-              <DiscussionCard />
-              <DiscussionCard />
-            </View>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate('AddTopic', {bookId: bookId});
-              }}>
-              <HStack
-                style={{
-                  flex: 1,
-                  justifyContent: 'flex-end',
-                  alignItems: 'center',
-                  marginTop: 20,
+              <View style={{marginTop: 30}}>
+                {latestReviews.map(review => {
+                  return <ReviewCard reviewInfo={review} />;
+                })}
+              </View>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('AddReview', {bookId: bookId});
                 }}>
-                <Text style={[styles.titleText, {color: '#5699ee'}]}>
-                  Add a topic{' '}
+                <HStack
+                  style={{
+                    flex: 1,
+                    justifyContent: 'flex-end',
+                    alignItems: 'center',
+                    marginTop: 20,
+                  }}>
+                  <Text style={[styles.titleText, {color: '#5699ee'}]}>
+                    Add my review{' '}
+                  </Text>
+
+                  <FontAwesomeIcon
+                    size={20}
+                    icon={faPlusCircle}
+                    color="#5699ee"
+                  />
+                </HStack>
+              </TouchableOpacity>
+            </View>
+
+            {/* DISCUSSIONS */}
+
+            <View style={[styles.regularBox, {backgroundColor: 'white'}]}>
+              <HStack style={{flex: 1, justifyContent: 'space-between'}}>
+                <Text style={styles.titleText}>Discussion</Text>
+                <Text
+                  style={styles.smallText}
+                  onPress={() =>
+                    navigation.navigate('AllReviews', {bookId: [bookId]})
+                  }>
+                  All discussions →{' '}
                 </Text>
-                <FontAwesomeIcon
-                  size={20}
-                  icon={faPlusCircle}
-                  color="#5699ee"
-                />
               </HStack>
-            </TouchableOpacity>
-          </View>
+
+              <View style={{marginTop: 30}}>
+                <DiscussionCard />
+                <DiscussionCard />
+              </View>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('AddTopic', {bookId: bookId});
+                }}>
+                <HStack
+                  style={{
+                    flex: 1,
+                    justifyContent: 'flex-end',
+                    alignItems: 'center',
+                    marginTop: 20,
+                  }}>
+                  <Text style={[styles.titleText, {color: '#5699ee'}]}>
+                    Add a topic{' '}
+                  </Text>
+                  <FontAwesomeIcon
+                    size={20}
+                    icon={faPlusCircle}
+                    color="#5699ee"
+                  />
+                </HStack>
+              </TouchableOpacity>
+            </View>
 
             {/* RECOMMENDATION */}
             <Text style={[styles.titleText, {marginTop: 30}]}>
@@ -309,21 +313,6 @@ export default function BookProfile({route, navigation}: any) {
               </TouchableOpacity>
             </View>
           </ScrollView>
-
-          {/* OVER LAY */}
-
-          <Overlay
-            isVisible={visible}
-            onBackdropPress={() => setVisible(!visible)}>
-            <Text style={styles.titleText}>Add my review</Text>
-            <Text>Welcome to React Native Elements</Text>
-            <Button
-              title="Start Building"
-              onPress={() => {
-                setVisible(!visible);
-              }}
-            />
-          </Overlay>
         </View>
       )}
       {isLoading != false && (

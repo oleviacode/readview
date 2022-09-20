@@ -1,51 +1,69 @@
 import React, {useEffect} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Image} from 'react-native';
 import {HStack, Divider} from '@react-native-material/core';
 import {styles} from '../../shared/stylesheet';
 import {AirbnbRating} from '@rneui/themed';
 import {useState} from 'react';
+import conversion from '../../shared/conversion';
+import {ReviewCardInfo} from '../../model';
+import Config from 'react-native-config';
 
-export interface ReviewCardProps {
-  username: string;
-  profilePic: string;
-  rating: number;
-  createdAt: string;
-}
+export default function ReviewCard(props: any, navigation: any) {
+  const book: ReviewCardInfo = props['reviewInfo'];
 
-export default function ReviewCard() {
+  console.log('step 1:', book['content']);
+
   const originalText =
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed urna sed massa molestie condimentum. Nam convallis felis non lacus posuere, id lacinia lacus volutpat. Fusce vel dignissim orci, non ullamcorper leo. Pellentesque sed bibendum nunc. Maecenas molestie ex vitae nisi auctor, sed lacinia enim maximus.';
   const [displayedText, setDisplayedText] = useState<string>('');
   const [fullTextSwitch, setFullTextSwitch] = useState(false);
   const [expansionButton, setExpansionButton] = useState('...more');
+  const [rating, setRating] = useState<number>(0);
 
   useEffect(() => {
     if (fullTextSwitch) {
-      setDisplayedText(originalText);
+      setDisplayedText(book['content']);
       setExpansionButton('...less');
     } else {
-      const abridgedText = originalText.slice(0, 150);
+      console.log('step 2: ', book['content']);
+      const abridgedText = book['content'].slice(0, 150);
       setDisplayedText(abridgedText);
+      console.log('step 3: ', displayedText);
       setExpansionButton('...more');
     }
-  }, [fullTextSwitch, displayedText, expansionButton]);
+
+    if (book['rating'] == null) {
+      setRating(0);
+    }
+
+    setRating(conversion(book['rating']));
+  }, [fullTextSwitch, displayedText, expansionButton, rating]);
 
   return (
     <View>
       <HStack style={{marginTop: 20}}>
-        <View style={styles.smallProfilePic} />
+        <View style={styles.smallProfilePic}>
+          <Image
+            style={{width: '100%', height: '100%'}}
+            source={{
+              uri: `${Config.REACT_APP_BACKEND_URL}/uploads/${book['profile_picture']}`,
+            }}
+          />
+        </View>
         <View style={{marginLeft: 20, flex: 1, justifyContent: 'center'}}>
-          <Text style={{fontSize: 15, fontWeight: 'bold'}}>Username</Text>
+          <Text style={{fontSize: 15, fontWeight: 'bold'}}>
+            {book['username']}
+          </Text>
           <HStack>
             <AirbnbRating
               size={12}
               showRating={false}
-              defaultRating={5}
+              defaultRating={rating}
               count={5}
               selectedColor="#eac645"
             />
             <Text style={[styles.smallText, {color: 'grey', marginLeft: 5}]}>
-              24-05-1990
+              {book['updated_at'].slice(0, 10)}
             </Text>
           </HStack>
         </View>

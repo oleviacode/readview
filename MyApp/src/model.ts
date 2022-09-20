@@ -68,6 +68,15 @@ export type RatingInfo = {
   savedNum: number;
 };
 
+export interface ReviewCardInfo {
+  user_id: number;
+  username: string;
+  profile_picture: string;
+  rating: number;
+  updated_at: string;
+  content: string;
+}
+
 export const initialBookPreviewContents: PreviewBookContents = {
   id: 1,
   book_picture:
@@ -100,6 +109,15 @@ export const initialRatingInfo: RatingInfo = {
   readNum: 0,
   readingNum: 0,
   savedNum: 0,
+};
+
+export const initialReviewInfo: ReviewCardInfo = {
+  user_id: 0,
+  username: '',
+  profile_picture: 'default_profile_picture.jpg',
+  rating: 0,
+  updated_at: '',
+  content: '',
 };
 
 export interface RatingCardProps {

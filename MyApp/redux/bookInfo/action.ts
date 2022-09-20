@@ -7,7 +7,8 @@ export function fetchBookInfo(bookId: number) {
   return async (dispatch: AppDispatch, getState: () => RootState) => {
     if (
       getState().bookinfo.isLoadingSingle == true ||
-      (getState().bookinfo.isLoadingSingle == false && String(getState().bookinfo.id) == String(bookId))
+      (getState().bookinfo.isLoadingSingle == false &&
+        String(getState().bookinfo.id) == String(bookId))
     ) {
       return null;
     } else {
@@ -28,6 +29,13 @@ export function fetchBookInfo(bookId: number) {
           `${Config.REACT_APP_BACKEND_URL}/book/fullRating/${bookId}/`,
           _getMethod,
         );
+
+        const resReviews = await fetch(
+          `${Config.REACT_APP_BACKEND_URL}/reviews/3review/${bookId}/`,
+          _getMethod,
+        );
+
+        const threeReviews = await resReviews.json();
         const activeBookInfo = await resBookInfo.json();
         const quotes = await resQuotes.json();
         const rating = await resRatingInfo.json();
@@ -37,6 +45,7 @@ export function fetchBookInfo(bookId: number) {
           activeBookInfo: activeBookInfo,
           quotes: quotes,
           rating: rating,
+          threeReviews: threeReviews,
         };
       } catch (e) {
         dispatch(failToLoadingSingleBook());
