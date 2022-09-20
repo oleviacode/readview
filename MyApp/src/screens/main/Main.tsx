@@ -48,8 +48,6 @@ export default function MainScreen({navigation}: NaviProps) {
 
         setTop3(latestBooks);
         setTest(true);
-        console.log('test is : ', test);
-        console.log('top 3 is: ', top3);
       } catch (e) {
         console.log('no books found');
       }
@@ -61,14 +59,6 @@ export default function MainScreen({navigation}: NaviProps) {
     <View style={styles.container}>
       <ScrollView>
         <Text style={styles.titleText}>Hi {user}</Text>
-        <Button
-          title={'Logout'}
-          onPress={async () => {
-            dispatch(logOut());
-            AsyncStorage.removeItem('token');
-            navigation.navigate('Cover');
-          }}
-        />
         <View style={[styles.regularBox, {borderRadius: 0, padding: 0}]}>
           <Text style={styles.titleText}>Latest Books</Text>
           <HStack style={styles.bookStack}>
