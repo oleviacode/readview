@@ -30,7 +30,7 @@ export default function TimelineRecord() {
                 data: {stroke: '#c43a31'},
                 parent: {border: '1px solid #ccc'},
               }}
-              data={timelineDatas.map(data => ({
+              data={timelineDatas.map(data => (data.date_trunc == null || {
                 x: data.date_trunc.slice(0, 4),
                 y: data.count,
               }))}

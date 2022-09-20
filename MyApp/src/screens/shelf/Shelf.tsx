@@ -49,7 +49,9 @@ export default function Search() {
 
   return (
     <>
-      <View>
+      <View style={{
+        padding: 10
+      }}>
         <HStack spacing={6}>
           <Button
             onPress={() => {
@@ -71,10 +73,13 @@ export default function Search() {
             }}>
             Want to read
           </Button>
-          <Button color="red">Booklist</Button>
+          {/* <Button color="red">Booklist</Button> */}
         </HStack>
       </View>
       <ScrollView>
+        <View style={{
+          paddingHorizontal: 9
+        }}>
         {isLoading === false ? (
           <View>
             {books.map(book => (
@@ -99,6 +104,7 @@ export default function Search() {
         ) : (
           <View></View>
         )}
+        </View>
       </ScrollView>
     </>
   );

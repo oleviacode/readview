@@ -18,7 +18,7 @@ export default function TitleTop() {
   const route = useRoute()
 
   return (
-    <View style={{backgroundColor: 'yellow', borderRadius: 10, marginTop: 6, padding:5}}>
+    <View style={{backgroundColor: 'lightyellow', borderRadius: 10, marginTop: 6, padding:5}}>
       <HStack>
       <TextInput
         style={{width: 200}}

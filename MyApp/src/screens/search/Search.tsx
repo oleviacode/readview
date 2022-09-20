@@ -16,7 +16,7 @@ import BookRecCard from '../bookProfile/bookRecCard';
 export default function Search() {
   const dispatch = useAppDispatch();
   const search = useAppSelector(state => state.search.search);
-  const [error, setError] = useState('');
+  const [error, setError] = useState('search by title, author or ISBN!');
   const isLoading = useAppSelector(state => state.search.isLoading);
   const [books, setBook] = useState<BookInfo[]>([
     {
@@ -37,34 +37,46 @@ export default function Search() {
 
   useEffect(() => {
     async function fetchBook() {
-      if (search === '' || search.length < 3) {
-        setError('please input at least 3 characters');
+      if (search === '' || search.length < 2) {
+        setError('Please input at least 3 characters!');
       } else {
-        setError('');
+        setError('searching...');
         const result = await dispatch(fetchSearch(search));
+
+        
         if (result == null) {
-          // Do nothing
+          setError('search by title, author or ISBN!');
         } else {
           setBook(result);
+          setError('search results');
         }
       }
     }
     fetchBook();
-  }, [books, error, search]);
+  }, [search]);
 
   return (
     <>
       <View>
-        <HStack spacing={6}>
+      {/*<HStack spacing={6}>
           <Button>Book</Button>
           <Button style={{backgroundColor: 'pink'}}>Author</Button>
           {/* <Button color="green">User</Button>
-          <Button color="red">Booklist</Button>  */}
-        </HStack>
+          <Button color="red">Booklist</Button>  }
+        </HStack> */}
       </View>
       <ScrollView>
         <View>
-          <Text>{error}</Text>
+        <View style={{
+          backgroundColor: 'lightblue',
+          margin : 10,
+          borderRadius : 10,
+          padding: 10,
+        }}>
+          <Text style={{
+            fontSize: 15,
+            textAlign: 'center'
+          }}>{error}</Text>
         </View>
         {isLoading === false ? (
           <View>
@@ -89,6 +101,7 @@ export default function Search() {
         ) : (
           <View></View>
         )}
+        </View>
       </ScrollView>
     </>
   );

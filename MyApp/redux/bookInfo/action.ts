@@ -1,14 +1,16 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import Config from 'react-native-config';
 import {getMethod} from '../../src/shared/fetchMethods';
+import { fetchForYou } from '../recommendation/action';
 import {AppDispatch, RootState} from '../store';
 
 export function fetchBookInfo(bookId: number) {
   return async (dispatch: AppDispatch, getState: () => RootState) => {
     if (
-      getState().bookinfo.isLoadingSingle == true ||
-      (getState().bookinfo.isLoadingSingle == false &&
-        String(getState().bookinfo.id) == String(bookId))
+      getState().bookinfo.isLoadingSingle == true 
+      // ||
+      // (getState().bookinfo.isLoadingSingle == false &&
+      //   String(getState().bookinfo.id) == String(bookId))
     ) {
       return null;
     } else {
@@ -35,6 +37,8 @@ export function fetchBookInfo(bookId: number) {
           _getMethod,
         );
 
+        const recommendations = await dispatch(fetchForYou())
+
         const threeReviews = await resReviews.json();
         const activeBookInfo = await resBookInfo.json();
         const quotes = await resQuotes.json();
@@ -46,6 +50,7 @@ export function fetchBookInfo(bookId: number) {
           quotes: quotes,
           rating: rating,
           threeReviews: threeReviews,
+          resRecommendations: recommendations
         };
       } catch (e) {
         dispatch(failToLoadingSingleBook());

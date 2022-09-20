@@ -20,12 +20,12 @@ export function saveLastSearch(search: string) {
 
 export function fetchSearch(search:string){
   return async (dispatch: AppDispatch, getState: () => RootState) => {
-
-    if(getState().bookinfo.isloading == true || (getState().search.lastSearch == search && getState().search.isLoading == false) || search == ''){
+    if(getState().search.isLoading == true || (getState().search.lastSearch == search && getState().search.isLoading == false) || search == ''){
       return 
     }
-    dispatch(startLoading())
+    
     try{
+    dispatch(startLoading())
     const token = await AsyncStorage.getItem('token')
     const res = await fetch(`${Config.REACT_APP_BACKEND_URL}/search/title?search=${search}`,{
       headers: {
