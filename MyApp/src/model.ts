@@ -1,4 +1,5 @@
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
+import Config from 'react-native-config';
 
 export type RootStackParamList = {
   Register: undefined;
@@ -69,10 +70,10 @@ export const initialBookInfo: BookInfo = {
   author_name: '',
   publisher_name: '',
   publish_date: '',
-  book_picture: '',
-  genre: undefined,
+  book_picture: `${Config.REACT_APP_BACKEND_URL}/uploads/default.jpg`,
+  genre: [''],
   info: '',
-  rating: undefined,
+  rating: 5,
   readerstatus: undefined,
   pages: 0,
   isbn: '',

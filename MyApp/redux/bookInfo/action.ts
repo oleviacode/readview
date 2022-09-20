@@ -5,48 +5,43 @@ import {AppDispatch, RootState} from '../store';
 
 export function fetchBookInfo(bookId: number) {
   return async (dispatch: AppDispatch, getState: () => RootState) => {
+    
     if (
       getState().bookinfo.isLoadingSingle == true ||
-      (getState().bookinfo.isLoadingSingle == false &&
-        getState().bookinfo.id == bookId)
+      (getState().bookinfo.isLoadingSingle == false && String(getState().bookinfo.id) == String(bookId))
     ) {
-      return;
-    }
+      return null;
+    } else {
+      try {
+        dispatch(startLoadingSingleBook());
+        let _getMethod = {};
+        _getMethod = await getMethod();
 
-    try {
-      dispatch(startLoadingSingleBook());
-      let _getMethod = {};
-      _getMethod = await getMethod();
-
-      const resBookInfo = await fetch(
-        `${Config.REACT_APP_BACKEND_URL}/book/setProfile/${bookId}`,
-        _getMethod,
-      );
-      const resQuotes = await fetch(
-        `${Config.REACT_APP_BACKEND_URL}/book/topQuotes/${bookId}/`,
-        _getMethod,
-      );
-      const resRatingInfo = await fetch(
-        `${Config.REACT_APP_BACKEND_URL}/book/fullRating/${bookId}/`,
-        _getMethod,
-      );
-
-      const activeBookInfo = await resBookInfo.json();
-      const quotes = await resQuotes.json();
-      const rating = await resRatingInfo.json();
-      console.log(activeBookInfo)
-      console.log(quotes)
-      console.log(rating)
-      dispatch(finishLoadingSingleBook());
-      console.log(getState().bookinfo.isLoadingSingle)
-      dispatch(insertBookInfoIntoRedux(bookId));
-      return {
-        activeBookInfo: activeBookInfo,
-        quotes: quotes,
-        rating: rating,
-      };
-    } catch (e) {
-      dispatch(failToLoadingSingleBook());
+        const resBookInfo = await fetch(
+          `${Config.REACT_APP_BACKEND_URL}/book/setProfile/${bookId}`,
+          _getMethod,
+        );
+        const resQuotes = await fetch(
+          `${Config.REACT_APP_BACKEND_URL}/book/topQuotes/${bookId}/`,
+          _getMethod,
+        );
+        const resRatingInfo = await fetch(
+          `${Config.REACT_APP_BACKEND_URL}/book/fullRating/${bookId}/`,
+          _getMethod,
+        );
+        const activeBookInfo = await resBookInfo.json();
+        const quotes = await resQuotes.json();
+        const rating = await resRatingInfo.json();
+        dispatch(insertBookInfoIntoRedux(bookId));
+        dispatch(finishLoadingSingleBook());
+        return {
+          activeBookInfo: activeBookInfo,
+          quotes: quotes,
+          rating: rating,
+        };
+      } catch (e) {
+        dispatch(failToLoadingSingleBook());
+      }
     }
   };
 }

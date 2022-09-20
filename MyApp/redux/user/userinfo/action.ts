@@ -3,6 +3,8 @@ import Config from 'react-native-config';
 import { AppDispatch } from '../../store';
 import {UserState} from './state';
 
+
+
 export function updateUserInfo(type:string, value:string){
   return async (dispatch: AppDispatch) => {
     const token = await AsyncStorage.getItem('token')

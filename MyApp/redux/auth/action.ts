@@ -17,6 +17,7 @@ export function loggedIn(email: string, token: string) {
 
 export function checkLogin(token:string){
   return async (dispatch: AppDispatch) => {
+    
     const res = await fetch(`${Config.REACT_APP_BACKEND_URL}/user`,{
       headers: {
         Authorization: `Bearer ${token}`
