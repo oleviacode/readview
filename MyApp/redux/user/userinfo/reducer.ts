@@ -2,14 +2,15 @@ import {UserActions} from './action';
 import {UserState} from './state';
 
 const initialState = {
-  id: null,
-  username: null,
-  email: null,
-  gender: null,
+  id: 0,
+  username: '',
+  email: '',
+  gender: '',
   birthday: null,
-  profile_picture: null,
-  info: null,
-  level: null,
+  profile_picture: '',
+  info: '',
+  level: 0,
+  isLoadingData: null,
 };
 
 export function userReducer(

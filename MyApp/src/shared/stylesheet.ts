@@ -59,9 +59,24 @@ export const styles = StyleSheet.create({
     backgroundColor: 'lightgrey',
     borderRadius: 20,
   },
+
   userProfileText : {
     fontSize: 20,
     paddingTop: 5,
     paddingLeft: 5,
-  }
+  },
+
+  userData : {
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'lightgrey',
+    width: '90%',
+    borderRadius: 10,
+    marginTop: 10
+  },
+  dataText: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'left',
+  },
 });

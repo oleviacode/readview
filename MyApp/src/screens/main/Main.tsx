@@ -44,8 +44,6 @@ export default function MainScreen({navigation}: NaviProps) {
         );
         const latestBooks = await resLatestBooks.json();
 
-        console.log(latestBooks);
-
         setTop3(latestBooks);
         setTest(true);
       } catch (e) {
