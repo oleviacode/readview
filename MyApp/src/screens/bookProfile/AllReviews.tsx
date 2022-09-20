@@ -4,7 +4,7 @@ import {styles} from '../../shared/stylesheet';
 import {HStack} from '@react-native-material/core';
 import ReviewCard from './ReviewCard';
 
-export default function AllReviews({route}) {
+export default function AllReviews({route}: any) {
   const {bookId} = route.params;
 
   return (

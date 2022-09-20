@@ -1,5 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import {Text, View, ScrollView, TouchableOpacity} from 'react-native';
+import {
+  Text,
+  View,
+  ScrollView,
+  TouchableOpacity,
+  TextInput,
+  KeyboardAvoidingView,
+  Platform,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from 'react-native';
 import {styles} from '../../shared/stylesheet';
 import {HStack, ActivityIndicator} from '@react-native-material/core';
 import {Button, Overlay} from '@rneui/themed';
@@ -22,13 +32,14 @@ import {
 import {getMethod, patchMethod} from '../../shared/fetchMethods';
 import Config from 'react-native-config';
 import {useAppSelector} from '../../../redux/store';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
+import {Background} from 'victory-native';
+import {AirbnbRating} from '@rneui/base';
 
 export default function BookProfile({route, navigation}: any) {
   const userId = useAppSelector(state => state.user.id);
   const {bookId} = route.params;
   let _getMethod = {};
-
 
   // USE STATES
   const [activeBook, setActiveBook] = useState<BookInfo>(initialBookInfo);
@@ -65,7 +76,13 @@ export default function BookProfile({route, navigation}: any) {
 
       navigation.setOptions({
         title: activeBookInfo['title'],
-        headerLeft: () => {<Button title={'<'} onPress={() => {navigation.goBack()}}></Button>}
+        headerLeft: () => {
+          <Button
+            title={'<'}
+            onPress={() => {
+              navigation.goBack();
+            }}></Button>;
+        },
       });
 
       if (activeBookInfo['readerstatus'] == 'want to read') {
@@ -247,8 +264,7 @@ export default function BookProfile({route, navigation}: any) {
             </View>
             <TouchableOpacity
               onPress={() => {
-                setAddReview(true);
-                setVisible(!visible);
+                navigation.navigate('AddReview', {bookId: bookId});
               }}>
               <HStack
                 style={{
@@ -290,8 +306,7 @@ export default function BookProfile({route, navigation}: any) {
             </View>
             <TouchableOpacity
               onPress={() => {
-                setAddTopic(true);
-                setVisible(!visible);
+                navigation.navigate('AddTopic', {bookId: bookId});
               }}>
               <HStack
                 style={{
@@ -323,44 +338,6 @@ export default function BookProfile({route, navigation}: any) {
             </TouchableOpacity>
           </View>
         </ScrollView>
-
-        {/* OVER LAY */}
-
-        <Overlay
-          isVisible={visible}
-          onBackdropPress={() => {
-            setAddReview(false);
-            setAddTopic(false);
-
-            setVisible(!visible);
-          }}>
-          <View style={styles.regularBox}>
-            {addReview && (
-              <View>
-                <Text style={styles.titleText}>Add my review</Text>
-                <Button
-                  title="Start Building"
-                  onPress={() => {
-                    setAddReview(false);
-                    setVisible(!visible);
-                  }}
-                />
-              </View>
-            )}
-            {addTopic && (
-              <View>
-                <Text style={styles.titleText}>Add a topic</Text>
-                <Button
-                  title="Start Building"
-                  onPress={() => {
-                    setAddTopic(false);
-                    setVisible(!visible);
-                  }}
-                />
-              </View>
-            )}
-          </View>
-        </Overlay>
       </View>
     );
   }

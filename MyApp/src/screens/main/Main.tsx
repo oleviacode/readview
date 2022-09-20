@@ -12,25 +12,27 @@ import {logOut} from '../../../redux/auth/action';
 import {useAppDispatch, useAppSelector} from '../../../redux/store';
 import {NaviProps} from '../../model';
 import {HStack} from '@react-native-material/core';
-import DisplayBook from '../bookProfile/DisplayBook';
+import DisplayBook, {PreviewBookContents} from '../bookProfile/DisplayBook';
 import Config from 'react-native-config';
 import {getMethod} from '../../shared/fetchMethods';
 import {useState} from 'react';
 import {styles} from '../../shared/stylesheet';
+import {initialBookPreviewContents} from '../../model';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-import Chat from '../chat/Chat';
 
 export default function MainScreen({navigation}: NaviProps) {
   const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user.username);
 
-  const [top3, setTop3] = useState<Array<number>>([]);
+  const [top3, setTop3] = useState<Array<PreviewBookContents>>([
+    initialBookPreviewContents,
+  ]);
+  const [test, setTest] = useState(false);
 
   useEffect(() => {
     async function main() {
-      const top3Books: number[] = [];
+      const top3Books: PreviewBookContents[] = [];
       const _getMethod = await getMethod();
 
       // GET LATEST BOOKSs
@@ -40,16 +42,19 @@ export default function MainScreen({navigation}: NaviProps) {
           _getMethod,
         );
         const latestBooks = await resLatestBooks.json();
-        for (let book of latestBooks) {
-          top3Books.push(book['id']);
-        }
-        setTop3(top3Books);
+
+        console.log(latestBooks);
+
+        setTop3(latestBooks);
+        setTest(true);
+        console.log('test is : ', test);
+        console.log('top 3 is: ', top3);
       } catch (e) {
         console.log('no books found');
       }
     }
     main();
-  }, []);
+  }, [test]);
 
   return (
     <View style={styles.container}>
@@ -58,11 +63,9 @@ export default function MainScreen({navigation}: NaviProps) {
         <View style={[styles.regularBox, {borderRadius: 0, padding: 0}]}>
           <Text style={styles.titleText}>Latest Books</Text>
           <HStack style={styles.bookStack}>
-            <>
-              {top3.map(book => {
-                return <DisplayBook bookId={book} key={book} />;
-              })}
-            </>
+            {top3!.map(book => {
+              return <DisplayBook book={book} key={book['id']} />;
+            })}
           </HStack>
         </View>
 

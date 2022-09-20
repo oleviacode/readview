@@ -15,6 +15,8 @@ import AllReviews from '../bookProfile/AllReviews';
 import ChangeUsername from '../userProfile/ChangeUsername';
 import ChangeEmail from '../userProfile/ChangeEmail';
 import ChangeInfo from '../userProfile/ChangeInfo';
+import AddReview from '../bookProfile/AddRating';
+import AddTopic from '../bookProfile/AddTopic';
 
 const Tab = createBottomTabNavigator();
 const MainStack = createNativeStackNavigator();
@@ -52,6 +54,16 @@ export default function DashBoard() {
               name="AllReviews"
               component={AllReviews}
               options={{title: 'All reviews'}}
+            />
+            <MainStack.Screen
+              name="AddReview"
+              component={AddReview}
+              options={{title: 'Add your Review'}}
+            />
+            <MainStack.Screen
+              name="AddTopic"
+              component={AddTopic}
+              options={{title: 'Add your Review'}}
             />
           </MainStack.Navigator>
         )}

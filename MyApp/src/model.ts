@@ -1,4 +1,8 @@
 import type {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {
+  PreviewBook,
+  PreviewBookContents,
+} from './screens/bookProfile/DisplayBook';
 
 export type RootStackParamList = {
   Register: undefined;
@@ -33,12 +37,12 @@ export type BookInfo = {
 export type AuthorInfoTitle = {
   book_id: number;
   book_picture: string;
-}
+};
 
 export type AuthorInfo = {
   id: number;
   author_name: string;
-  titles:AuthorInfoTitle[]
+  titles: AuthorInfoTitle[];
   info: string;
   pages: number;
 };
@@ -61,6 +65,12 @@ export type RatingInfo = {
   readNum: number;
   readingNum: number;
   savedNum: number;
+};
+
+export const initialBookPreviewContents: PreviewBookContents = {
+  id: 1,
+  book_picture:
+    'https://www.syndetics.com/index.aspx?isbn=9780446617420/mc.gif&client=bipsite&type=nocover&upc=&ean=9780446617420&issn=',
 };
 
 export const initialBookInfo: BookInfo = {
