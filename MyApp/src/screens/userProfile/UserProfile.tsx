@@ -7,6 +7,8 @@ import {HStack} from '@react-native-material/core';
 import Config from 'react-native-config';
 import UserSettings from './UserSettings';
 import {styles} from '../../shared/stylesheet';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {faMars, faMarsAndVenus, faPersonDress, faVenus} from '@fortawesome/free-solid-svg-icons';
 
 export type ProfileRoute = {
   userId: number;
@@ -16,6 +18,7 @@ export default function UserProfile() {
   const user = useAppSelector(state => state.user.username);
   const img = useAppSelector(state => state.user.profile_picture);
   const info = useAppSelector(state => state.user.info);
+  const gender = useAppSelector(state => state.user.gender);
   const [page, setPage] = useState('data');
 
   useEffect(() => {}, []);
@@ -43,7 +46,18 @@ export default function UserProfile() {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <Text style={styles.userProfileText}>{user}</Text>
+          <Text style={styles.userProfileText}>
+            {user}
+            {gender == 'Female' && <FontAwesomeIcon icon={faVenus} color={'red'} style={{
+              marginLeft: 10
+            }}/>}
+            {gender == 'Male' && <FontAwesomeIcon icon={faMars} color={'blue'} style={{
+              marginLeft: 10
+            }}/>}
+            {gender == 'Others' && <FontAwesomeIcon icon={faMarsAndVenus} color={'blue'} style={{
+              marginLeft: 10
+            }}/>}
+          </Text>
           <Text
             style={{
               fontSize: 15,
