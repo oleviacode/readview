@@ -1,3 +1,4 @@
+
 import {SearchActions} from './action';
 import {SearchState} from './state';
 

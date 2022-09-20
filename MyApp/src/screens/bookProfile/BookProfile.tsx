@@ -42,6 +42,22 @@ export default function BookProfile({route, navigation}: any) {
   const [latestReviews, setLatestReviews] = useState<Array<ReviewCardInfo>>([
     initialReviewInfo,
   ]);
+  const [Recommendations, setRecommendations] = useState<BookInfo[]>([
+    {
+      id: 0,
+      title: '',
+      author_name: '',
+      publisher_name: '',
+      publish_date: '',
+      book_picture: '',
+      genre: [''],
+      info: '',
+      rating: undefined,
+      readerstatus: undefined,
+      isbn: '',
+      pages: 0,
+    },
+  ])
 
   // -------------------------------------------------------------------------------------------------------------------
   // functions on updating the user_reading status
@@ -129,6 +145,7 @@ export default function BookProfile({route, navigation}: any) {
         setQuotes(quotes);
         setRatingInfo(rating);
         setLatestReviews(threeReviews);
+        setRecommendations(result.resRecommendations)
       }
     }
 
@@ -305,12 +322,16 @@ export default function BookProfile({route, navigation}: any) {
               Similar books
             </Text>
             <View style={{marginTop: 20}}>
-              <TouchableOpacity
-                onPress={() =>
-                  navigation.push('BookProfile', {bookId: activeBook['id']})
-                }>
-                <BookRecCard bookInfo={activeBook} />
-              </TouchableOpacity>
+              <View
+                style={{
+                  paddingTop: 15,
+                }}>
+                <View>
+                  {Recommendations.map(book => (
+                    <BookRecCard bookInfo={book} key={book.id} />
+                  ))}
+                </View>
+              </View>
             </View>
           </ScrollView>
         </View>

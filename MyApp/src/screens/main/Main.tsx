@@ -8,10 +8,11 @@ import {
   ScrollView,
   Alert,
   Button,
+  ActivityIndicator,
 } from 'react-native';
 import {logOut} from '../../../redux/auth/action';
 import {useAppDispatch, useAppSelector} from '../../../redux/store';
-import {NaviProps} from '../../model';
+import {BookInfo, NaviProps} from '../../model';
 import {HStack} from '@react-native-material/core';
 import DisplayBook, {PreviewBookContents} from '../bookProfile/DisplayBook';
 import Config from 'react-native-config';
@@ -19,8 +20,8 @@ import {getMethod} from '../../shared/fetchMethods';
 import {useState} from 'react';
 import {styles} from '../../shared/stylesheet';
 import {initialBookPreviewContents} from '../../model';
-
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {fetchForYou} from '../../../redux/recommendation/action';
+import BookRecCard from '../bookProfile/bookRecCard';
 
 export default function MainScreen({navigation}: NaviProps) {
   const dispatch = useAppDispatch();
@@ -29,9 +30,33 @@ export default function MainScreen({navigation}: NaviProps) {
   const [top3, setTop3] = useState<Array<PreviewBookContents>>([
     initialBookPreviewContents,
   ]);
-  const [test, setTest] = useState(false);
+  const isLoading = useAppSelector(state => state.recommendation.isLoading);
+
+  const [books, setbooks] = useState<BookInfo[]>([
+    {
+      id: 0,
+      title: '',
+      author_name: '',
+      publisher_name: '',
+      publish_date: '',
+      book_picture: '',
+      genre: [''],
+      info: '',
+      rating: undefined,
+      readerstatus: undefined,
+      isbn: '',
+      pages: 0,
+    },
+  ]);
+
+  async function fresh(){
+    //calling redux
+    const result = await dispatch(fetchForYou());
+    setbooks(result);
+  }
 
   useEffect(() => {
+    //main function
     async function main() {
       const top3Books: PreviewBookContents[] = [];
       const _getMethod = await getMethod();
@@ -45,13 +70,16 @@ export default function MainScreen({navigation}: NaviProps) {
         const latestBooks = await resLatestBooks.json();
 
         setTop3(latestBooks);
-        setTest(true);
       } catch (e) {
         console.log('no books found');
       }
+
+      //calling redux
+      const result = await dispatch(fetchForYou());
+      setbooks(result);
     }
     main();
-  }, [test]);
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -66,7 +94,7 @@ export default function MainScreen({navigation}: NaviProps) {
           </HStack>
         </View>
 
-        <View style={styles.rankingSection}>
+        {/* {<View style={styles.rankingSection}>
           <Text style={styles.titleText}>Ranking</Text>
           <ScrollView horizontal={true} showsVerticalScrollIndicator={false}>
             <HStack>
@@ -75,6 +103,38 @@ export default function MainScreen({navigation}: NaviProps) {
               <View style={styles.rankBox} />
             </HStack>
           </ScrollView>
+        </View>} */}
+        <View
+          style={{
+            paddingTop: 15,
+          }}>
+            <HStack style={{
+              justifyContent:'space-between'
+            }}>
+          <Text style={styles.titleText}>Recommendation</Text>
+          <Button title={'refresh'} onPress={() => {
+            fresh()
+          }}></Button>
+          </HStack>
+          {isLoading ? (
+            <View
+              style={{
+                flex: 1,
+                width: '100%',
+                height: '100%',
+                justifyContent: 'center',
+                alignItems: 'center',
+                paddingTop: 15
+              }}>
+              <ActivityIndicator size="large" color="#5699ee" />
+            </View>
+          ) : (
+            <View>
+              {books.map(book => (
+                <BookRecCard bookInfo={book} key={book.id} />
+              ))}
+            </View>
+          )}
         </View>
       </ScrollView>
     </View>
