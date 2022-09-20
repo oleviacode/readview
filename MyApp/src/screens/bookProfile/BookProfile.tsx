@@ -38,6 +38,8 @@ export default function BookProfile({route, navigation}: any) {
   const [readButton, setReadButton] = useState('lightgrey');
   const [readingButton, setReadingButton] = useState('lightgrey');
   const [visible, setVisible] = useState(false);
+  const [addReview, setAddReview] = useState(false);
+  const [addTopic, setAddTopic] = useState(false);
 
   // -------------------------------------------------------------------------------------------------------------------
   // functions on updating the user_reading status
