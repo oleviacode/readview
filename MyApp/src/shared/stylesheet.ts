@@ -60,23 +60,30 @@ export const styles = StyleSheet.create({
     borderRadius: 20,
   },
 
-  userProfileText : {
+  userProfileText: {
     fontSize: 20,
     paddingTop: 5,
     paddingLeft: 5,
   },
 
-  userData : {
+  userData: {
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'lightgrey',
     width: '90%',
     borderRadius: 10,
-    marginTop: 10
+    marginTop: 10,
   },
   dataText: {
     fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'left',
+  },
+  textInput: {
+    height: 40,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    marginTop: 15,
+    marginBottom: 15,
   },
 });

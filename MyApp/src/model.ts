@@ -77,6 +77,14 @@ export interface ReviewCardInfo {
   content: string;
 }
 
+export interface RegInfo {
+  username: string;
+  email: string;
+  password: string;
+  gender: string | null;
+  birthday: string | null;
+}
+
 export const initialBookPreviewContents: PreviewBookContents = {
   id: 1,
   book_picture:
@@ -96,6 +104,16 @@ export const initialBookInfo: BookInfo = {
   readerstatus: undefined,
   pages: 0,
   isbn: '',
+};
+
+export type Birthday = Date | null;
+
+export const initialRegInfo: RegInfo = {
+  username: '',
+  email: '',
+  password: '',
+  gender: 'other',
+  birthday: null,
 };
 
 export const initialRatingInfo: RatingInfo = {
