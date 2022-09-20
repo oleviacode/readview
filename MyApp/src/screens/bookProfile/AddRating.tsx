@@ -11,6 +11,7 @@ import {
   StyleSheet,
   Platform,
   Pressable,
+  TouchableOpacity,
 } from 'react-native';
 import {AirbnbRating} from '@rneui/themed';
 
@@ -38,7 +39,10 @@ export default function AddReview({route}: any) {
             Your rating
           </Text>
           <View style={{marginBottom: 20}}>
-            <AirbnbRating showRating={false} />
+            <AirbnbRating
+              showRating={false}
+              onFinishRating={rating => setRating(rating)}
+            />
           </View>
 
           <Text style={{fontWeight: 'bold', marginBottom: 10}}>
@@ -48,12 +52,15 @@ export default function AddReview({route}: any) {
             placeholder="Type here.."
             style={styles.textInput}
             multiline
+            onChangeText={text => setText(text)}
           />
-          <Pressable style={styles.btnContainer}>
+          <TouchableOpacity
+            style={styles.btnContainer}
+            onPress={() => console.log(rating)}>
             <Text style={{color: 'white', fontSize: 20, fontWeight: 'bold'}}>
               Submit
             </Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
       </TouchableWithoutFeedback>
     </KeyboardAvoidingView>
