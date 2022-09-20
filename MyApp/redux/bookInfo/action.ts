@@ -5,7 +5,6 @@ import {AppDispatch, RootState} from '../store';
 
 export function fetchBookInfo(bookId: number) {
   return async (dispatch: AppDispatch, getState: () => RootState) => {
-    
     if (
       getState().bookinfo.isLoadingSingle == true ||
       (getState().bookinfo.isLoadingSingle == false && String(getState().bookinfo.id) == String(bookId))
