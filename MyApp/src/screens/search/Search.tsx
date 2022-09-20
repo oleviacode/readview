@@ -41,7 +41,7 @@ export default function Search() {
         setError('Please input at least 3 characters!');
       } else {
         setError('searching...');
-        // const result = await dispatch(fetchSearch(search));
+        const result = await dispatch(fetchSearch(search));
 
         
         if (result == null) {
@@ -53,7 +53,7 @@ export default function Search() {
       }
     }
     fetchBook();
-  }, [books, error, search]);
+  }, [search]);
 
   return (
     <>

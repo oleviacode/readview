@@ -26,19 +26,15 @@ export function fetchSearch(search:string){
     
     try{
     dispatch(startLoading())
-    console.log('start loading ' + getState().search.isLoading)
     const token = await AsyncStorage.getItem('token')
-    console.log('start fetching')
     const res = await fetch(`${Config.REACT_APP_BACKEND_URL}/search/title?search=${search}`,{
       headers: {
         Authorization: `Bearer ${token}`
       }
     })
     const result = await res.json()
-    console.log(result)
     dispatch(saveLastSearch(search))
     dispatch(finishLoading())
-    console.log( 'finish loading ' + getState().search.isLoading)
     return result
     } catch (e){
       dispatch(failToLoading())
