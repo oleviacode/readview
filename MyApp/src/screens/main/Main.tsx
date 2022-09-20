@@ -7,6 +7,7 @@ import {
   StyleSheet,
   ScrollView,
   Alert,
+  Button,
 } from 'react-native';
 import {logOut} from '../../../redux/auth/action';
 import {useAppDispatch, useAppSelector} from '../../../redux/store';
@@ -60,6 +61,14 @@ export default function MainScreen({navigation}: NaviProps) {
     <View style={styles.container}>
       <ScrollView>
         <Text style={styles.titleText}>Hi {user}</Text>
+        <Button
+          title={'Logout'}
+          onPress={async () => {
+            dispatch(logOut());
+            AsyncStorage.removeItem('token');
+            navigation.navigate('Cover');
+          }}
+        />
         <View style={[styles.regularBox, {borderRadius: 0, padding: 0}]}>
           <Text style={styles.titleText}>Latest Books</Text>
           <HStack style={styles.bookStack}>

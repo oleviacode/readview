@@ -59,4 +59,9 @@ export const styles = StyleSheet.create({
     backgroundColor: 'lightgrey',
     borderRadius: 20,
   },
+  userProfileText : {
+    fontSize: 20,
+    paddingTop: 5,
+    paddingLeft: 5,
+  }
 });

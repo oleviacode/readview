@@ -37,6 +37,7 @@ import {Background} from 'victory-native';
 import {AirbnbRating} from '@rneui/base';
 
 export default function BookProfile({route, navigation}: any) {
+  // const dispatch = useAppDispatch();
   const userId = useAppSelector(state => state.user.id);
   const {bookId} = route.params;
   let _getMethod = {};

@@ -34,7 +34,6 @@ export default function UserData() {
     Array<{x: string; y: number}>
   >([{x: '', y: 0}]);
   const [nonfictionDatas, setNonFictionDatas] = useState<number>(0);
-  const [error, setError] = useState('');
 
   const user = useAppSelector(state => state.user.username);
 
@@ -49,6 +48,8 @@ export default function UserData() {
           },
         },
       );
+
+      console.log('hi')
 
       const result = await res.json();
       setRatingDatas(result.rating);
@@ -66,12 +67,6 @@ export default function UserData() {
 
     fetchdata();
   }, [
-    ratingDatas,
-    genreDatas,
-    timelineDatas,
-    authorDatas,
-    fictionDatas,
-    nonfictionDatas,
     user,
   ]);
 

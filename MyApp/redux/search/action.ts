@@ -33,8 +33,8 @@ export function fetchSearch(search:string){
       }
     })
     const result = await res.json()
-    dispatch(finishLoading())
     dispatch(saveLastSearch(search))
+    dispatch(finishLoading())
     return result
     } catch (e){
       dispatch(failToLoading())
