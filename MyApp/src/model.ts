@@ -120,6 +120,11 @@ export const initialReviewInfo: ReviewCardInfo = {
   content: '',
 };
 
+export interface ReviewCardProps {
+  reviewInfo: ReviewCardInfo;
+  index: number;
+}
+
 export interface RatingCardProps {
   ratingInfo: RatingInfo;
 }

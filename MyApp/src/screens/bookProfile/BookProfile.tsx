@@ -231,8 +231,8 @@ export default function BookProfile({route, navigation}: any) {
               </HStack>
 
               <View style={{marginTop: 30}}>
-                {latestReviews.map(review => {
-                  return <ReviewCard reviewInfo={review} />;
+                {latestReviews.map((review, index) => {
+                  return <ReviewCard key={index} reviewInfo={review} />;
                 })}
               </View>
               <TouchableOpacity
