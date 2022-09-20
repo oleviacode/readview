@@ -11,8 +11,6 @@ import Config from 'react-native-config';
 export default function ReviewCard(props: any, navigation: any) {
   const book: ReviewCardInfo = props['reviewInfo'];
 
-  console.log('step 1:', book['content']);
-
   const originalText =
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed urna sed massa molestie condimentum. Nam convallis felis non lacus posuere, id lacinia lacus volutpat. Fusce vel dignissim orci, non ullamcorper leo. Pellentesque sed bibendum nunc. Maecenas molestie ex vitae nisi auctor, sed lacinia enim maximus.';
   const [displayedText, setDisplayedText] = useState<string>('');
@@ -25,10 +23,9 @@ export default function ReviewCard(props: any, navigation: any) {
       setDisplayedText(book['content']);
       setExpansionButton('...less');
     } else {
-      console.log('step 2: ', book['content']);
       const abridgedText = book['content'].slice(0, 150);
       setDisplayedText(abridgedText);
-      console.log('step 3: ', displayedText);
+
       setExpansionButton('...more');
     }
 
@@ -37,7 +34,7 @@ export default function ReviewCard(props: any, navigation: any) {
     }
 
     setRating(conversion(book['rating']));
-  }, [fullTextSwitch, displayedText, expansionButton, rating]);
+  }, [book, fullTextSwitch, displayedText, expansionButton, rating]);
 
   return (
     <View>
