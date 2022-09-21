@@ -6,6 +6,7 @@ import {fetchUserData} from '../../../redux/user/userData/action';
 import AuthorRecord from './UserData/AuthorRecord';
 import TimelineRecord from './UserData/TimeRecord';
 import GenreRecord from './UserData/GenreRecord';
+import { useNavigation } from '@react-navigation/native';
 
 export type ProfileRoute = {
   userId: number;
@@ -17,14 +18,20 @@ export default function UserData() {
   const user = useAppSelector(state => state.user.id);
   const isLoading = useAppSelector(state => state.userData.isLoading);
   const dispatch = useAppDispatch();
+  const navigation = useNavigation()
 
   useEffect(() => {
     async function fetchdata() {
      await dispatch(fetchUserData());
     }
 
+    const focus = navigation.addListener('focus', async () => {
+      await dispatch(fetchUserData());
+    })
+
     fetchdata();
-  }, [user]);
+    return focus
+  }, [user, navigation]);
   return (
     <>
       {isLoading !== false ? (

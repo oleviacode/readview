@@ -11,8 +11,8 @@ export function fetchUserData() {
   return async (dispatch: AppDispatch, getState: () => RootState) => {
     const userId = getState().user.id
      if (
-      getState().userData.isLoading == true || (getState().userData.isLoading == false && String(getState().userData.userId) == String(getState().user.id))
-    ) {
+      getState().userData.isLoading == true)
+     {
       return;
     }
 
