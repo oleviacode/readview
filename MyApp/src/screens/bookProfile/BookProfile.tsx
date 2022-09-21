@@ -28,6 +28,8 @@ import {useAppDispatch, useAppSelector} from '../../../redux/store';
 export default function BookProfile({route, navigation}: any) {
   const {bookId} = route.params;
 
+  console.log("I've reloaded");
+
   // USE STATES
   const [activeBook, setActiveBook] = useState<BookInfo>(initialBookInfo);
   const [quotes, setQuotes] = useState(['no quotes']);
@@ -56,6 +58,7 @@ export default function BookProfile({route, navigation}: any) {
   ]);
   const userId = useAppSelector(state => state.user.id);
   const [isLoading, setLoading] = useState(true);
+  const [refresh, setRefresh] = useState(true);
 
   // -------------------------------------------------------------------------------------------------------------------
   // functions on updating the user_reading status
@@ -66,17 +69,17 @@ export default function BookProfile({route, navigation}: any) {
     const patch = await patchMethod();
 
     const res = await fetch(
-      `${Config.REACT_APP_BACKEND_URL}/book/saveBookStatus/${bookId}/reading`,
+      `${Config.REACT_APP_BACKEND_URL}/book/saveBookStatus/${bookId[0]}/reading`,
       patch,
     );
 
-    if (readingButton == 'lightgrey') {
-      setReadingButton('#7380AA');
-    } else {
-      setReadingButton('lightgrey');
-    }
-    setSaveButton('lightgrey');
+    const test = await res.json();
+
+    console.log('Res is :', test);
+
+    setReadingButton('#7380AA');
     setReadButton('lightgrey');
+    setSaveButton('lightgrey');
   }
 
   //read
@@ -84,18 +87,16 @@ export default function BookProfile({route, navigation}: any) {
     const patch = await patchMethod();
 
     const res = await fetch(
-      `${Config.REACT_APP_BACKEND_URL}/book/saveBookStatus/${bookId}/read`,
+      `${Config.REACT_APP_BACKEND_URL}/book/saveBookStatus/${bookId[0]}/read`,
       patch,
     );
 
-    if (readingButton == 'lightgrey') {
-      setReadButton('#7380AA');
-    } else {
-      setReadButton('lightgrey');
-    }
+    const test = await res.json();
 
-    setSaveButton('lightgrey');
+    console.log('Res is :', test);
+    setReadButton('#7380AA');
     setReadingButton('lightgrey');
+    setSaveButton('lightgrey');
   }
 
   //save
@@ -103,17 +104,17 @@ export default function BookProfile({route, navigation}: any) {
     const patch = await patchMethod();
 
     const res = await fetch(
-      `${Config.REACT_APP_BACKEND_URL}/book/saveBookStatus/${bookId}/save`,
+      `${Config.REACT_APP_BACKEND_URL}/book/saveBookStatus/${bookId[0]}/save`,
       patch,
     );
 
-    if (saveButton == 'lightgrey') {
-      setSaveButton('#eac645');
-    } else {
-      setSaveButton('lightgrey');
-    }
-    setReadButton('lightgrey');
+    const test = await res.json();
+
+    console.log('Res is :', test);
+
+    setSaveButton('#eac645');
     setReadingButton('lightgrey');
+    setReadButton('lightgrey');
   }
 
   // -------------------------------------------------------------------------------------------------------------------
@@ -123,6 +124,7 @@ export default function BookProfile({route, navigation}: any) {
   useEffect(() => {
     async function main() {
       //set Loading is true
+      console.log('useEffect Ran');
       setLoading(true);
       let _getMethod = {};
       _getMethod = await getMethod();
