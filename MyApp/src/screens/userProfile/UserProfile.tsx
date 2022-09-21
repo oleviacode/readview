@@ -79,7 +79,7 @@ export default function UserProfile() {
             alignItems: 'center',
           }}>
           <Button onPress={() => setPage('data')}>Data</Button>
-          <Button style={{backgroundColor: 'pink'}}>History</Button>
+          {/* <Button style={{backgroundColor: 'pink'}}>History</Button> */}
           <Button
             color="green"
             onPress={() => {

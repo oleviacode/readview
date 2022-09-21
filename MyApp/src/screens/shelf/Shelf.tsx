@@ -17,6 +17,7 @@ export default function Search() {
   const dispatch = useAppDispatch();
   const [status, setStatus] = useState('readinglist');
   const isLoading = useAppSelector(state => state.bookinfo.isloading);
+  const [nobooks, setNobooks] = useState(false)
   const [books, setBook] = useState<BookInfo[]>([
     {
       id: 0,
@@ -39,13 +40,15 @@ export default function Search() {
       const result = await dispatch(fetchUserBookList(status));
       if (result == null) {
         // Do nothing
+      } else if (result.length == 0){
+        setNobooks(true)
       } else {
         setBook(result);
       }
     }
 
     fetchBook();
-  }, [books, status]);
+  }, [status]);
 
   return (
     <>
@@ -80,7 +83,8 @@ export default function Search() {
         <View style={{
           paddingHorizontal: 9
         }}>
-        {isLoading === false ? (
+        
+        {isLoading === false && !nobooks ? (
           <View>
             {books.map(book => (
               <BookRecCard bookInfo={book} key={book.id} />
@@ -104,6 +108,9 @@ export default function Search() {
         ) : (
           <View></View>
         )}
+        {nobooks ? (<View>
+          <Text>`${`You haven't add any books yet :(`}`</Text>
+        </View>) :(<View></View>)}
         </View>
       </ScrollView>
     </>

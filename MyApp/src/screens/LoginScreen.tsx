@@ -66,7 +66,16 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 40,
     fontWeight: 'bold',
-    paddingBottom:18
+    paddingBottom: 10,
+  },
+  textInput: {
+    height: 40,
+    borderWidth: 1,
+    borderColor: 'grey',
+    borderRadius: 10,
+    marginTop: 15,
+    marginBottom: 15,
+    width: 200
   },
 });
 
@@ -84,7 +93,7 @@ export default function LoginScreen() {
     if (email == '' || password == '') {
       setError('please fill in all the categories');
     } else {
-      setError('')
+      setError('');
       const res = await fetch(`${Config.REACT_APP_BACKEND_URL}/auth/login`, {
         method: 'POST',
         body: JSON.stringify({
@@ -121,57 +130,41 @@ export default function LoginScreen() {
               width: '100%',
               height: '60%',
               borderRadius: 30,
-              padding: 30,
+              padding: 40,
             }}>
             <Text style={styles.title}>Login</Text>
-            <Text style={{
-              color: 'red',
-              paddingBottom:20,
-            }}>{error}</Text>
-            <HStack>
-              <View>
+            <Text
+              style={{
+                color: 'red',
+                paddingBottom: 20,
+              }}>
+              {error}
+            </Text>
+            <View>
               <Text style={styles.text}>Email:</Text>
-              <Text style={styles.text}>Password:  </Text>
-              </View>
-              <View>
                 <TextInput
-                style={{
-                  borderColor: 'grey',
-                  borderWidth: 1,
-                  width: 170,
-                  height:27
-                }}
-                onChangeText={onChangeEmail}
-                placeholder={' email'}
-                keyboardType={'email-address'}
-              />
+                  style={styles.textInput}
+                  onChangeText={onChangeEmail}
+                  placeholder={' email'}
+                  keyboardType={'email-address'}
+                />
+                <Text style={styles.text}>Password: </Text>
+
               <TextInput
-                style={{
-                  borderColor: 'grey',
-                  borderWidth: 1,
-                  width: 170,
-                  height:27
-                }}
+                style={styles.textInput}
                 secureTextEntry={true}
                 onChangeText={onChangePassword}
                 keyboardType={'default'}
               />
-              </View>
-            </HStack>
-              
-           
-            <HStack>
-              
-              
-            </HStack>
-            <Pressable style={styles.button} onPress={() => {
-                  login();
-                }}>
-              <Text
-              style={styles.buttonText}
-                >
-                Login
-              </Text>
+            </View>
+
+            <HStack></HStack>
+            <Pressable
+              style={styles.button}
+              onPress={() => {
+                login();
+              }}>
+              <Text style={styles.buttonText}>Login</Text>
             </Pressable>
           </View>
         </SafeAreaView>

@@ -1,8 +1,10 @@
+import { Button } from '@react-native-material/core';
 import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
 import {Pressable, Text, TextInput, View} from 'react-native';
 import {useAppDispatch, useAppSelector} from '../../../redux/store';
 import {updateUserInfo} from '../../../redux/user/userinfo/action';
+import { styles } from '../../shared/stylesheet';
 
 export default function ChangeEmail() {
   const [email, onChangeEmail] = useState('');
@@ -24,19 +26,34 @@ export default function ChangeEmail() {
   }
 
   return (
-    <View>
+    <View style={styles.container}>
       <Text>{error}</Text>
-      <Text>Email</Text>
+      <Text style={{
+        fontSize: 30
+        
+      }}> Change Email</Text>
       <TextInput
+        style={styles.textInput}
         onChangeText={onChangeEmail}
-        placeholder={oldEmail as string}
+        placeholder={`  ${oldEmail as string}`}
         keyboardType={'default'}
       />
-      <Pressable onPress={() => {
+      <View>
+      <Button
+      style={{marginTop: 10}}
+      title={'Submit'}
+      onPress={() => {
         updateEmail()
       }}>
-        <Text>Submit</Text>
-      </Pressable>
+      </Button>
+      <Button
+      style={{marginTop: 20}}
+      color={'lightgrey'}
+      title={'Go back'}
+      onPress={() => {
+        navigation.goBack()
+      }}></Button>
+      </View>
     </View>
   );
 }

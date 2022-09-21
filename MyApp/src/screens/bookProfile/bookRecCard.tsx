@@ -8,7 +8,7 @@ import {faBookmark} from '@fortawesome/free-solid-svg-icons/faBookmark';
 import {BookProfileProps} from '../../model';
 import {useState} from 'react';
 import Config from 'react-native-config';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 export default function BookRecCard(props: BookProfileProps) {
   const [saveBook, setSaveBook] = useState('lightgrey');
@@ -18,6 +18,9 @@ export default function BookRecCard(props: BookProfileProps) {
   );
   const book = props['bookInfo'];
   const navigation = useNavigation()
+  const route = useRoute()
+  const title = route.name
+  console.log(title)
 
   useEffect(() => {
     if (book['readerstatus'] == 'want to read' || saveBookSwitch == true) {
@@ -34,7 +37,7 @@ export default function BookRecCard(props: BookProfileProps) {
   return (
     <View>
       <Pressable onPress={() => {
-        navigation.navigate('BookProfile', {bookId: [book.id]})
+        title == 'BookProfile' ? navigation.push('BookProfile', {bookId: [book.id]}) : navigation.navigate('BookProfile', {bookId: [book.id]})
       }}>
         <HStack style={[styles.regularBox, {padding: 0}]}>
           <View>

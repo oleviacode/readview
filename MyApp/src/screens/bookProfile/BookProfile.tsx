@@ -52,12 +52,12 @@ export default function BookProfile({route, navigation}: any) {
       book_picture: '',
       genre: [''],
       info: '',
-      rating: undefined,
+      rating: 0,
       readerstatus: undefined,
       isbn: '',
       pages: 0,
     },
-  ])
+  ]);
 
   // -------------------------------------------------------------------------------------------------------------------
   // functions on updating the user_reading status
@@ -145,7 +145,7 @@ export default function BookProfile({route, navigation}: any) {
         setQuotes(quotes);
         setRatingInfo(rating);
         setLatestReviews(threeReviews);
-        setRecommendations(result.resRecommendations)
+        setRecommendations(result.resRecommendations);
       }
     }
 

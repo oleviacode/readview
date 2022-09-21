@@ -19,7 +19,11 @@ export default function RatingRecord() {
     <>
       {isShown ? (
         <View style={styles.userData}>
-          <Text style={styles.titleText}>User Rating record</Text>
+          <Text style={{
+            fontSize: 20,
+            fontWeight:'700',
+            marginTop :15
+          }}>Rating record</Text>
           <View
             style={{
               alignItems: 'center',
@@ -28,9 +32,15 @@ export default function RatingRecord() {
             <VictoryChart
               height={400}
               width={400}
-              domainPadding={{x: 50, y: [0, 20]}}>
+              animate={{
+                duration: 2000,
+                onLoad: {duration: 100},
+              }}
+              domainPadding={{x: [10, 20], y: [10, 20]}}>
               <VictoryBar
-                dataComponent={<Bar />}
+                padding={{ top: 20, bottom: 60 }}
+                style={{data: {fill: '#c43a31'}}}
+                dataComponent={<Bar/>}
                 data={ratingDatas.map(data => ({
                   x: data.rating,
                   y: data.count,

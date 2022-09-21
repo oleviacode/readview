@@ -24,8 +24,14 @@ export default function TimelineRecord() {
     <>
       {isShown ? (
         <View style={styles.userData}>
+          <Text style={{
+            fontSize: 20,
+            fontWeight:'700',
+            marginTop :15
+          }}>Books you have read by timeline</Text>
           <VictoryChart theme={VictoryTheme.material}>
             <VictoryLine
+            animate={{}}
               style={{
                 data: {stroke: '#c43a31'},
                 parent: {border: '1px solid #ccc'},
