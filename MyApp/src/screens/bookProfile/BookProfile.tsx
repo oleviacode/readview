@@ -209,13 +209,19 @@ export default function BookProfile({route, navigation}: any) {
               Book Id : {bookId}
             </Text>
             {/* STATUS & RANKING BUTTONS */}
+
             <HStack
-              spacing={170}
               style={[
                 styles.regularBox,
-                {borderRadius: 0, flex: 1, padding: 0},
+                {
+                  paddingLeft: 0,
+                  paddingRight: 0,
+                  justifyContent: 'space-between',
+                  marginTop: 0,
+                  marginBottom: 0,
+                },
               ]}>
-              <HStack spacing={10}>
+              <HStack spacing={5}>
                 <Button
                   title="reading"
                   color={readingButton}
@@ -233,7 +239,8 @@ export default function BookProfile({route, navigation}: any) {
                   }}
                 />
               </HStack>
-              <View style={{flex: 1, alignSelf: 'center'}}>
+
+              <View>
                 <TouchableOpacity
                   onPress={() => {
                     save();
