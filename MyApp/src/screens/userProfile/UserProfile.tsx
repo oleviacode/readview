@@ -27,7 +27,9 @@ export default function UserProfile() {
   const userId = useAppSelector(state => state.user.id);
   const [page, setPage] = useState('data');
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    console.log(img)
+  }, [img]) 
 
   return (
     <>
