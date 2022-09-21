@@ -18,7 +18,8 @@ export default function MainScreen({navigation}: NaviProps) {
   const [top3, setTop3] = useState<Array<PreviewBookContents>>([
     initialBookPreviewContents,
   ]);
-  const [isLoading, setLoading] = useState(false);
+  const [isLoadingLatest3, setLoadingLatest3] = useState(false);
+  const [isLoadingRecommendation, setLoadingRecommendation] = useState(false);
 
   const [books, setbooks] = useState<BookInfo[]>([
     {
@@ -56,26 +57,31 @@ export default function MainScreen({navigation}: NaviProps) {
 
       // GET LATEST BOOKS
       try {
-        setLoading(true);
+        setLoadingLatest3(true);
+        setLoadingRecommendation(true)
         const resLatestBooks = await fetch(
           `${Config.REACT_APP_BACKEND_URL}/book/latest`,
           _getMethod,
         );
+
         const latestBooks = await resLatestBooks.json();
+        setTop3(latestBooks);
+        setLoadingLatest3(false)
+        
+        
         const res = await fetch(
           `${Config.REACT_APP_BACKEND_URL}/user-interaction/recommendation`,
           _getMethod,
         );
         const result = await res.json();
         setbooks(result);
-        setTop3(latestBooks);
-        setLoading(false);
+        setLoadingRecommendation(false)
       } catch (e) {
         console.log('no books found');
       }
     }
     main();
-  }, [user]);
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -83,11 +89,25 @@ export default function MainScreen({navigation}: NaviProps) {
         <Text style={styles.titleText}>Hi {user}</Text>
         <View style={[styles.regularBox, {borderRadius: 0, padding: 0}]}>
           <Text style={styles.titleText}>Latest Books</Text>
-          <HStack style={styles.bookStack}>
-            {top3!.map(book => {
-              return <DisplayBook book={book} key={book['id']} />;
-            })}
-          </HStack>
+          {isLoadingLatest3 ? (
+            <View
+              style={{
+                flex: 1,
+                width: '100%',
+                height: '100%',
+                justifyContent: 'center',
+                alignItems: 'center',
+                paddingTop: 15,
+              }}>
+              <ActivityIndicator size="large" color="#5699ee" />
+            </View>
+          ) : (
+            <HStack style={styles.bookStack}>
+              {top3!.map(book => {
+                return <DisplayBook book={book} key={book['id']} />;
+              })}
+            </HStack>
+          )}
         </View>
 
         {/* {<View style={styles.rankingSection}>
@@ -115,7 +135,7 @@ export default function MainScreen({navigation}: NaviProps) {
                 fresh();
               }}></Button>
           </HStack>
-          {isLoading ? (
+          {isLoadingRecommendation ? (
             <View
               style={{
                 flex: 1,

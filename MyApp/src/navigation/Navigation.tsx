@@ -54,9 +54,11 @@ export default function Navigation() {
             component={DashBoard}
             options={{
               headerLeft: () => <MessageTop />,
-              headerRight: () => <QRCodeTop />,
-              headerTitle: () => <TitleTop />
+              // headerRight: () => <QRCodeTop />,
+              headerTitle: () => <TitleTop />,
+              gestureEnabled: false
             }}
+            
           />
         </RootStack.Navigator>
       </NavigationContainer>

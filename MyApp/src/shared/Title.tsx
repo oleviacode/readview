@@ -4,7 +4,7 @@ import {faEnvelope} from '@fortawesome/free-solid-svg-icons/faEnvelope';
 import {faQrcode} from '@fortawesome/free-solid-svg-icons/faQrcode';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {useNavigation, useRoute} from '@react-navigation/native';
-import {faSearch} from '@fortawesome/free-solid-svg-icons';
+import {faBackward, faSearch} from '@fortawesome/free-solid-svg-icons';
 import { useAppDispatch } from '../../redux/store';
 import { saveSearchParams } from '../../redux/search/action';
 import { HStack } from '@react-native-material/core';
@@ -45,8 +45,7 @@ export default function TitleTop() {
 export function MessageTop() {
   const navigation = useNavigation();
   return (
-    <Pressable onPress={() => navigation.navigate('Chat')}>
-      <FontAwesomeIcon icon={faEnvelope} />
+    <Pressable onPress={() => {}}>
     </Pressable>
   );
 }

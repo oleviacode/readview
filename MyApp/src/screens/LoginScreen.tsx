@@ -110,7 +110,7 @@ export default function LoginScreen() {
         await AsyncStorage.setItem('token', result.token);
         dispatch(loggedIn(result.user.email, result.token));
         dispatch(insertUserIntoRedux(result.user));
-        navigation.navigate('Main');
+        navigation.navigate('DashBoard');
       } else {
         setError(`inncorrect password or email, please try again`);
       }
