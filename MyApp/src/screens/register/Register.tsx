@@ -45,8 +45,8 @@ export default function RegisterPageOne({navigation}: NaviProps) {
 
   async function submit() {
     const regForm = {
-      username: username,
-      email: email,
+      username: username.toLowerCase(),
+      email: email.toLowerCase(),
       gender: gender,
       birthday: birthday,
       password: password,

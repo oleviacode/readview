@@ -8,7 +8,7 @@ import {faBookmark} from '@fortawesome/free-solid-svg-icons/faBookmark';
 import {BookProfileProps} from '../../model';
 import {useState} from 'react';
 import Config from 'react-native-config';
-import { useNavigation, useRoute } from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 
 export default function BookRecCard(props: BookProfileProps) {
   const [saveBook, setSaveBook] = useState('lightgrey');
@@ -17,9 +17,9 @@ export default function BookRecCard(props: BookProfileProps) {
     `${Config.REACT_APP_BACKEND_URL}/uploads/default.jpg`,
   );
   const book = props['bookInfo'];
-  const navigation = useNavigation()
-  const route = useRoute()
-  const title = route.name
+  const navigation = useNavigation();
+  const route = useRoute();
+  const title = route.name;
 
   useEffect(() => {
     if (book['readerstatus'] == 'want to read' || saveBookSwitch == true) {
@@ -31,13 +31,16 @@ export default function BookRecCard(props: BookProfileProps) {
     if (book.book_picture) {
       setPicture(`${book.book_picture}`);
     }
-  }, [saveBook, saveBookSwitch, picture,]);
+  }, [saveBook, saveBookSwitch, picture]);
 
   return (
     <View>
-      <Pressable onPress={() => {
-        title == 'BookProfile' ? navigation.push('BookProfile', {bookId: [book.id]}) : navigation.navigate('BookProfile', {bookId: [book.id]})
-      }}>
+      <Pressable
+        onPress={() => {
+          title == 'BookProfile'
+            ? navigation.push('BookProfile', {bookId: [book.id]})
+            : navigation.navigate('BookProfile', {bookId: [book.id]});
+        }}>
         <HStack style={[styles.regularBox, {padding: 0}]}>
           <View>
             <Image style={styles.book} source={{uri: picture}}></Image>
@@ -85,7 +88,7 @@ export default function BookRecCard(props: BookProfileProps) {
           </View>
         </HStack>
         <Text style={{marginTop: 15, marginBottom: 20}}>
-          {book['info'].slice(0, 150)}...
+          {book['info'] && book['info'].slice(0, 150)}...
         </Text>
         <Divider />
       </Pressable>
