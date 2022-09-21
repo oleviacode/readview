@@ -49,9 +49,10 @@ export default function MainScreen({navigation}: NaviProps) {
     },
   ]);
 
-  async function fresh(){
+  async function fresh() {
     //calling redux
     const result = await dispatch(fetchForYou());
+    console.log('length is: ', result.length);
     setbooks(result);
   }
 
@@ -108,13 +109,16 @@ export default function MainScreen({navigation}: NaviProps) {
           style={{
             paddingTop: 15,
           }}>
-            <HStack style={{
-              justifyContent:'space-between'
+          <HStack
+            style={{
+              justifyContent: 'space-between',
             }}>
-          <Text style={styles.titleText}>Recommendation</Text>
-          <Button title={'refresh'} onPress={() => {
-            fresh()
-          }}></Button>
+            <Text style={styles.titleText}>Recommendation</Text>
+            <Button
+              title={'refresh'}
+              onPress={() => {
+                fresh();
+              }}></Button>
           </HStack>
           {isLoading ? (
             <View
@@ -124,7 +128,7 @@ export default function MainScreen({navigation}: NaviProps) {
                 height: '100%',
                 justifyContent: 'center',
                 alignItems: 'center',
-                paddingTop: 15
+                paddingTop: 15,
               }}>
               <ActivityIndicator size="large" color="#5699ee" />
             </View>
