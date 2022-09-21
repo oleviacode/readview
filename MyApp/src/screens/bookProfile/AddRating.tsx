@@ -67,7 +67,6 @@ export default function AddReview({route, navigation}: any) {
     if (statusReview[0]['status'] == 200 && statusRating[0]['status'] == 200) {
       navigation.goBack();
     } else {
-      console.log('review submission unsuccessful');
       setFail('review submission unsuccessful');
     }
   }

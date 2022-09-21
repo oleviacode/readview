@@ -199,6 +199,13 @@ export default function BookProfile({route, navigation}: any) {
       {isLoading || (
         <View style={styles.container}>
           <ScrollView>
+            <Text
+              style={[
+                styles.smallText,
+                {marginTop: 10, marginBottom: 0, color: 'grey'},
+              ]}>
+              Book Id : {bookId}
+            </Text>
             {/* STATUS & RANKING BUTTONS */}
             <HStack
               spacing={170}

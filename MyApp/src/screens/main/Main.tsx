@@ -18,7 +18,7 @@ export default function MainScreen({navigation}: NaviProps) {
   const [top3, setTop3] = useState<Array<PreviewBookContents>>([
     initialBookPreviewContents,
   ]);
-  const [isLoading, setLoading] = useState(false)
+  const [isLoading, setLoading] = useState(false);
 
   const [books, setbooks] = useState<BookInfo[]>([
     {
@@ -56,7 +56,7 @@ export default function MainScreen({navigation}: NaviProps) {
 
       // GET LATEST BOOKS
       try {
-        setLoading(true)
+        setLoading(true);
         const resLatestBooks = await fetch(
           `${Config.REACT_APP_BACKEND_URL}/book/latest`,
           _getMethod,
@@ -67,9 +67,9 @@ export default function MainScreen({navigation}: NaviProps) {
           _getMethod,
         );
         const result = await res.json();
-        setbooks(result)
+        setbooks(result);
         setTop3(latestBooks);
-        setLoading(false)
+        setLoading(false);
       } catch (e) {
         console.log('no books found');
       }
