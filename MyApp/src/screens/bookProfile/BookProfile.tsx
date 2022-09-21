@@ -321,7 +321,7 @@ export default function BookProfile({route, navigation}: any) {
 
             {/* DISCUSSIONS */}
 
-            <View style={[styles.regularBox, {backgroundColor: 'white'}]}>
+            {/* <View style={[styles.regularBox, {backgroundColor: 'white'}]}>
               <HStack style={{flex: 1, justifyContent: 'space-between'}}>
                 <Text style={styles.titleText}>Discussion</Text>
                 <Text
@@ -358,7 +358,7 @@ export default function BookProfile({route, navigation}: any) {
                   />
                 </HStack>
               </TouchableOpacity>
-            </View>
+            </View> */}
 
             {/* RECOMMENDATION */}
             <Text style={[styles.titleText, {marginTop: 30}]}>
