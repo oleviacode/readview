@@ -1,16 +1,5 @@
-import {useNavigation} from '@react-navigation/native';
 import React, {useEffect} from 'react';
-import {
-  View,
-  Text,
-  Pressable,
-  StyleSheet,
-  ScrollView,
-  Alert,
-  Button,
-  ActivityIndicator,
-} from 'react-native';
-import {logOut} from '../../../redux/auth/action';
+import {View, Text, ScrollView, Button, ActivityIndicator} from 'react-native';
 import {useAppDispatch, useAppSelector} from '../../../redux/store';
 import {BookInfo, NaviProps} from '../../model';
 import {HStack} from '@react-native-material/core';
@@ -20,7 +9,6 @@ import {getMethod} from '../../shared/fetchMethods';
 import {useState} from 'react';
 import {styles} from '../../shared/stylesheet';
 import {initialBookPreviewContents} from '../../model';
-import {fetchForYou} from '../../../redux/recommendation/action';
 import BookRecCard from '../bookProfile/bookRecCard';
 
 export default function MainScreen({navigation}: NaviProps) {
@@ -30,7 +18,7 @@ export default function MainScreen({navigation}: NaviProps) {
   const [top3, setTop3] = useState<Array<PreviewBookContents>>([
     initialBookPreviewContents,
   ]);
-  const isLoading = useAppSelector(state => state.recommendation.isLoading);
+  const [isLoading, setLoading] = useState(false)
 
   const [books, setbooks] = useState<BookInfo[]>([
     {
@@ -49,9 +37,14 @@ export default function MainScreen({navigation}: NaviProps) {
     },
   ]);
 
-  async function fresh(){
+  async function fresh() {
     //calling redux
-    const result = await dispatch(fetchForYou());
+    const _getMethod = await getMethod();
+    const res = await fetch(
+      `${Config.REACT_APP_BACKEND_URL}/user-interaction/recommendation`,
+      _getMethod,
+    );
+    const result = await res.json();
     setbooks(result);
   }
 
@@ -61,25 +54,28 @@ export default function MainScreen({navigation}: NaviProps) {
       const top3Books: PreviewBookContents[] = [];
       const _getMethod = await getMethod();
 
-      // GET LATEST BOOKSs
+      // GET LATEST BOOKS
       try {
+        setLoading(true)
         const resLatestBooks = await fetch(
           `${Config.REACT_APP_BACKEND_URL}/book/latest`,
           _getMethod,
         );
         const latestBooks = await resLatestBooks.json();
-
+        const res = await fetch(
+          `${Config.REACT_APP_BACKEND_URL}/user-interaction/recommendation`,
+          _getMethod,
+        );
+        const result = await res.json();
+        setbooks(result)
         setTop3(latestBooks);
+        setLoading(false)
       } catch (e) {
         console.log('no books found');
       }
-
-      //calling redux
-      const result = await dispatch(fetchForYou());
-      setbooks(result);
     }
     main();
-  }, []);
+  }, [user]);
 
   return (
     <View style={styles.container}>
@@ -108,13 +104,16 @@ export default function MainScreen({navigation}: NaviProps) {
           style={{
             paddingTop: 15,
           }}>
-            <HStack style={{
-              justifyContent:'space-between'
+          <HStack
+            style={{
+              justifyContent: 'space-between',
             }}>
-          <Text style={styles.titleText}>Recommendation</Text>
-          <Button title={'refresh'} onPress={() => {
-            fresh()
-          }}></Button>
+            <Text style={styles.titleText}>Recommendation</Text>
+            <Button
+              title={'refresh'}
+              onPress={() => {
+                fresh();
+              }}></Button>
           </HStack>
           {isLoading ? (
             <View
@@ -124,15 +123,29 @@ export default function MainScreen({navigation}: NaviProps) {
                 height: '100%',
                 justifyContent: 'center',
                 alignItems: 'center',
-                paddingTop: 15
+                paddingTop: 15,
               }}>
               <ActivityIndicator size="large" color="#5699ee" />
             </View>
           ) : (
             <View>
-              {books.map(book => (
-                <BookRecCard bookInfo={book} key={book.id} />
-              ))}
+              {books == undefined ? (
+                <View
+                  style={{
+                    backgroundColor: 'lightblue',
+                    margin: 10,
+                    borderRadius: 10,
+                    padding: 10,
+                  }}>
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      textAlign: 'center',
+                    }}>{`Click on the refresh and get some recommendations!`}</Text>
+                </View>
+              ) : (
+                books.map(book => <BookRecCard bookInfo={book} key={book.id} />)
+              )}
             </View>
           )}
         </View>

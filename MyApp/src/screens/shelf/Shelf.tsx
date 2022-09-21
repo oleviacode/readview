@@ -18,6 +18,7 @@ export default function Search() {
   const [status, setStatus] = useState('readinglist');
   const isLoading = useAppSelector(state => state.bookinfo.isloading);
   const [nobooks, setNobooks] = useState(false)
+  const user = useAppSelector(state => state.user.id)
   const [books, setBook] = useState<BookInfo[]>([
     {
       id: 0,
@@ -48,7 +49,7 @@ export default function Search() {
     }
 
     fetchBook();
-  }, [status]);
+  }, [status, user]);
 
   return (
     <>
@@ -108,9 +109,19 @@ export default function Search() {
         ) : (
           <View></View>
         )}
-        {nobooks ? (<View>
-          <Text>`${`You haven't add any books yet :(`}`</Text>
-        </View>) :(<View></View>)}
+        {nobooks ? (
+        <View>
+        <View style={{
+          backgroundColor: 'lightblue',
+          margin : 10,
+          borderRadius : 10,
+          padding: 10,
+        }}>
+          <Text style={{
+            fontSize: 15,
+            textAlign: 'center'
+          }}>{`You haven't added any books yet :(`}</Text>
+        </View></View>) : (<View></View>)}
         </View>
       </ScrollView>
     </>

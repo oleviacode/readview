@@ -18,6 +18,7 @@ export default function Search() {
   const search = useAppSelector(state => state.search.search);
   const [error, setError] = useState('search by title, author or ISBN!');
   const isLoading = useAppSelector(state => state.search.isLoading);
+  const user = useAppSelector(state => state.user.id)
   const [books, setBook] = useState<BookInfo[]>([
     {
       id: 0,
@@ -51,7 +52,7 @@ export default function Search() {
       }
     }
     fetchBook();
-  }, [search]);
+  }, [search, user]);
 
   return (
     <View style={{
