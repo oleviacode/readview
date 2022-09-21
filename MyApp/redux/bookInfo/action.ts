@@ -37,12 +37,16 @@ export function fetchBookInfo(bookId: number) {
           _getMethod,
         );
 
-        const recommendations = await dispatch(fetchForYou())
+        const res = await fetch(
+          `${Config.REACT_APP_BACKEND_URL}/user-interaction/recommendation`,
+          _getMethod,
+        );
 
         const threeReviews = await resReviews.json();
         const activeBookInfo = await resBookInfo.json();
         const quotes = await resQuotes.json();
-        const rating = await resRatingInfo.json();
+        const rating = await resRatingInfo.json(); 
+        const recommendations = await res.json();
         dispatch(insertBookInfoIntoRedux(bookId));
         dispatch(finishLoadingSingleBook());
         return {

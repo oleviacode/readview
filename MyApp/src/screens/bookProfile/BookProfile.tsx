@@ -24,13 +24,9 @@ import {initialReviewInfo} from '../../model';
 import {getMethod, patchMethod} from '../../shared/fetchMethods';
 import Config from 'react-native-config';
 import {useAppDispatch, useAppSelector} from '../../../redux/store';
-import {fetchBookInfo} from '../../../redux/bookInfo/action';
 
 export default function BookProfile({route, navigation}: any) {
   const {bookId} = route.params;
-  const dispatch = useAppDispatch();
-  const isLoading = useAppSelector(state => state.bookinfo.isLoadingSingle);
-  const id = useAppSelector(state => state.bookinfo.id);
 
   // USE STATES
   const [activeBook, setActiveBook] = useState<BookInfo>(initialBookInfo);
@@ -58,6 +54,8 @@ export default function BookProfile({route, navigation}: any) {
       pages: 0,
     },
   ]);
+  const userId = useAppSelector(state => state.user.id);
+  const [isLoading, setLoading] = useState(true);
 
   // -------------------------------------------------------------------------------------------------------------------
   // functions on updating the user_reading status
@@ -118,41 +116,74 @@ export default function BookProfile({route, navigation}: any) {
     setReadingButton('lightgrey');
   }
 
-  //use effect
+  // -------------------------------------------------------------------------------------------------------------------
+  // useEffect
+  // -------------------------------------------------------------------------------------------------------------------
+
   useEffect(() => {
     async function main() {
-      const result = await dispatch(fetchBookInfo(bookId));
+      //set Loading is true
+      setLoading(true);
+      let _getMethod = {};
+      _getMethod = await getMethod();
 
-      if (result == null) {
-        // do nothing
-      } else {
-        const activeBookInfo = result.activeBookInfo;
-        const quotes = result.quotes;
-        const rating = result.rating;
-        const threeReviews = result.threeReviews;
+      const resBookInfo = await fetch(
+        `${Config.REACT_APP_BACKEND_URL}/book/setProfile/${bookId}`,
+        _getMethod,
+      );
+      const resQuotes = await fetch(
+        `${Config.REACT_APP_BACKEND_URL}/book/topQuotes/${bookId}/`,
+        _getMethod,
+      );
+      const resRatingInfo = await fetch(
+        `${Config.REACT_APP_BACKEND_URL}/book/fullRating/${bookId}/`,
+        _getMethod,
+      );
 
-        navigation.setOptions({title: activeBookInfo['title']});
+      const resReviews = await fetch(
+        `${Config.REACT_APP_BACKEND_URL}/reviews/3review/${bookId}/`,
+        _getMethod,
+      );
 
-        if (activeBookInfo['readerstatus'] == 'want to read') {
-          setSaveButton('#eac645');
-        } else if (activeBookInfo['readerstatus'] == 'read') {
-          setReadButton('#7380AA');
-        } else if (activeBookInfo['readerstatus'] == 'reading') {
-          setReadingButton('#7380AA');
-        }
+      const res = await fetch(
+        `${Config.REACT_APP_BACKEND_URL}/user-interaction/recommendation`,
+        _getMethod,
+      );
 
-        setActiveBook(activeBookInfo);
-        setQuotes(quotes);
-        setRatingInfo(rating);
-        setLatestReviews(threeReviews);
-        setRecommendations(result.resRecommendations);
+      // wait for response
+      const threeReviews = await resReviews.json();
+      const activeBookInfo = await resBookInfo.json();
+      const quotes = await resQuotes.json();
+      const rating = await resRatingInfo.json();
+      const recommendations = await res.json();
+
+      //set Options
+      navigation.setOptions({title: activeBookInfo['title']});
+
+      // set the reading status
+      if (activeBookInfo['readerstatus'] == 'want to read') {
+        setSaveButton('#eac645');
+      } else if (activeBookInfo['readerstatus'] == 'read') {
+        setReadButton('#7380AA');
+      } else if (activeBookInfo['readerstatus'] == 'reading') {
+        setReadingButton('#7380AA');
       }
+
+      // set all the needed information 
+      setActiveBook(activeBookInfo);
+      setQuotes(quotes);
+      setRatingInfo(rating);
+      setLatestReviews(threeReviews);
+      setRecommendations(recommendations);
+
+      //is loading = false
+      setLoading(false);
     }
 
     main();
 
     // CALL API
-  }, [bookId]);
+  }, [bookId, userId]);
 
   // TESTING DATA
 

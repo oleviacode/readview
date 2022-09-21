@@ -20,7 +20,6 @@ export default function BookRecCard(props: BookProfileProps) {
   const navigation = useNavigation()
   const route = useRoute()
   const title = route.name
-  console.log(title)
 
   useEffect(() => {
     if (book['readerstatus'] == 'want to read' || saveBookSwitch == true) {
@@ -32,7 +31,7 @@ export default function BookRecCard(props: BookProfileProps) {
     if (book.book_picture) {
       setPicture(`${book.book_picture}`);
     }
-  }, [saveBook, saveBookSwitch, picture]);
+  }, [saveBook, saveBookSwitch, picture,]);
 
   return (
     <View>

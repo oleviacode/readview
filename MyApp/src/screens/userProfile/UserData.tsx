@@ -20,7 +20,7 @@ export default function UserData() {
 
   useEffect(() => {
     async function fetchdata() {
-      const result = await dispatch(fetchUserData());
+     await dispatch(fetchUserData());
     }
 
     fetchdata();
