@@ -22,7 +22,7 @@ export default function GenreRecord() {
             fontSize: 20,
             fontWeight:'700',
             marginTop :15
-          }}>Genre you have read</Text>
+          }}>Genres you have read</Text>
           <VictoryPie
           style={{
           }}

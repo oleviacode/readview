@@ -53,7 +53,7 @@ export default function UserData() {
               alignItems: 'center',
               justifyContent: 'center',
             }}>
-            {/* <RatingRecord /> */}
+            <RatingRecord />
             <GenreRecord />
             {/* <TimelineRecord /> */}
             <AuthorRecord />

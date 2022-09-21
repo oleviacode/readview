@@ -39,6 +39,7 @@ export default function MainScreen({navigation}: NaviProps) {
   ]);
 
   async function fresh() {
+    setLoadingRecommendation(true)
     //calling redux
     const _getMethod = await getMethod();
     const res = await fetch(
@@ -47,6 +48,7 @@ export default function MainScreen({navigation}: NaviProps) {
     );
     const result = await res.json();
     setbooks(result);
+    setLoadingRecommendation(false)
   }
 
   useEffect(() => {
