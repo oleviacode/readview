@@ -59,6 +59,7 @@ export default function BookRecCard(props: BookProfileProps) {
             </View>
             <HStack style={{justifyContent: 'space-between'}}>
               <AirbnbRating
+                isDisabled
                 size={15}
                 showRating={false}
                 defaultRating={book['rating']}

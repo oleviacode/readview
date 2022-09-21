@@ -45,6 +45,7 @@ export default function Ranking(props: RatingCardProps) {
             {conversion(book['rating'])}
           </Text>
           <AirbnbRating
+            isDisabled
             size={10}
             showRating={false}
             defaultRating={Math.round((book['rating'] / 10) * 5)}
@@ -59,30 +60,35 @@ export default function Ranking(props: RatingCardProps) {
             alignItems: 'flex-end',
           }}>
           <AirbnbRating
+            isDisabled
             size={6}
             showRating={false}
             defaultRating={5}
             count={5}
           />
           <AirbnbRating
+            isDisabled
             size={6}
             showRating={false}
             defaultRating={4}
             count={4}
           />
           <AirbnbRating
+            isDisabled
             size={6}
             showRating={false}
             defaultRating={3}
             count={3}
           />
           <AirbnbRating
+            isDisabled
             size={6}
             showRating={false}
             defaultRating={2}
             count={2}
           />
           <AirbnbRating
+            isDisabled
             size={6}
             showRating={false}
             defaultRating={1}

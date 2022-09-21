@@ -53,6 +53,7 @@ export default function ReviewCard(props: any, navigation: any) {
           </Text>
           <HStack>
             <AirbnbRating
+              isDisabled
               size={12}
               showRating={false}
               defaultRating={rating}
