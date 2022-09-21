@@ -23,7 +23,7 @@ import {initialReviewInfo} from '../../model';
 
 import {getMethod, patchMethod} from '../../shared/fetchMethods';
 import Config from 'react-native-config';
-import {useAppDispatch, useAppSelector} from '../../../redux/store';
+import {useAppSelector} from '../../../redux/store';
 
 export default function BookProfile({route, navigation}: any) {
   const {bookId} = route.params;
@@ -75,8 +75,6 @@ export default function BookProfile({route, navigation}: any) {
 
     const test = await res.json();
 
-    console.log('Res is :', test);
-
     setReadingButton('#7380AA');
     setReadButton('lightgrey');
     setSaveButton('lightgrey');
@@ -84,6 +82,7 @@ export default function BookProfile({route, navigation}: any) {
 
   //read
   async function read() {
+    console.log('I have read')
     const patch = await patchMethod();
 
     const res = await fetch(
@@ -93,7 +92,6 @@ export default function BookProfile({route, navigation}: any) {
 
     const test = await res.json();
 
-    console.log('Res is :', test);
     setReadButton('#7380AA');
     setReadingButton('lightgrey');
     setSaveButton('lightgrey');
@@ -109,8 +107,6 @@ export default function BookProfile({route, navigation}: any) {
     );
 
     const test = await res.json();
-
-    console.log('Res is :', test);
 
     setSaveButton('#eac645');
     setReadingButton('lightgrey');

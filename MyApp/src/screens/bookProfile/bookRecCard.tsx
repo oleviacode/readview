@@ -9,6 +9,7 @@ import {BookProfileProps} from '../../model';
 import {useState} from 'react';
 import Config from 'react-native-config';
 import {useNavigation, useRoute} from '@react-navigation/native';
+import { patchMethod } from '../../shared/fetchMethods';
 
 export default function BookRecCard(props: BookProfileProps) {
   const [saveBook, setSaveBook] = useState('lightgrey');
@@ -20,6 +21,23 @@ export default function BookRecCard(props: BookProfileProps) {
   const navigation = useNavigation();
   const route = useRoute();
   const title = route.name;
+
+
+  //save
+  async function save() {
+    console.log('hello world')
+    const patch = await patchMethod();
+
+    const res = await fetch(
+      `${Config.REACT_APP_BACKEND_URL}/book/saveBookStatus/${book.id}/save`,
+      patch,
+    );
+
+    const test = await res.json();
+    console.log(test)
+  }
+
+
 
   useEffect(() => {
     if (book['readerstatus'] == 'want to read' || saveBookSwitch == true) {
@@ -75,14 +93,14 @@ export default function BookRecCard(props: BookProfileProps) {
                   label={book['readerstatus'] ? book['readerstatus'] : 'unread'}
                 />
 
-                <Pressable onPress={() => setSaveBookSwitch(!saveBookSwitch)}>
+                {/* <Pressable onPress={() => setSaveBookSwitch(!saveBookSwitch)}>
                   <FontAwesomeIcon
                     size={20}
                     icon={faBookmark}
                     color={saveBook}
                     style={{marginLeft: 20}}
                   />
-                </Pressable>
+                </Pressable> */}
               </HStack>
             </HStack>
           </View>
