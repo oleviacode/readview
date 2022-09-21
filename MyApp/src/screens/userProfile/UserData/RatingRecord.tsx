@@ -8,6 +8,8 @@ export default function RatingRecord() {
   //takeout data
   const ratingDatas = useAppSelector(state => state.userData.rating);
 
+  console.log(ratingDatas)
+
   let isShown;
   if (ratingDatas.length == 0) {
     isShown = false;
@@ -42,7 +44,7 @@ export default function RatingRecord() {
                 style={{data: {fill: '#c43a31'}}}
                 dataComponent={<Bar/>}
                 data={ratingDatas.map(data => ({
-                  x: data.rating,
+                  x: Math.round(data.rating),
                   y: data.count,
                 }))}
               />

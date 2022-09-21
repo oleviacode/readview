@@ -42,8 +42,11 @@ export default function Search() {
       if (result == null) {
         // Do nothing
       } else if (result.length == 0){
+        console.log('nobooks')
         setNobooks(true)
       } else {
+        console.log('yes books')
+        setNobooks(false)
         setBook(result);
       }
     }
@@ -85,7 +88,7 @@ export default function Search() {
           paddingHorizontal: 9
         }}>
         
-        {isLoading === false && !nobooks ? (
+        {(isLoading === false && nobooks == false)?  (
           <View>
             {books.map(book => (
               <BookRecCard bookInfo={book} key={book.id} />
@@ -94,7 +97,7 @@ export default function Search() {
         ) : (
           <View></View>
         )}
-        {isLoading == true ? (
+        {isLoading ? (
           <View
             style={{
               flex: 1,

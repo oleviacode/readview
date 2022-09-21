@@ -1,67 +1,8 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import Config from 'react-native-config';
-import {getMethod} from '../../src/shared/fetchMethods';
-import { fetchForYou } from '../recommendation/action';
 import {AppDispatch, RootState} from '../store';
 
-export function fetchBookInfo(bookId: number) {
-  return async (dispatch: AppDispatch, getState: () => RootState) => {
-    if (
-      getState().bookinfo.isLoadingSingle == true 
-      // ||
-      // (getState().bookinfo.isLoadingSingle == false &&
-      //   String(getState().bookinfo.id) == String(bookId))
-    ) {
-      return null;
-    } else {
-      try {
-        dispatch(startLoadingSingleBook());
-        let _getMethod = {};
-        _getMethod = await getMethod();
 
-        const resBookInfo = await fetch(
-          `${Config.REACT_APP_BACKEND_URL}/book/setProfile/${bookId}`,
-          _getMethod,
-        );
-        const resQuotes = await fetch(
-          `${Config.REACT_APP_BACKEND_URL}/book/topQuotes/${bookId}/`,
-          _getMethod,
-        );
-        const resRatingInfo = await fetch(
-          `${Config.REACT_APP_BACKEND_URL}/book/fullRating/${bookId}/`,
-          _getMethod,
-        );
-
-        const resReviews = await fetch(
-          `${Config.REACT_APP_BACKEND_URL}/reviews/3review/${bookId}/`,
-          _getMethod,
-        );
-
-        const res = await fetch(
-          `${Config.REACT_APP_BACKEND_URL}/user-interaction/recommendation`,
-          _getMethod,
-        );
-
-        const threeReviews = await resReviews.json();
-        const activeBookInfo = await resBookInfo.json();
-        const quotes = await resQuotes.json();
-        const rating = await resRatingInfo.json(); 
-        const recommendations = await res.json();
-        dispatch(insertBookInfoIntoRedux(bookId));
-        dispatch(finishLoadingSingleBook());
-        return {
-          activeBookInfo: activeBookInfo,
-          quotes: quotes,
-          rating: rating,
-          threeReviews: threeReviews,
-          resRecommendations: recommendations
-        };
-      } catch (e) {
-        dispatch(failToLoadingSingleBook());
-      }
-    }
-  };
-}
 
 export function fetchUserBookList(type: string) {
   return async (dispatch: AppDispatch, getState: () => RootState) => {
