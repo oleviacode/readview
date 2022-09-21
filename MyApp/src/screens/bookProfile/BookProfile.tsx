@@ -169,7 +169,7 @@ export default function BookProfile({route, navigation}: any) {
         setReadingButton('#7380AA');
       }
 
-      // set all the needed information 
+      // set all the needed information
       setActiveBook(activeBookInfo);
       setQuotes(quotes);
       setRatingInfo(rating);

@@ -66,7 +66,7 @@ export default function RegisterPageOne({navigation}: NaviProps) {
         await AsyncStorage.setItem('token', result.token);
         dispatch(loggedIn(result.user.email, result.token));
         dispatch(insertUserIntoRedux(result['user'][0]));
-        navigation.navigate('Main');
+        navigation.navigate('DashBoard');
       } else {
         setErrorMsg('Please try again');
       }
