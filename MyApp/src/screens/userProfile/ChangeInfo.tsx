@@ -1,8 +1,10 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useState} from 'react';
-import {Pressable, Text, TextInput, View} from 'react-native';
+import { Text, TextInput, View} from 'react-native';
+import { Button } from '@react-native-material/core';
 import {useAppDispatch, useAppSelector} from '../../../redux/store';
 import {updateUserInfo} from '../../../redux/user/userinfo/action';
+import { styles } from '../../shared/stylesheet';
 
 export default function ChangeInfo() {
   const [info, onChangeInfo] = useState('');
@@ -22,19 +24,34 @@ export default function ChangeInfo() {
   }
 
   return (
-    <View>
+    <View style={styles.container}>
       <Text>{error}</Text>
-      <Text>Info</Text>
+      <Text style={{
+        fontSize: 30
+        
+      }}> Update Information</Text>
       <TextInput
+        style={styles.textInput}
         onChangeText={onChangeInfo}
-        placeholder={oldInfo as string}
+        placeholder={`  ${oldInfo as string}`}
         keyboardType={'default'}
       />
-      <Pressable onPress={() => {
+      <View>
+      <Button
+      style={{marginTop: 10}}
+      title={'Submit'}
+      onPress={() => {
         upDateInfo()
       }}>
-        <Text>Submit</Text>
-      </Pressable>
+      </Button>
+      <Button
+      style={{marginTop: 20}}
+      color={'lightgrey'}
+      title={'Go back'}
+      onPress={() => {
+        navigation.goBack()
+      }}></Button>
+      </View>
     </View>
   );
 }

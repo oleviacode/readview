@@ -73,6 +73,7 @@ export const styles = StyleSheet.create({
     width: '90%',
     borderRadius: 10,
     marginTop: 10,
+    marginBottom: 10,
   },
   dataText: {
     fontSize: 20,

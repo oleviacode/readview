@@ -42,8 +42,6 @@ export default function Search() {
       } else {
         setError('searching...');
         const result = await dispatch(fetchSearch(search));
-
-        
         if (result == null) {
           setError('search by title, author or ISBN!');
         } else {
@@ -56,7 +54,9 @@ export default function Search() {
   }, [search]);
 
   return (
-    <>
+    <View style={{
+      padding: 10
+    }}>
       <View>
       {/*<HStack spacing={6}>
           <Button>Book</Button>
@@ -103,7 +103,7 @@ export default function Search() {
         )}
         </View>
       </ScrollView>
-    </>
+    </View>
   );
 }
 

@@ -1,11 +1,13 @@
 import {Text} from '@react-native-material/core';
 import React, {useEffect, useState} from 'react';
-import {Button, View} from 'react-native';
+import {View} from 'react-native';
 import {useAppDispatch, useAppSelector} from '../../../redux/store';
 import Config from 'react-native-config';
 import AsyncStorage from '@react-native-community/async-storage';
 import {logOut} from '../../../redux/auth/action';
 import {useNavigation} from '@react-navigation/native';
+import {Button} from '@react-native-material/core';
+import {styles} from '../../shared/stylesheet';
 
 export default function UserSettings() {
   // settings
@@ -37,27 +39,34 @@ export default function UserSettings() {
   return (
     <>
       <View>
-        <View>
+        <View style={styles.container}>
           <Text>{error}</Text>
           <Button
+            color='#7380AA'
+            style={{marginTop: 10}}
             title={'change username'}
             onPress={() => {
               navigation.navigate('changeUsername');
             }}></Button>
           <Button
+          color='#7380AA'
+            style={{marginTop: 15}}
             title={'change email'}
             onPress={() => {
               navigation.navigate('changeEmail');
             }}></Button>
           <Button
+          color='#7380AA'
+            style={{marginTop: 15}}
             title={'change information'}
             onPress={() => {
               navigation.navigate('changeInfo');
             }}></Button>
         </View>
       </View>
-      <View>
+      <View style={styles.container}>
         <Button
+          style={{marginTop: 25}}
           title={'Logout'}
           onPress={async () => {
             dispatch(logOut());
@@ -65,7 +74,8 @@ export default function UserSettings() {
             navigation.navigate('Cover');
           }}></Button>
         <Button
-          color={'red'}
+        style={{marginTop: 15}}
+          color={'pink'}
           title={'Delete Account'}
           onPress={() => {
             deleteAccount();

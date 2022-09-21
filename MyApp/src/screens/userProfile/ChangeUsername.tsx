@@ -1,8 +1,10 @@
+import { Button } from '@react-native-material/core';
 import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import {Pressable, Text, TextInput, View} from 'react-native';
 import { useAppDispatch, useAppSelector } from '../../../redux/store';
 import { updateUserInfo } from '../../../redux/user/userinfo/action';
+import { styles } from '../../shared/stylesheet';
 
 export default function ChangeUsername() {
 
@@ -23,19 +25,34 @@ export default function ChangeUsername() {
   }
   
   return (
-    <View>
+    <View style={styles.container}>
       <Text>{error}</Text>
-      <Text>Username</Text>
+      <Text style={{
+        fontSize: 30
+        
+      }}> Change Username </Text>
       <TextInput
+        style={styles.textInput}
         onChangeText={onChangeUsername}
-        placeholder={oldUsername as string}
+        placeholder={`  ${oldUsername as string}`}
         keyboardType={'default'}
       />
-      <Pressable onPress={() => {
+      <View>
+      <Button
+      style={{marginTop: 10}}
+      title={'Submit'}
+      onPress={() => {
         upDateUsername()
       }}>
-        <Text>Submit</Text>
-      </Pressable>
+      </Button>
+      <Button
+      style={{marginTop: 20}}
+      color={'lightgrey'}
+      title={'Go back'}
+      onPress={() => {
+        navigation.goBack()
+      }}></Button>
+      </View>
     </View>
   );
 }

@@ -25,8 +25,6 @@ export default function AllReviews({route, navigation}: any) {
       const resAllReviews = await res.json();
 
       SetAllReviews(resAllReviews);
-
-      console.log('all reviews: ', allReviews);
     }
 
     main();
