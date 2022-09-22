@@ -17,6 +17,8 @@ import ChangeEmail from '../userProfile/ChangeEmail';
 import ChangeInfo from '../userProfile/ChangeInfo';
 import AddReview from '../bookProfile/AddRating';
 import AddTopic from '../bookProfile/AddTopic';
+import ChangePassword from '../userProfile/ChangePassword';
+import ChangeProfilePicture from '../userProfile/ChangeProfilePicture';
 
 const Tab = createBottomTabNavigator();
 const MainStack = createNativeStackNavigator();
@@ -131,6 +133,18 @@ export default function DashBoard() {
             <ProfileStack.Screen
               name="changeInfo"
               component={ChangeInfo}
+              options={{headerShown: false}}
+            />
+
+            <ProfileStack.Screen
+              name="changePassword"
+              component={ChangePassword}
+              options={{headerShown: false}}
+            />
+
+            <ProfileStack.Screen
+              name="changePicture"
+              component={ChangeProfilePicture}
               options={{headerShown: false}}
             />
           </ProfileStack.Navigator>

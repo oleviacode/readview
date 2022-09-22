@@ -41,26 +41,41 @@ export default function UserSettings() {
       <View>
         <View style={styles.container}>
           <Text>{error}</Text>
+
           <Button
-            color='#7380AA'
+            color="#7380AA"
             style={{marginTop: 10}}
             title={'change username'}
             onPress={() => {
               navigation.navigate('changeUsername');
             }}></Button>
           <Button
-          color='#7380AA'
+            color="#7380AA"
             style={{marginTop: 15}}
             title={'change email'}
             onPress={() => {
               navigation.navigate('changeEmail');
             }}></Button>
           <Button
-          color='#7380AA'
+            color="#7380AA"
+            style={{marginTop: 15}}
+            title={'change Profile Picture'}
+            onPress={() => {
+              navigation.navigate('changePicture');
+            }}></Button>
+          <Button
+            color="#7380AA"
             style={{marginTop: 15}}
             title={'change information'}
             onPress={() => {
               navigation.navigate('changeInfo');
+            }}></Button>
+          <Button
+            color="#7380AA"
+            style={{marginTop: 15}}
+            title={'change Password'}
+            onPress={() => {
+              navigation.navigate('changePassword');
             }}></Button>
         </View>
       </View>
@@ -74,7 +89,7 @@ export default function UserSettings() {
             navigation.navigate('Cover');
           }}></Button>
         <Button
-        style={{marginTop: 15}}
+          style={{marginTop: 15}}
           color={'pink'}
           title={'Delete Account'}
           onPress={() => {

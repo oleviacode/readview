@@ -28,8 +28,6 @@ import {useAppSelector} from '../../../redux/store';
 export default function BookProfile({route, navigation}: any) {
   const {bookId} = route.params;
 
-  console.log("I've reloaded");
-
   // USE STATES
   const [activeBook, setActiveBook] = useState<BookInfo>(initialBookInfo);
   const [quotes, setQuotes] = useState(['no quotes']);
@@ -82,7 +80,6 @@ export default function BookProfile({route, navigation}: any) {
 
   //read
   async function read() {
-    console.log('I have read')
     const patch = await patchMethod();
 
     const res = await fetch(
@@ -120,7 +117,6 @@ export default function BookProfile({route, navigation}: any) {
   useEffect(() => {
     async function main() {
       //set Loading is true
-      console.log('useEffect Ran');
       setLoading(true);
       let _getMethod = {};
       _getMethod = await getMethod();
