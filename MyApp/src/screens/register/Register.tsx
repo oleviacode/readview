@@ -30,7 +30,6 @@ const LoginSchema = Yup.object().shape({
   email: Yup.string().required('email is Required').email(),
   password: Yup.string().required('password Required').min(3),
   gender: Yup.string(),
-  birthday: Yup.string(),
 });
 
 export default function RegisterPageOne({navigation}: NaviProps) {

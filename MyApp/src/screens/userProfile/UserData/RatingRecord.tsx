@@ -7,8 +7,7 @@ import {styles} from '../../../shared/stylesheet';
 export default function RatingRecord() {
   //takeout data
   const ratingDatas = useAppSelector(state => state.userData.rating);
-
-  console.log(ratingDatas)
+  
 
   let isShown;
   if (ratingDatas.length == 0) {

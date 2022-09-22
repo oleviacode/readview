@@ -20,6 +20,7 @@ import AddTopic from '../bookProfile/AddTopic';
 import ChangePassword from '../userProfile/ChangePassword';
 import ChangeProfilePicture from '../userProfile/ChangeProfilePicture';
 import ISBNcodeSanner from '../search/ISBNSanner';
+import Booklist from '../shelf/Components/Booklist';
 
 const Tab = createBottomTabNavigator();
 const MainStack = createNativeStackNavigator();
@@ -82,6 +83,16 @@ export default function DashBoard() {
             <ShelfStack.Screen
               name="ShelfScreen"
               component={ShelfScreen}
+              options={{headerShown: false}}
+            />
+            <ShelfStack.Screen
+              name="BookListScreen"
+              component={Booklist}
+              options={{headerShown: false}}
+            />
+            <ShelfStack.Screen
+              name="CreateBookList"
+              component={Booklist}
               options={{headerShown: false}}
             />
           </ShelfStack.Navigator>
