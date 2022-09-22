@@ -126,7 +126,7 @@ export default function MainScreen({navigation}: NaviProps) {
           )}
         </View>
 
-        {
+        {/* {
           <View style={styles.rankingSection}>
             <Text style={styles.titleText}>Ranking</Text>
             <ScrollView horizontal={true} showsVerticalScrollIndicator={false}>
@@ -137,7 +137,7 @@ export default function MainScreen({navigation}: NaviProps) {
               </HStack>
             </ScrollView>
           </View>
-        }
+        } */}
           <View
             style={{
               paddingTop: 15,

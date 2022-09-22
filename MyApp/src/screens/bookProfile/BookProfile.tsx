@@ -279,7 +279,7 @@ export default function BookProfile({route, navigation}: any) {
             </HStack>
 
             {/* ADD TO BOOKLIST */}
-            <View
+            {/* <View
               style={{
                 justifyContent: 'center',
                 height: 30,
@@ -300,7 +300,7 @@ export default function BookProfile({route, navigation}: any) {
                 onDonePress={() => {}}
                 value={chosenBooklist}
               />
-            </View>
+            </View> */}
 
             {/* BOOK PROFILE CARD */}
             <BookProfileCard bookInfo={activeBook} />
