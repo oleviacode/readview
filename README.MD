@@ -8,3 +8,6 @@ yarn add
 - react-native-svg
 - @react-navigation/stack
 - react-native-image-picker
+- react-native-camera
+- react-native-swipe-list-view
+- react-native-swipe-gestures

@@ -25,7 +25,6 @@ export default function BookRecCard(props: BookProfileProps) {
 
   //save
   async function save() {
-    console.log('hello world')
     const patch = await patchMethod();
 
     const res = await fetch(
@@ -34,7 +33,6 @@ export default function BookRecCard(props: BookProfileProps) {
     );
 
     const test = await res.json();
-    console.log(test)
   }
 
 
