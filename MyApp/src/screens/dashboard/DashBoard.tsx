@@ -19,9 +19,11 @@ import AddReview from '../bookProfile/AddRating';
 import AddTopic from '../bookProfile/AddTopic';
 import ChangePassword from '../userProfile/ChangePassword';
 import ChangeProfilePicture from '../userProfile/ChangeProfilePicture';
+import ISBNcodeSanner from '../search/ISBNSanner';
 
 const Tab = createBottomTabNavigator();
 const MainStack = createNativeStackNavigator();
+const SearchStack = createNativeStackNavigator();
 const ShelfStack = createNativeStackNavigator();
 const ProfileStack = createNativeStackNavigator();
 
@@ -91,13 +93,18 @@ export default function DashBoard() {
           tabBarIcon: () => <FontAwesomeIcon icon={faSearch} />,
         }}>
         {() => (
-          <ShelfStack.Navigator>
-            <ShelfStack.Screen
+          <SearchStack.Navigator>
+            <SearchStack.Screen
               name="SearchScreen"
               component={Search}
               options={{headerShown: false}}
             />
-          </ShelfStack.Navigator>
+            <SearchStack.Screen
+              name="Cam"
+              component={ISBNcodeSanner}
+              options={{headerShown: false}}
+            />
+          </SearchStack.Navigator>
         )}
       </Tab.Screen>
       <Tab.Screen

@@ -5,9 +5,9 @@ import {faQrcode} from '@fortawesome/free-solid-svg-icons/faQrcode';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import {faBackward, faSearch} from '@fortawesome/free-solid-svg-icons';
-import { useAppDispatch } from '../../redux/store';
-import { saveSearchParams } from '../../redux/search/action';
-import { HStack } from '@react-native-material/core';
+import {useAppDispatch} from '../../redux/store';
+import {saveSearchParams} from '../../redux/search/action';
+import {HStack} from '@react-native-material/core';
 
 // TAB BUTTONS
 
@@ -15,28 +15,34 @@ export default function TitleTop() {
   const dispatch = useAppDispatch();
   const [search, onChangeSearchParams] = useState('');
   const navigation = useNavigation();
-  const route = useRoute()
+  const route = useRoute();
 
   return (
-    <View style={{backgroundColor: 'lightyellow', borderRadius: 10, marginTop: 6, padding:5}}>
+    <View
+      style={{
+        backgroundColor: 'lightyellow',
+        borderRadius: 10,
+        marginBottom: 10,
+        padding: 10,
+      }}>
       <HStack>
-      <TextInput
-        style={{width: 200}}
-        onChangeText={onChangeSearchParams}
-        placeholder={'search'}
-        keyboardType={'default'}
-      />
-      <Pressable
-        onPress={() => {
-          dispatch(saveSearchParams(search))
-          if(route.name == 'Search'){
-            //do nothing
-          } else {
-            navigation.navigate('Search');
-          }
-        }}>
-        <FontAwesomeIcon icon={faSearch} />
-      </Pressable>
+        <TextInput
+          style={{width: 200}}
+          onChangeText={onChangeSearchParams}
+          placeholder={'search'}
+          keyboardType={'default'}
+        />
+        <Pressable
+          onPress={() => {
+            dispatch(saveSearchParams(search));
+            if (route.name == 'Search') {
+              //do nothing
+            } else {
+              navigation.navigate('Search');
+            }
+          }}>
+          <FontAwesomeIcon icon={faSearch} />
+        </Pressable>
       </HStack>
     </View>
   );
@@ -44,12 +50,10 @@ export default function TitleTop() {
 
 export function MessageTop() {
   const navigation = useNavigation();
-  return (
-    <Pressable onPress={() => {}}>
-    </Pressable>
-  );
+  return <Pressable onPress={() => {}}></Pressable>;
 }
 
 export function QRCodeTop() {
-  return <FontAwesomeIcon icon={faQrcode} />;
+  const navigation = useNavigation();
+  return <Pressable onPress={() => {navigation.navigate('Cam')}}><FontAwesomeIcon icon={faQrcode} /></Pressable>;
 }

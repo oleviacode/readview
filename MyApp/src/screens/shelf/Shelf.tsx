@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {
   ActivityIndicator,
+  FlatList,
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import {Button} from '@rneui/themed';
@@ -12,13 +14,15 @@ import {useAppDispatch, useAppSelector} from '../../../redux/store';
 import {fetchUserBookList} from '../../../redux/bookInfo/action';
 import {BookInfo} from '../../model';
 import BookRecCard from '../bookProfile/bookRecCard';
+import {SwipeListView} from 'react-native-swipe-list-view';
+import SwipeList from './SwipeList';
 
 export default function Search() {
   const dispatch = useAppDispatch();
   const [status, setStatus] = useState('readinglist');
   const isLoading = useAppSelector(state => state.bookinfo.isloading);
-  const [nobooks, setNobooks] = useState(false)
-  const user = useAppSelector(state => state.user.id)
+  const [nobooks, setNobooks] = useState(false);
+  const user = useAppSelector(state => state.user.id);
   const [books, setBook] = useState<BookInfo[]>([
     {
       id: 0,
@@ -41,12 +45,12 @@ export default function Search() {
       const result = await dispatch(fetchUserBookList(status));
       if (result == null) {
         // Do nothing
-      } else if (result.length == 0){
-        console.log('nobooks')
-        setNobooks(true)
+      } else if (result.length == 0) {
+        //nobooks
+        setNobooks(true);
       } else {
-        console.log('yes books')
-        setNobooks(false)
+        // have books
+        setNobooks(false);
         setBook(result);
       }
     }
@@ -56,9 +60,10 @@ export default function Search() {
 
   return (
     <>
-      <View style={{
-        padding: 10
-      }}>
+      <View
+        style={{
+          padding: 10,
+        }}>
         <HStack spacing={6}>
           <Button
             onPress={() => {
@@ -83,17 +88,12 @@ export default function Search() {
           {/* <Button color="red">Booklist</Button> */}
         </HStack>
       </View>
-      <ScrollView>
-        <View style={{
-          paddingHorizontal: 9
+      <View
+        style={{
+          paddingHorizontal: 9,
         }}>
-        
-        {(isLoading === false && nobooks == false)?  (
-          <View>
-            {books.map(book => (
-              <BookRecCard bookInfo={book} key={book.id} />
-            ))}
-          </View>
+        {isLoading === false && nobooks == false ? (
+            <SwipeList bookInfo={books}/>
         ) : (
           <View></View>
         )}
@@ -113,34 +113,25 @@ export default function Search() {
           <View></View>
         )}
         {nobooks ? (
-        <View>
-        <View style={{
-          backgroundColor: 'lightblue',
-          margin : 10,
-          borderRadius : 10,
-          padding: 10,
-        }}>
-          <Text style={{
-            fontSize: 15,
-            textAlign: 'center'
-          }}>{`You haven't added any books yet :(`}</Text>
-        </View></View>) : (<View></View>)}
-        </View>
-      </ScrollView>
+          <View>
+            <View
+              style={{
+                backgroundColor: 'lightblue',
+                margin: 10,
+                borderRadius: 10,
+                padding: 10,
+              }}>
+              <Text
+                style={{
+                  fontSize: 15,
+                  textAlign: 'center',
+                }}>{`You haven't added any books yet :(`}</Text>
+            </View>
+          </View>
+        ) : (
+          <View></View>
+        )}
+      </View>
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    paddingTop: 50,
-  },
-  tinyLogo: {
-    width: 50,
-    height: 50,
-  },
-  logo: {
-    width: 100,
-    height: 100,
-  },
-});
