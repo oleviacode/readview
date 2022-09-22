@@ -1,6 +1,12 @@
-import React, {useEffect} from 'react';
-import {View, Text, ScrollView, Button, ActivityIndicator} from 'react-native';
-import {useAppDispatch, useAppSelector} from '../../../redux/store';
+import React, {useCallback, useEffect} from 'react';
+import {
+  View,
+  Text,
+  ScrollView,
+  ActivityIndicator,
+  RefreshControl,
+} from 'react-native';
+import {useAppSelector} from '../../../redux/store';
 import {BookInfo, NaviProps} from '../../model';
 import {HStack} from '@react-native-material/core';
 import DisplayBook, {PreviewBookContents} from '../bookProfile/DisplayBook';
@@ -12,7 +18,6 @@ import {initialBookPreviewContents} from '../../model';
 import BookRecCard from '../bookProfile/bookRecCard';
 
 export default function MainScreen({navigation}: NaviProps) {
-  const dispatch = useAppDispatch();
   const user = useAppSelector(state => state.user.username);
 
   const [top3, setTop3] = useState<Array<PreviewBookContents>>([
@@ -20,6 +25,7 @@ export default function MainScreen({navigation}: NaviProps) {
   ]);
   const [isLoadingLatest3, setLoadingLatest3] = useState(false);
   const [isLoadingRecommendation, setLoadingRecommendation] = useState(false);
+  const [refreshing, setRefreshing] = useState(false);
 
   const [books, setbooks] = useState<BookInfo[]>([
     {
@@ -39,7 +45,6 @@ export default function MainScreen({navigation}: NaviProps) {
   ]);
 
   async function fresh() {
-    setLoadingRecommendation(true)
     //calling redux
     const _getMethod = await getMethod();
     const res = await fetch(
@@ -48,19 +53,23 @@ export default function MainScreen({navigation}: NaviProps) {
     );
     const result = await res.json();
     setbooks(result);
-    setLoadingRecommendation(false)
   }
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    fresh();
+    setTimeout(() => setRefreshing(false), 5000);
+  }, []);
 
   useEffect(() => {
     //main function
     async function main() {
-      const top3Books: PreviewBookContents[] = [];
       const _getMethod = await getMethod();
 
       // GET LATEST BOOKS
       try {
         setLoadingLatest3(true);
-        setLoadingRecommendation(true)
+        setLoadingRecommendation(true);
         const resLatestBooks = await fetch(
           `${Config.REACT_APP_BACKEND_URL}/book/latest`,
           _getMethod,
@@ -68,16 +77,15 @@ export default function MainScreen({navigation}: NaviProps) {
 
         const latestBooks = await resLatestBooks.json();
         setTop3(latestBooks);
-        setLoadingLatest3(false)
-        
-        
+        setLoadingLatest3(false);
+
         const res = await fetch(
           `${Config.REACT_APP_BACKEND_URL}/user-interaction/recommendation`,
           _getMethod,
         );
         const result = await res.json();
         setbooks(result);
-        setLoadingRecommendation(false)
+        setLoadingRecommendation(false);
       } catch (e) {
         console.log('no books found');
       }
@@ -87,7 +95,11 @@ export default function MainScreen({navigation}: NaviProps) {
 
   return (
     <View style={styles.container}>
-      <ScrollView>
+      <ScrollView
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+      >
         <Text style={styles.titleText}>Hi {user}</Text>
         <View style={[styles.regularBox, {borderRadius: 0, padding: 0}]}>
           <Text style={styles.titleText}>Latest Books</Text>
@@ -104,74 +116,75 @@ export default function MainScreen({navigation}: NaviProps) {
               <ActivityIndicator size="large" color="#5699ee" />
             </View>
           ) : (
-            <HStack style={styles.bookStack}>
-              {top3!.map(book => {
-                return <DisplayBook book={book} key={book['id']} />;
-              })}
-            </HStack>
+            <View>
+              <HStack style={styles.bookStack}>
+                {top3!.map(book => {
+                  return <DisplayBook book={book} key={book['id']} />;
+                })}
+              </HStack>
+            </View>
           )}
         </View>
 
-        {/* {<View style={styles.rankingSection}>
-          <Text style={styles.titleText}>Ranking</Text>
-          <ScrollView horizontal={true} showsVerticalScrollIndicator={false}>
-            <HStack>
-              <View style={styles.rankBox} />
-              <View style={styles.rankBox} />
-              <View style={styles.rankBox} />
-            </HStack>
-          </ScrollView>
-        </View>} */}
-        <View
-          style={{
-            paddingTop: 15,
-          }}>
-          <HStack
+        {/* {
+          <View style={styles.rankingSection}>
+            <Text style={styles.titleText}>Ranking</Text>
+            <ScrollView horizontal={true} showsVerticalScrollIndicator={false}>
+              <HStack>
+                <View style={styles.rankBox} />
+                <View style={styles.rankBox} />
+                <View style={styles.rankBox} />
+              </HStack>
+            </ScrollView>
+          </View>
+        } */}
+          <View
             style={{
-              justifyContent: 'space-between',
+              paddingTop: 15,
             }}>
-            <Text style={styles.titleText}>Recommendation</Text>
-            <Button
-              title={'refresh'}
-              onPress={() => {
-                fresh();
-              }}></Button>
-          </HStack>
-          {isLoadingRecommendation ? (
-            <View
+            <HStack
               style={{
-                flex: 1,
-                width: '100%',
-                height: '100%',
-                justifyContent: 'center',
-                alignItems: 'center',
-                paddingTop: 15,
+                justifyContent: 'space-between',
               }}>
-              <ActivityIndicator size="large" color="#5699ee" />
-            </View>
-          ) : (
-            <View>
-              {books == undefined ? (
-                <View
-                  style={{
-                    backgroundColor: 'lightblue',
-                    margin: 10,
-                    borderRadius: 10,
-                    padding: 10,
-                  }}>
-                  <Text
+              <Text style={styles.titleText}>Recommendation</Text>
+            </HStack>
+            {isLoadingRecommendation ? (
+              <View
+                style={{
+                  flex: 1,
+                  width: '100%',
+                  height: '100%',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  paddingTop: 15,
+                }}>
+                <ActivityIndicator size="large" color="#5699ee" />
+              </View>
+            ) : (
+              <View>
+                {books == undefined ? (
+                  <View
                     style={{
-                      fontSize: 15,
-                      textAlign: 'center',
-                    }}>{`Click on the refresh and get some recommendations!`}</Text>
-                </View>
-              ) : (
-                books.map(book => <BookRecCard bookInfo={book} key={book.id} />)
-              )}
-            </View>
-          )}
-        </View>
-      </ScrollView>
+                      backgroundColor: 'lightblue',
+                      margin: 10,
+                      borderRadius: 10,
+                      padding: 10,
+                    }}>
+                    <Text
+                      style={{
+                        fontSize: 15,
+                        textAlign: 'center',
+                      }}>{`Click on the refresh and get some recommendations!`}</Text>
+                  </View>
+                ) : (
+                  books.map(book => (
+                    <BookRecCard bookInfo={book} key={book.id} />
+                  ))
+                )}
+              </View>
+            )}
+          </View>
+        </ScrollView>
     </View>
   );
 }

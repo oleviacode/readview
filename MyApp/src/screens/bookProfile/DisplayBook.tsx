@@ -18,6 +18,7 @@ export default function DisplayBook(props: PreviewBook) {
   const bookImage = props['book']['book_picture'];
 
   return (
+    <>
     <TouchableOpacity
       style={styles.smallBook}
       onPress={() => navigation.navigate('BookProfile', {bookId: [bookId]})}>
@@ -25,7 +26,7 @@ export default function DisplayBook(props: PreviewBook) {
         style={{width: '100%', height: '100%'}}
         source={{uri: bookImage}}
       />
-    </TouchableOpacity>
+    </TouchableOpacity></>
   );
 }
 

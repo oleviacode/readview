@@ -18,6 +18,7 @@ export type RootStackParamList = {
   Details: undefined;
   BookProfile: {bookId: number};
   AllReviews: {bookId: number};
+  BookListScreen: {booklistId: number};
 };
 
 export type BookInfo = {
@@ -68,7 +69,19 @@ export type RatingInfo = {
   savedNum: number;
 };
 
+export type BookListInfo = {
+  id: number,
+  title: string,
+  booklist_creator_id: number,
+  private: boolean,
+  genre: string[],
+  numoffollowers: number,
+  book_picture: string[]
+  book_id: number,
+};
+
 export interface ReviewCardInfo {
+  id: number,
   user_id: number;
   username: string;
   profile_picture: string;
@@ -83,6 +96,17 @@ export interface RegInfo {
   password: string;
   gender: string | null;
   birthday: string | null;
+}
+
+export const initialBookListInfo : BookListInfo = {
+  id: 0,
+  title: '',
+  booklist_creator_id: 0,
+  private: false,
+  genre: ['Fiction'],
+  numoffollowers: 0,
+  book_picture: [`${Config.REACT_APP_BACKEND_URL}/uploads/default_profile_picture`],
+  book_id: 0
 }
 
 export const initialBookPreviewContents: PreviewBookContents = {
@@ -136,6 +160,7 @@ export const initialReviewInfo: ReviewCardInfo = {
   rating: 0,
   updated_at: '',
   content: '',
+  id: 0
 };
 
 export interface ReviewCardProps {
@@ -149,11 +174,17 @@ export interface RatingCardProps {
 export interface BookProfileProps {
   bookInfo: BookInfo;
 }
+export interface BookProfilePropsArray {
+  bookInfo: BookInfo[];
+}
 export interface AuthorProfileProps {
   Author: AuthorInfo;
 }
 export interface DiscussionInfoProps {
   discussionInfo: DiscussionInfo;
+}
+export interface BooklistInfoProps {
+  booklist: BookListInfo
 }
 
 export type NaviProps = NativeStackScreenProps<RootStackParamList>;

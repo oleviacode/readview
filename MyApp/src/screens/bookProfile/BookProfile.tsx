@@ -11,6 +11,7 @@ import Ranking from './RankingBox';
 import ReviewCard from './ReviewCard';
 import BookRecCard from './bookRecCard';
 import DiscussionCard from './DiscussionCard';
+import RNPickerSelect from 'react-native-picker-select';
 import {
   DiscussionInfo,
   RatingInfo,
@@ -18,6 +19,7 @@ import {
   BookInfo,
   initialRatingInfo,
   ReviewCardInfo,
+  initialBookListInfo,
 } from '../../model';
 import {initialReviewInfo} from '../../model';
 
@@ -57,9 +59,16 @@ export default function BookProfile({route, navigation}: any) {
   const userId = useAppSelector(state => state.user.id);
   const [isLoading, setLoading] = useState(true);
   const [refresh, setRefresh] = useState(true);
+  const [booklist, setBooklist] = useState([{label: '', value: 0}]);
+  const [chosenBooklist, setChosenBooklist] = useState(0);
+  const placeholder = {
+    label: 'Add to booklist',
+    value: null,
+    color: '#9EA0A4',
+  };
 
   // -------------------------------------------------------------------------------------------------------------------
-  // functions on updating the user_reading status
+  // functions on updating the user_reading status and booklist
   // -------------------------------------------------------------------------------------------------------------------
 
   //reading
@@ -110,6 +119,22 @@ export default function BookProfile({route, navigation}: any) {
     setReadButton('lightgrey');
   }
 
+  //add to booklist
+  async function addToBookList() {
+    const patch = await patchMethod();
+
+    const res = await fetch(
+      `${Config.REACT_APP_BACKEND_URL}/book/saveBookStatus/${bookId[0]}/save`,
+      patch,
+    );
+
+    const test = await res.json();
+
+    setSaveButton('#eac645');
+    setReadingButton('lightgrey');
+    setReadButton('lightgrey');
+  }
+
   // -------------------------------------------------------------------------------------------------------------------
   // useEffect
   // -------------------------------------------------------------------------------------------------------------------
@@ -139,8 +164,13 @@ export default function BookProfile({route, navigation}: any) {
         _getMethod,
       );
 
-      const res = await fetch(
+      const resRecommendations = await fetch(
         `${Config.REACT_APP_BACKEND_URL}/user-interaction/recommendation`,
+        _getMethod,
+      );
+
+      const resBooklist = await fetch(
+        `${Config.REACT_APP_BACKEND_URL}/booklist/idList`,
         _getMethod,
       );
 
@@ -149,7 +179,8 @@ export default function BookProfile({route, navigation}: any) {
       const activeBookInfo = await resBookInfo.json();
       const quotes = await resQuotes.json();
       const rating = await resRatingInfo.json();
-      const recommendations = await res.json();
+      const recommendations = await resRecommendations.json();
+      const booklist = await resBooklist.json();
 
       //set Options
       navigation.setOptions({title: activeBookInfo['title']});
@@ -169,6 +200,7 @@ export default function BookProfile({route, navigation}: any) {
       setRatingInfo(rating);
       setLatestReviews(threeReviews);
       setRecommendations(recommendations);
+      setBooklist(booklist);
 
       //is loading = false
       setLoading(false);
@@ -245,6 +277,30 @@ export default function BookProfile({route, navigation}: any) {
                 </TouchableOpacity>
               </View>
             </HStack>
+
+            {/* ADD TO BOOKLIST */}
+            {/* <View
+              style={{
+                justifyContent: 'center',
+                height: 30,
+              }}>
+              <RNPickerSelect
+                style={{
+                  placeholder: {
+                    fontSize: 20,
+                    color: 'white',
+                    textAlign: 'center',
+                    height: 30
+                  },
+                  viewContainer:{backgroundColor: '#00007B'}
+                }}
+                placeholder={placeholder}
+                onValueChange={value => setChosenBooklist(value)}
+                items={booklist}
+                onDonePress={() => {}}
+                value={chosenBooklist}
+              />
+            </View> */}
 
             {/* BOOK PROFILE CARD */}
             <BookProfileCard bookInfo={activeBook} />

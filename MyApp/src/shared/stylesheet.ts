@@ -87,4 +87,14 @@ export const styles = StyleSheet.create({
     marginTop: 15,
     marginBottom: 15,
   },
+  smallbook: {
+    width: 60,
+    height: 75,
+    backgroundColor: 'lightgrey',
+    borderRadius: 10,
+    overflow: 'hidden',
+    flexWrap: 'wrap',
+    marginLeft: 10,
+    marginBottom: 10,
+  },
 });
