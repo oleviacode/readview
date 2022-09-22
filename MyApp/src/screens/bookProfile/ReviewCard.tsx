@@ -11,8 +11,6 @@ import Config from 'react-native-config';
 export default function ReviewCard(props: any, navigation: any) {
   const book: ReviewCardInfo = props['reviewInfo'];
 
-  const originalText =
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed urna sed massa molestie condimentum. Nam convallis felis non lacus posuere, id lacinia lacus volutpat. Fusce vel dignissim orci, non ullamcorper leo. Pellentesque sed bibendum nunc. Maecenas molestie ex vitae nisi auctor, sed lacinia enim maximus.';
   const [displayedText, setDisplayedText] = useState<string>('');
   const [fullTextSwitch, setFullTextSwitch] = useState(false);
   const [expansionButton, setExpansionButton] = useState('...more');

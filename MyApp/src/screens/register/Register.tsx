@@ -147,7 +147,7 @@ export default function RegisterPageOne({navigation}: NaviProps) {
               </Text>
             </TouchableOpacity>
           </HStack>
-          <HStack style={{alignItems: 'center', marginTop: 10}} spacing={20}>
+          {/* <HStack style={{alignItems: 'center', marginTop: 10}} spacing={20}>
             <Text style={styles.titleText}>Birthday</Text>
             <TouchableOpacity
               style={{backgroundColor: 'white'}}
@@ -156,7 +156,7 @@ export default function RegisterPageOne({navigation}: NaviProps) {
                 Choose date
               </Text>
             </TouchableOpacity>
-          </HStack>
+          </HStack> */}
 
           <Text style={{color: 'red'}}>{errorMsg}</Text>
           <View style={{alignItems: 'flex-end', marginTop: 30}}>
