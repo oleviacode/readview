@@ -213,12 +213,12 @@ export default function BookProfile({route, navigation}: any) {
 
   // TESTING DATA
 
-  const discussionInfo: DiscussionInfo = {
-    authorName: 'VoldemortLover123',
-    publishDate: '24-05-1990',
-    topic: 'guyz Who the hell killed Dumbledore?',
-    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed urna sed massa molestie condimentum. Nam convallis felis non lacus posuere, id lacinia lacus volutpat. Fusce vel dignissim orci, non ullamcorper leo.',
-  };
+  // const discussionInfo: DiscussionInfo = {
+  //   authorName: 'VoldemortLover123',
+  //   publishDate: '24-05-1990',
+  //   topic: 'guyz Who the hell killed Dumbledore?',
+  //   text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed urna sed massa molestie condimentum. Nam convallis felis non lacus posuere, id lacinia lacus volutpat. Fusce vel dignissim orci, non ullamcorper leo.',
+  // };
 
   return (
     <>
@@ -315,7 +315,7 @@ export default function BookProfile({route, navigation}: any) {
             </Text>
 
             {/* QUOTES */}
-            <View style={[styles.regularBox, {backgroundColor: '#CCBD95'}]}>
+            {/* <View style={[styles.regularBox, {backgroundColor: '#CCBD95'}]}>
               <Text style={[styles.titleText]}>Quotes</Text>
               <View style={{marginTop: 10}}>
                 {quotes &&
@@ -327,7 +327,7 @@ export default function BookProfile({route, navigation}: any) {
                     );
                   })}
               </View>
-            </View>
+            </View> */}
 
             {/* REVIEWS */}
             <View style={[styles.regularBox, {backgroundColor: 'white'}]}>
