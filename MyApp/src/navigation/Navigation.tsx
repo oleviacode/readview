@@ -58,7 +58,6 @@ export default function Navigation() {
               headerLeft: () => <MessageTop />,
               headerRight: () => <QRCodeTop />,
               headerTitle: () => <TitleTop />,
-              gestureEnabled: false,
             }}/>
           <RootStack.Screen name="Scanner" component={ISBNcodeSanner} />
           <RootStack.Screen

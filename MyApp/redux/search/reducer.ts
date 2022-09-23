@@ -5,7 +5,6 @@ import {SearchState} from './state';
 const initialState = {
   lastSearch:'',
   search: '',
-  isLoading: null,
 };
 
 export function searchReducer(
@@ -22,21 +21,6 @@ export function searchReducer(
       return {
         ...state,
         search: action.search,
-      };
-    case '@@search/START_LOADING':
-      return {
-        ...state,
-        isLoading: true,
-      };
-    case '@@search/FINISH_LOADING':
-      return {
-        ...state,
-        isLoading: false,
-      };
-    case '@@search/FAIL_LOADING':
-      return {
-        ...state,
-        isLoading: null,
       };
     default:
       return state;

@@ -68,23 +68,17 @@ export default function Search() {
         style={{
           paddingHorizontal: 9,
         }}>
-        {status == 'readinglist' ? (
+        {status == 'readinglist' && (
           <Readlist status={'readinglist'} />
-        ) : (
-          <View></View>
         )}
-        {status == 'readlist' ? (
+        {status == 'readlist' && (
           <Readlist status={'readlist'} />
-        ) : (
-          <View></View>
         )}
-        {status == 'wantlist' ? (
+        {status == 'wantlist' && (
           <Readlist status={'wantlist'} />
-        ) : (
-          <View></View>
         )}
-        {status == 'ownerBooklist' ? <BooklistList /> : <View></View>}
-        {status == 'author'}
+        {status == 'ownerBooklist' && <BooklistList />}
+        {status == 'author' }
       </View>
     </>
   );
