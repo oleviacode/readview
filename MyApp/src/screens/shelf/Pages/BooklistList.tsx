@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import {Divider, HStack} from '@react-native-material/core';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {Button} from '@rneui/themed';
 import React, {useCallback, useEffect, useState} from 'react';
 import {
@@ -13,10 +13,7 @@ import {
 } from 'react-native';
 import Config from 'react-native-config';
 import {SwipeListView} from 'react-native-swipe-list-view';
-import {
-  BookListInfo,
-  initialBookListInfo,
-} from '../../../model';
+import {BookListInfo, initialBookListInfo} from '../../../model';
 import Loading from '../../../shared/Loading';
 import BooklistRecCard from '../Components/BooklistRecCard';
 
@@ -32,14 +29,13 @@ export default function BooklistList() {
     initialBookListInfo,
   ]);
   const [nolist, setNolist] = useState(false);
-  const navigation = useNavigation()
+  const navigation = useNavigation();
 
   // -------------------------------------------------------------------------------------------------------------------
   // refrshing
   // -------------------------------------------------------------------------------------------------------------------
 
   async function refresh() {
-    
     const token = await AsyncStorage.getItem('token');
     let result;
     if (status == 'ownerBooklist') {
@@ -82,22 +78,37 @@ export default function BooklistList() {
   }, [status]);
 
   // delete an item
-  async function deleteItems(id: number){
+  async function deleteItems(id: number) {
     const token = await AsyncStorage.getItem('token');
-    const res = await fetch(
-      `${Config.REACT_APP_BACKEND_URL}/booklist/removeBookList/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
+    let result;
+    if (status == 'ownerBooklist') {
+      const res = await fetch(
+        `${Config.REACT_APP_BACKEND_URL}/booklist/removeBookList/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          method: 'PATCH',
         },
-        method: "PATCH"
-      },
-    );
-    const result = await res.json()
-    if (result[0].status == 200){
-      onRefresh()
+      );
+     result = await res.json();
     } else {
-      console.log('something wrong happens')
+      const res = await fetch(
+        `${Config.REACT_APP_BACKEND_URL}/booklist/followOrUnfollowBooklist/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          method: 'POST',
+        },
+      );
+     result = await res.json();
+    }
+
+    if (result[0].status == 200) {
+      onRefresh();
+    } else {
+      console.log('something wrong happens');
     }
   }
 
@@ -150,10 +161,7 @@ export default function BooklistList() {
 
   return (
     <>
-      {/* shown when have booklist list */}
-      {!isLoading && !nolist ? (
-        <>
-          <HStack style={{justifyContent: 'center'}} spacing={6}>
+    <HStack style={{justifyContent: 'center'}} spacing={6}>
             <Button
               color={'navy'}
               onPress={() => {
@@ -169,14 +177,22 @@ export default function BooklistList() {
               Followed Booklist
             </Button>
           </HStack>
-          <Divider />
-          {status == 'ownerBooklist' && (
-            <Button color={'navy'} style={{marginTop: 7}} onPress={() => {
-              navigation.navigate('CreateBookList')
-            }}>
+      {/* shown when have booklist list */}
+      {status == 'ownerBooklist' && (
+            <Button
+              color={'navy'}
+              style={{marginTop: 7}}
+              onPress={() => {
+                navigation.navigate('CreateBookList');
+              }}>
               + Create New Booklist
             </Button>
           )}
+      {!isLoading && !nolist && (
+        <>
+          
+          <Divider />
+          
           <SwipeListView
             refreshing={refreshing}
             keyExtractor={(item, index) => String(item.id)}
@@ -190,44 +206,39 @@ export default function BooklistList() {
             )}
             renderHiddenItem={(data, rowMap) => (
               <View
+                style={{
+                  alignItems: 'center',
+                  flex: 1,
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  paddingLeft: 15,
+                }}>
+                <TouchableOpacity
                   style={{
                     alignItems: 'center',
-                    flex: 1,
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    paddingLeft: 15,
+                    bottom: 0,
+                    justifyContent: 'center',
+                    position: 'absolute',
+                    top: 0,
+                    width: 75,
+                    backgroundColor: '#CF4714',
+                    right: 0,
+                  }}
+                  onPress={() => {
+                    rowMap[String(data.item.id)].closeRow();
+                    deleteItems(data.item.id);
                   }}>
-                  <TouchableOpacity
-                    style={{
-                      alignItems: 'center',
-                      bottom: 0,
-                      justifyContent: 'center',
-                      position: 'absolute',
-                      top: 0,
-                      width: 75,
-                      backgroundColor: '#CF4714',
-                      right: 0,
-                    }}
-                    onPress={() => 
-                    {
-                      rowMap[String(data.item.id)].closeRow()
-                      deleteItems(data.item.id)
-                    }}>
-                    <Text>Delete</Text>
-                  </TouchableOpacity>
-                </View>
+                  <Text>Delete</Text>
+                </TouchableOpacity>
+              </View>
             )}
             leftOpenValue={75}
             rightOpenValue={-75}></SwipeListView>
         </>
-      ) : (
-        <View></View>
       )}
 
       {/* shown when loading at the first time*/}
-      {isLoading ? (<Loading/>) : (
-        <View></View>
-      )}
+      {isLoading ? <Loading /> : <View></View>}
 
       {/* nothing in the list */}
       {!isLoading && nolist ? (

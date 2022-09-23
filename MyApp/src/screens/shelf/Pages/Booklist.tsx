@@ -76,7 +76,7 @@ export default function Booklist({route}: any) {
   }, []);
 
   // delete an item
-  async function deleteItems(bookId: number){
+  async function deleteItems(bookId: number) {
     const token = await AsyncStorage.getItem('token');
     const res = await fetch(
       `${Config.REACT_APP_BACKEND_URL}/booklist/removeBookFromBookList/${booklistId}/${bookId}`,
@@ -84,15 +84,14 @@ export default function Booklist({route}: any) {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        method: "PATCH"
+        method: 'PATCH',
       },
     );
-    const result = await res.json()
-    console.log(result)
-    if (result[0].status == 200){
-      onRefresh()
+    const result = await res.json();
+    if (result[0].status == 200) {
+      onRefresh();
     } else {
-      console.log('something wrong happens')
+      console.log('something wrong happens');
     }
   }
 
@@ -137,10 +136,16 @@ export default function Booklist({route}: any) {
     fetchBook();
   }, []);
 
+  // -------------------------------------------------------------------------------------------------------------------
+  // return
+  // -------------------------------------------------------------------------------------------------------------------
+
   return (
     <>
+      {/* LOADING */}
       {isLoading ? <Loading /> : <View></View>}
 
+      {/* if no books in booklist */}
       {!isLoading && nobooks && (
         <>
           <View style={styles.container}>
@@ -176,6 +181,8 @@ export default function Booklist({route}: any) {
           </View>
         </>
       )}
+
+      {/* Yes books in booklist */}
       {!isLoading && !nobooks && (
         <>
           <View style={styles.container}>
@@ -195,19 +202,28 @@ export default function Booklist({route}: any) {
             ) : (
               <View></View>
             )}
-            <SwipeListView
-              refreshing={refreshing}
-              keyExtractor={(item, index) => String(item.id)}
-              onRefresh={onRefresh}
-              useFlatList={true}
-              data={books}
-              disableRightSwipe={true}
-              swipeToClosePercent={70}
-              renderItem={(data, rowMap) => (
-                <BookRecCard key={data.item.id} bookInfo={data.item} />
-              )}
-              renderHiddenItem={(data, rowMap) => (
-                <View
+            
+            {/* check if the user is the owner of the booklist */}
+            {userId != booklist.booklist_creator_id ? (
+              <ScrollView>
+                {books.map(book => (
+                  <BookRecCard bookInfo={book} key={book.id} />
+                ))}
+              </ScrollView>
+            ) : (
+              <SwipeListView
+                refreshing={refreshing}
+                keyExtractor={(item, index) => String(item.id)}
+                onRefresh={onRefresh}
+                useFlatList={true}
+                data={books}
+                disableRightSwipe={true}
+                swipeToClosePercent={70}
+                renderItem={(data, rowMap) => (
+                  <BookRecCard key={data.item.id} bookInfo={data.item} />
+                )}
+                renderHiddenItem={(data, rowMap) => (
+                  <View
                     style={{
                       alignItems: 'center',
                       flex: 1,
@@ -226,17 +242,17 @@ export default function Booklist({route}: any) {
                         backgroundColor: '#CF4714',
                         right: 0,
                       }}
-                      onPress={() => 
-                      {
-                        rowMap[String(data.item.id)].closeRow()
-                        deleteItems(data.item.id)
+                      onPress={() => {
+                        rowMap[String(data.item.id)].closeRow();
+                        deleteItems(data.item.id);
                       }}>
                       <Text>Delete</Text>
                     </TouchableOpacity>
                   </View>
-              )}
-              leftOpenValue={75}
-              rightOpenValue={-75}></SwipeListView>
+                )}
+                leftOpenValue={75}
+                rightOpenValue={-75}></SwipeListView>
+            )}
           </View>
         </>
       )}
