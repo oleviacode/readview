@@ -1,6 +1,5 @@
 import React from 'react';
 import {View, Text, Image, TouchableOpacity} from 'react-native';
-import {NaviProps} from '../../model';
 import {styles} from '../../shared/stylesheet';
 import {RankingBoxProps} from '../../model';
 import {HStack} from '@react-native-material/core';
@@ -21,6 +20,7 @@ export default function RankingBox(props: RankingBoxProps) {
           books.map(book => {
             return (
               <TouchableOpacity
+                key={book.id}
                 onPress={() =>
                   navigation.navigate('BookProfile', {bookId: [book.id]})
                 }>

@@ -32,6 +32,7 @@ export default function MainScreen({navigation}: NaviProps) {
   ]);
   const [isLoadingLatest3, setLoadingLatest3] = useState(false);
   const [isLoadingRecommendation, setLoadingRecommendation] = useState(false);
+  const [isLoadingTop3, setLoadingTop3] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [mostDiscussed, setMostDiscussed] = useState([initialRankingBoxInfo]);
   const [mostRead, setMostRead] = useState([initialRankingBoxInfo]);
@@ -80,8 +81,9 @@ export default function MainScreen({navigation}: NaviProps) {
     async function main() {
       const _getMethod = await getMethod();
 
-      // GET LATEST BOOKS
+      // GET LATEST BOOKS & RECOMMANDATION
       try {
+        setLoadingTop3(true);
         setLoadingLatest3(true);
         setLoadingRecommendation(true);
         const resLatestBooks = await fetch(
@@ -132,6 +134,7 @@ export default function MainScreen({navigation}: NaviProps) {
         setMostRead(mostReadd);
         setMostDiscussed(mostCommented);
         setMostLoved(topRated);
+        setLoadingTop3(false);
       } catch (e) {
         console.log('unable to load ranking info');
       }
@@ -181,21 +184,23 @@ export default function MainScreen({navigation}: NaviProps) {
         ------------------------------------------------------------------------------------------------------------
         Ranking
         ------------------------------------------------------------------------------------------------------------ */}
-
         <View style={[styles.rankingSection, {marginBottom: 10}]}>
           <Text style={styles.titleText}>Ranking</Text>
-          <ScrollView horizontal={true} showsVerticalScrollIndicator={false}>
-            <HStack>
-              <RankingBox boxTitle="Most Loved" importedInfo={mostLoved} />
-              <RankingBox
-                boxTitle="Most discussed"
-                importedInfo={mostDiscussed}
-              />
-              <RankingBox boxTitle="Most read" importedInfo={mostRead} />
-            </HStack>
-          </ScrollView>
+          {isLoadingTop3 ? (
+            <Loading />
+          ) : (
+            <ScrollView horizontal={true} showsVerticalScrollIndicator={false}>
+              <HStack>
+                <RankingBox boxTitle="Most Loved" importedInfo={mostLoved} />
+                <RankingBox
+                  boxTitle="Most discussed"
+                  importedInfo={mostDiscussed}
+                />
+                <RankingBox boxTitle="Most read" importedInfo={mostRead} />
+              </HStack>
+            </ScrollView>
+          )}
         </View>
-
         <Divider />
 
         <View
