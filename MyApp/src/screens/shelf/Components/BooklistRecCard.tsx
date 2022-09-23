@@ -4,19 +4,21 @@ import {Badge, Divider, HStack} from '@react-native-material/core';
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {Image, Pressable, Text, View} from 'react-native';
+import Config from 'react-native-config';
 import {BookListInfo, BooklistInfoProps} from '../../../model';
 import {styles} from '../../../shared/stylesheet';
 
 export default function (props: BooklistInfoProps) {
   const booklist = props['booklist'];
   const navigation = useNavigation();
-
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, {backgroundColor:'#F1F0F0'}]}>
       <Pressable
         onPress={() => {
-          navigation.navigate('BookListScreen', {booklistId : booklist.id, booklistTitle: booklist.title
-          })
+          navigation.navigate('BookListScreen', {
+            booklistId: booklist.id,
+            booklistTitle: booklist.title,
+          });
         }}>
         <Text style={[styles.titleText, {marginTop: 15}]}>
           {booklist.title}
@@ -34,7 +36,7 @@ export default function (props: BooklistInfoProps) {
               </Text>
             </View>
             <View>
-              {booklist.genre.slice(0, 3).map(item => (
+              {booklist.genre[0] == null ? <Text style={{marginBottom: 20}}>No Books yet</Text>:booklist.genre.slice(0, 3).map(item => (
                 <Text>{item}</Text>
               ))}
             </View>
@@ -48,13 +50,17 @@ export default function (props: BooklistInfoProps) {
                 justifyContent: 'flex-end',
                 flexWrap: 'wrap',
               }}>
-              {booklist.book_picture.slice(0, 6).map(book_picture => (
-                <Image
-                  style={styles.smallbook}
-                  source={{
-                    uri: book_picture,
-                  }}></Image>
-              ))}
+              {booklist.book_picture[0] == null ? (
+                <></>
+              ) : (
+                booklist.book_picture.slice(0, 6).map(book_picture => (
+                  <Image
+                    style={styles.smallbook}
+                    source={{
+                      uri: book_picture,
+                    }}></Image>
+                ))
+              )}
             </HStack>
           </View>
         </HStack>

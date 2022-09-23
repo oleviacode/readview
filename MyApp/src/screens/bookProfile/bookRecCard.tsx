@@ -50,7 +50,9 @@ export default function BookRecCard(props: BookProfileProps) {
   }, [saveBook, saveBookSwitch, picture]);
 
   return (
-    <View>
+    <View style={{
+      backgroundColor: '#F1F0F0'
+    }}>
       <Pressable
         onPress={() => {
           title == 'BookProfile'

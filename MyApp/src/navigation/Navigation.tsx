@@ -17,6 +17,7 @@ import Chat from '../screens/chat/Chat';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Search from '../screens/search/Search';
 import ISBNcodeSanner from '../screens/search/ISBNSanner';
+import CreateBookList from '../screens/shelf/Pages/CreateBookList';
 
 const RootStack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -53,9 +54,22 @@ export default function Navigation() {
             options={{headerShown: false}}
           />
           <RootStack.Screen name="Chat" component={Chat} />
-          <RootStack.Screen name="Search" component={Search} />
+          <RootStack.Screen name="Search" component={Search} options={{
+              headerLeft: () => <MessageTop />,
+              headerRight: () => <QRCodeTop />,
+              headerTitle: () => <TitleTop />,
+              gestureEnabled: false,
+            }}/>
           <RootStack.Screen name="Scanner" component={ISBNcodeSanner} />
-
+          <RootStack.Screen
+            name="CreateBookList"
+            component={CreateBookList}
+            options={{
+              headerLeft: () => <MessageTop />,
+              headerRight: () => <QRCodeTop />,
+              headerTitle: () => <TitleTop />,
+            }}
+          />
           <RootStack.Screen
             name="DashBoard"
             component={DashBoard}

@@ -3,28 +3,54 @@ import React, {useEffect, useState} from 'react';
 import {ScrollView, Text, TextInput, View} from 'react-native';
 import {Button} from '@react-native-material/core';
 import {useAppDispatch, useAppSelector} from '../../../redux/store';
-import {updateUserInfo} from '../../../redux/user/userinfo/action';
 import {styles} from '../../shared/stylesheet';
 import {getMethod} from '../../shared/fetchMethods';
 import Config from 'react-native-config';
 import {initialBookListInfo} from '../../model';
-import BooklistRecCard from '../shelf/Components/BooklistRecCard';
-import { CheckBox } from '@rneui/base';
 import Loading from '../../shared/Loading';
+import CheckBoxBox from '../../shared/CheckBoxBox';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { clearBooklistId } from '../../../redux/book/action';
 
-export default function ChangeInfo() {
+export default function AddToBookList() {
   const bookId = useAppSelector(state => state.book.bookId);
   const dispatch = useAppDispatch();
   const navigation = useNavigation();
   const [error, setError] = useState('');
   const [booklists, setBookList] = useState([initialBookListInfo]);
   const [isLoading, setLoading] = useState(false);
-  const [isSelected, setSelection] = useState(false)
+  const booklistArray = useAppSelector(state => state.book.bookListId)
 
-  async function upDateInfo() {}
+  
+  async function upDateBooklist() {
+    const token = await AsyncStorage.getItem('token')
+    const res = await fetch(
+      `${Config.REACT_APP_BACKEND_URL}/booklist/addBookIntoBooklist`,
+      {
+        headers:{
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+        body: JSON.stringify({
+          book_id: bookId,
+          booklists: booklistArray
+        })
+      },
+    );
+
+    const result = await res.json()
+    if (result[0].status == 200){
+      dispatch(clearBooklistId())
+      navigation.goBack()
+    } else {
+      setError('Sorry, Please Try Again :(')
+    }
+  }
 
   useEffect(() => {
     async function addToBookList() {
+      dispatch(clearBooklistId())
       setLoading(true);
       const _getMethod = await getMethod();
       const resBooklist = await fetch(
@@ -33,28 +59,17 @@ export default function ChangeInfo() {
       );
 
       const booklist = await resBooklist.json();
-      console.log(booklist);
       setBookList(booklist);
       setLoading(false);
     }
+
+    const focus = navigation.addListener('focus', async () => {
+        dispatch(clearBooklistId())
+        addToBookList()
+      })
     addToBookList();
+    return focus
   }, []);
-
-  //add to booklist
-  //   async function addToBookList() {
-  //     const patch = await patchMethod();
-
-  //     const res = await fetch(
-  //       `${Config.REACT_APP_BACKEND_URL}/book/saveBookStatus/${bookId[0]}/save`,
-  //       patch,
-  //     );
-
-  //     const test = await res.json();
-
-  //     setSaveButton('#eac645');
-  //     setReadingButton('lightgrey');
-  //     setReadButton('lightgrey');
-  //   }
 
   return (
       <>
@@ -67,15 +82,11 @@ export default function ChangeInfo() {
             fontSize: 30,
           }}>
           {' '}
-          Select A BookList
+          Select BookLists
         </Text>
         <View>
           {booklists.map(booklist => (
-            <CheckBox
-            key={booklist.id}
-            value={isSelected}
-            onValueChange={setSelection}
-          />
+              <CheckBoxBox booklist={booklist} key={booklist.id}/>
           ))}
         </View>
         <View>
@@ -83,13 +94,13 @@ export default function ChangeInfo() {
             style={{marginTop: 10}}
             title={'Submit'}
             onPress={() => {
-              console.log('I submit jor');
+              upDateBooklist()
             }}></Button>
             <Button
             style={{marginTop: 10}}
             title={'+ create new Booklist'}
             onPress={() => {
-              console.log('I submit jor');
+              navigation.navigate('CreateBookList')
             }}></Button>
           <Button
             style={{marginTop: 20}}

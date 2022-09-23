@@ -41,10 +41,10 @@ export default function CreateBookList() {
   async function privateToggle() {
     if (privateSwitch) {
       setPrivateSwitch(false);
-      setPrivateMsg('Private');
+      setPrivateMsg('Public');
     } else {
       setPrivateSwitch(true);
-      setPrivateMsg('Public');
+      setPrivateMsg('Private');
     }
   }
 
