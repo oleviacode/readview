@@ -4,8 +4,7 @@ import {Badge, Divider, HStack} from '@react-native-material/core';
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {Image, Pressable, Text, View} from 'react-native';
-import Config from 'react-native-config';
-import {BookListInfo, BooklistInfoProps} from '../../../model';
+import { BooklistInfoProps} from '../../../model';
 import {styles} from '../../../shared/stylesheet';
 
 export default function (props: BooklistInfoProps) {
@@ -20,9 +19,12 @@ export default function (props: BooklistInfoProps) {
             booklistTitle: booklist.title,
           });
         }}>
+        <HStack style={{justifyContent: 'space-between'}}>
         <Text style={[styles.titleText, {marginTop: 15}]}>
           {booklist.title}
         </Text>
+        {booklist.private && <Badge label={'private'} style={{marginTop:20,}} color={'lightblue'}/>}
+        </HStack>
         <HStack
           style={[
             styles.regularBox,

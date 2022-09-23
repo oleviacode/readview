@@ -95,7 +95,7 @@ export default function DashBoard() {
           </ShelfStack.Navigator>
         )}
       </Tab.Screen>
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Discussion"
         options={{
           tabBarIcon: () => <FontAwesomeIcon icon={faComments} size={25} />,
@@ -114,7 +114,7 @@ export default function DashBoard() {
             />
           </DiscussionStack.Navigator>
         )}
-      </Tab.Screen>
+      </Tab.Screen> */}
       <Tab.Screen
         name="userProfile"
         options={{

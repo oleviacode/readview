@@ -34,6 +34,7 @@ export default function UserProfile() {
         style={{
           justifyContent: 'center',
           alignItems: 'center',
+          marginTop: 20,
         }}>
         <View>
           <Image

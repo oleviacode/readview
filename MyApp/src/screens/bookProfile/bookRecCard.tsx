@@ -3,8 +3,6 @@ import {HStack, Badge, Divider} from '@react-native-material/core';
 import {View, Text, Pressable, Image} from 'react-native';
 import {styles} from '../../shared/stylesheet';
 import {AirbnbRating} from '@rneui/themed';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faBookmark} from '@fortawesome/free-solid-svg-icons/faBookmark';
 import {BookProfileProps} from '../../model';
 import {useState} from 'react';
 import Config from 'react-native-config';

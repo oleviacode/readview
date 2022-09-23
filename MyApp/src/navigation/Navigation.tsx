@@ -59,7 +59,7 @@ export default function Navigation() {
             component={Search}
             options={{
               headerLeft: () => <MessageTop />,
-              headerRight: () => <QRCodeTop />,
+              // headerRight: () => <QRCodeTop />,
               headerTitle: () => <TitleTop />,
             }}/>
           <RootStack.Screen name="Scanner" component={ISBNcodeSanner} />
@@ -68,7 +68,7 @@ export default function Navigation() {
             component={CreateBookList}
             options={{
               headerLeft: () => <MessageTop />,
-              headerRight: () => <QRCodeTop />,
+              // headerRight: () => <QRCodeTop />,
               headerTitle: () => <TitleTop />,
               headerStyle: {backgroundColor: '#3766A6'},
             }}
@@ -78,7 +78,7 @@ export default function Navigation() {
             component={DashBoard}
             options={{
               headerLeft: () => <MessageTop />,
-              headerRight: () => <QRCodeTop />,
+              // headerRight: () => <QRCodeTop />,
               headerTitle: () => <TitleTop />,
               headerStyle: {backgroundColor: '#3766A6'},
               gestureEnabled: false,

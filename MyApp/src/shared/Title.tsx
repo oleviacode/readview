@@ -51,11 +51,11 @@ export default function TitleTop() {
 export function MessageTop() {
   const navigation = useNavigation();
   return (
-    <Pressable
-      onPress={() => {
-        navigation.navigate('Chat');
-      }}>
-      <FontAwesomeIcon icon={faEnvelope} size={30} color="#f8f7f7" />
+    <Pressable>
+      {/* // onPress={() => {
+      //   navigation.navigate('Chat');
+      // }}>
+      // <FontAwesomeIcon icon={faEnvelope} size={30} color="#f8f7f7" /> */}
     </Pressable>
   );
 }
