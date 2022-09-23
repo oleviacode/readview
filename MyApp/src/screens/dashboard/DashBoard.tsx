@@ -42,7 +42,7 @@ export default function DashBoard() {
       <Tab.Screen
         name="Home"
         options={{
-          tabBarIcon: () => <FontAwesomeIcon icon={faHome} />,
+          tabBarIcon: () => <FontAwesomeIcon icon={faHome} size={25} />,
         }}>
         {() => (
           <MainStack.Navigator>
@@ -85,7 +85,7 @@ export default function DashBoard() {
       <Tab.Screen
         name="Shelf"
         options={{
-          tabBarIcon: () => <FontAwesomeIcon icon={faBook} />,
+          tabBarIcon: () => <FontAwesomeIcon icon={faBook} size={25} />,
         }}>
         {() => (
           <ShelfStack.Navigator>
@@ -110,7 +110,7 @@ export default function DashBoard() {
       <Tab.Screen
         name="Discussion"
         options={{
-          tabBarIcon: () => <FontAwesomeIcon icon={faComments} />,
+          tabBarIcon: () => <FontAwesomeIcon icon={faComments} size={25} />,
         }}>
         {() => (
           <DiscussionStack.Navigator>
@@ -127,9 +127,17 @@ export default function DashBoard() {
         options={{
           tabBarIcon: active =>
             active.focused ? (
-              <FontAwesomeIcon style={{color: 'blue'}} icon={faPerson} />
+              <FontAwesomeIcon
+                style={{color: 'blue'}}
+                icon={faPerson}
+                size={25}
+              />
             ) : (
-              <FontAwesomeIcon style={{color: 'blue'}} icon={faPerson} />
+              <FontAwesomeIcon
+                style={{color: 'blue'}}
+                icon={faPerson}
+                size={25}
+              />
             ),
         }}>
         {() => (
