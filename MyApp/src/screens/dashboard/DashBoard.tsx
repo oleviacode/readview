@@ -8,6 +8,7 @@ import BookProfile from '../bookProfile/BookProfile';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faHome} from '@fortawesome/free-solid-svg-icons/faHome';
 import {faBook} from '@fortawesome/free-solid-svg-icons/faBook';
+import {faComments} from '@fortawesome/free-solid-svg-icons/faComments';
 import {faPerson} from '@fortawesome/free-solid-svg-icons/faPerson';
 import {faSearch} from '@fortawesome/free-solid-svg-icons/faSearch';
 import UserProfile from '../userProfile/UserProfile';
@@ -101,7 +102,7 @@ export default function DashBoard() {
       <Tab.Screen
         name="Discussion"
         options={{
-          tabBarIcon: () => <FontAwesomeIcon icon={faSearch} />,
+          tabBarIcon: () => <FontAwesomeIcon icon={faComments} />,
         }}>
         {() => (
           <DiscussionStack.Navigator>
