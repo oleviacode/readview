@@ -55,7 +55,7 @@ export function MessageTop() {
       onPress={() => {
         navigation.navigate('Chat');
       }}>
-      <FontAwesomeIcon icon={faEnvelope} size={30} />
+      <FontAwesomeIcon icon={faEnvelope} size={30} color="#f8f7f7" />
     </Pressable>
   );
 }
@@ -67,7 +67,7 @@ export function QRCodeTop() {
       onPress={() => {
         navigation.navigate('Scanner');
       }}>
-      <FontAwesomeIcon icon={faQrcode} size={30} />
+      <FontAwesomeIcon icon={faQrcode} size={30} color="#f8f7f7" />
     </Pressable>
   );
 }
