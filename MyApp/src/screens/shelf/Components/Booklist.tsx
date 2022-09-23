@@ -2,6 +2,7 @@ import {Button, HStack} from '@react-native-material/core';
 import React, {useCallback, useEffect, useState} from 'react';
 import {
   ActivityIndicator,
+  RefreshControl,
   ScrollView,
   Text,
   TouchableOpacity,
@@ -16,6 +17,7 @@ import {styles} from '../../../shared/stylesheet';
 import {Divider} from 'react-native-flex-layout';
 import {useAppSelector} from '../../../../redux/store';
 import { useNavigation } from '@react-navigation/native';
+import Loading from '../../../shared/Loading';
 
 export default function Booklist({route}: any) {
   // -------------------------------------------------------------------------------------------------------------------
@@ -99,8 +101,8 @@ export default function Booklist({route}: any) {
         },
       );
       const resultBooklist = await resBooklist.json();
-
       if (resultBooks.length == 0) {
+          
         //nobooks
         setNobooks(true);
         setLoading(false);
@@ -117,32 +119,36 @@ export default function Booklist({route}: any) {
 
   return (
     <>
-      {isLoading && (
-        <View
-          style={{
-            flex: 1,
-            width: '100%',
-            height: '100%',
-            justifyContent: 'center',
-            alignItems: 'center',
-            paddingTop: 20,
-          }}>
-          <ActivityIndicator size="large" color="#5699ee" />
-        </View>
+      {isLoading ? (<Loading/>) : (
+        <View></View>
       )}
 
-      {!isLoading && nobooks && (
-        <View
-          style={{
-            flex: 1,
-            width: '100%',
-            height: '100%',
-            justifyContent: 'center',
-            alignItems: 'center',
-            paddingTop: 20,
-          }}>
-          <ActivityIndicator size="large" color="#5699ee" />
+      {(!isLoading && nobooks) && (
+        <>
+        <View style={styles.container}>
+        <ScrollView
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }>
+        {userId == booklist.booklist_creator_id ? (<Button style={{marginBottom: 10,marginTop: 10}} color={'navy'} onPress={() => {
+                navigation.navigate('Search')
+            }} title={'Search and Add a New Book!'}></Button>) : (<View></View>)}
+          <View
+            style={{
+              backgroundColor: 'lightblue',
+              margin: 10,
+              borderRadius: 10,
+              padding: 10,
+            }}>
+            <Text
+              style={{
+                fontSize: 15,
+                textAlign: 'center',
+              }}>{`You haven't added anything yet :(`}</Text>
+          </View>
+        </ScrollView>
         </View>
+      </>
       )}
       {!isLoading && !nobooks && (
         <>
@@ -155,7 +161,7 @@ export default function Booklist({route}: any) {
             <Divider />
             {userId == booklist.booklist_creator_id ? (<Button style={{marginBottom: 10}} color={'navy'} onPress={() => {
                 navigation.navigate('Search')
-            }} title={'Add New Book To List'}></Button>) : (<View></View>)}
+            }} title={'Search and Add a New Book!'}></Button>) : (<View></View>)}
             <SwipeListView
               refreshing={refreshing}
               onRefresh={onRefresh}

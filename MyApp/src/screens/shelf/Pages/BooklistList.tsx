@@ -17,6 +17,7 @@ import {
   BookListInfo,
   initialBookListInfo,
 } from '../../../model';
+import Loading from '../../../shared/Loading';
 import BooklistRecCard from '../Components/BooklistRecCard';
 
 export default function BooklistList() {
@@ -150,7 +151,7 @@ export default function BooklistList() {
           <Divider />
           {status == 'ownerBooklist' && (
             <Button color={'navy'} style={{marginTop: 7}} onPress={() => {
-              
+              navigation.navigate('CreateBookList')
             }}>
               + Create New Booklist
             </Button>
@@ -186,19 +187,7 @@ export default function BooklistList() {
       )}
 
       {/* shown when loading at the first time*/}
-      {isLoading ? (
-        <View
-          style={{
-            flex: 1,
-            width: '100%',
-            height: '100%',
-            justifyContent: 'center',
-            alignItems: 'center',
-            paddingTop: 20,
-          }}>
-          <ActivityIndicator size="large" color="#5699ee" />
-        </View>
-      ) : (
+      {isLoading ? (<Loading/>) : (
         <View></View>
       )}
 

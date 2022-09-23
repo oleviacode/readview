@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import {Text, View, ScrollView, TouchableOpacity} from 'react-native';
+import React, {useCallback, useEffect, useState} from 'react';
+import {Text, View, ScrollView, TouchableOpacity, RefreshControl} from 'react-native';
 import {styles} from '../../shared/stylesheet';
 import {HStack, ActivityIndicator} from '@react-native-material/core';
 import {Button, Overlay} from '@rneui/themed';
@@ -11,7 +11,6 @@ import Ranking from './RankingBox';
 import ReviewCard from './ReviewCard';
 import BookRecCard from './bookRecCard';
 import DiscussionCard from './DiscussionCard';
-import RNPickerSelect from 'react-native-picker-select';
 import {
   DiscussionInfo,
   RatingInfo,
@@ -26,6 +25,9 @@ import {initialReviewInfo} from '../../model';
 import {getMethod, patchMethod} from '../../shared/fetchMethods';
 import Config from 'react-native-config';
 import {useAppSelector} from '../../../redux/store';
+import { useDispatch } from 'react-redux';
+import { saveBookId } from '../../../redux/book/action';
+import Loading from '../../shared/Loading';
 
 export default function BookProfile({route, navigation}: any) {
   const {bookId} = route.params;
@@ -58,17 +60,12 @@ export default function BookProfile({route, navigation}: any) {
   ]);
   const userId = useAppSelector(state => state.user.id);
   const [isLoading, setLoading] = useState(true);
-  const [refresh, setRefresh] = useState(true);
-  const [booklist, setBooklist] = useState([{label: '', value: 0}]);
-  const [chosenBooklist, setChosenBooklist] = useState(0);
-  const placeholder = {
-    label: 'Add to booklist',
-    value: null,
-    color: '#9EA0A4',
-  };
+  const [refreshing, setRefreshing] = useState(false);
+  const dispatch = useDispatch()
+  
 
   // -------------------------------------------------------------------------------------------------------------------
-  // functions on updating the user_reading status and booklist
+  // functions on updating the user_reading status and refresh
   // -------------------------------------------------------------------------------------------------------------------
 
   //reading
@@ -119,21 +116,40 @@ export default function BookProfile({route, navigation}: any) {
     setReadButton('lightgrey');
   }
 
-  //add to booklist
-  async function addToBookList() {
-    const patch = await patchMethod();
 
-    const res = await fetch(
-      `${Config.REACT_APP_BACKEND_URL}/book/saveBookStatus/${bookId[0]}/save`,
-      patch,
+  async function fresh() {
+    //calling redux
+    const _getMethod = await getMethod();
+    const resRatingInfo = await fetch(
+      `${Config.REACT_APP_BACKEND_URL}/book/fullRating/${bookId}/`,
+      _getMethod,
     );
 
-    const test = await res.json();
+    const resReviews = await fetch(
+      `${Config.REACT_APP_BACKEND_URL}/reviews/3review/${bookId}/`,
+      _getMethod,
+    );
 
-    setSaveButton('#eac645');
-    setReadingButton('lightgrey');
-    setReadButton('lightgrey');
+    const resRecommendations = await fetch(
+      `${Config.REACT_APP_BACKEND_URL}/user-interaction/recommendation`,
+      _getMethod,
+    );
+    const threeReviews = await resReviews.json();
+    const rating = await resRatingInfo.json();
+    const recommendations = await resRecommendations.json();
+
+    setRatingInfo(rating);
+    setLatestReviews(threeReviews);
+    setRecommendations(recommendations);
+
   }
+
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    fresh();
+    setTimeout(() => setRefreshing(false), 5000);
+  }, []);
 
   // -------------------------------------------------------------------------------------------------------------------
   // useEffect
@@ -169,10 +185,6 @@ export default function BookProfile({route, navigation}: any) {
         _getMethod,
       );
 
-      const resBooklist = await fetch(
-        `${Config.REACT_APP_BACKEND_URL}/booklist/idList`,
-        _getMethod,
-      );
 
       // wait for response
       const threeReviews = await resReviews.json();
@@ -180,8 +192,6 @@ export default function BookProfile({route, navigation}: any) {
       const quotes = await resQuotes.json();
       const rating = await resRatingInfo.json();
       const recommendations = await resRecommendations.json();
-      const booklist = await resBooklist.json();
-
       //set Options
       navigation.setOptions({title: activeBookInfo['title']});
 
@@ -200,7 +210,7 @@ export default function BookProfile({route, navigation}: any) {
       setRatingInfo(rating);
       setLatestReviews(threeReviews);
       setRecommendations(recommendations);
-      setBooklist(booklist);
+
 
       //is loading = false
       setLoading(false);
@@ -224,7 +234,11 @@ export default function BookProfile({route, navigation}: any) {
     <>
       {isLoading || (
         <View style={styles.container}>
-          <ScrollView>
+          <ScrollView
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+          >
             <Text
               style={[
                 styles.smallText,
@@ -279,28 +293,17 @@ export default function BookProfile({route, navigation}: any) {
             </HStack>
 
             {/* ADD TO BOOKLIST */}
-            {/* <View
-              style={{
-                justifyContent: 'center',
-                height: 30,
-              }}>
-              <RNPickerSelect
-                style={{
-                  placeholder: {
-                    fontSize: 20,
-                    color: 'white',
-                    textAlign: 'center',
-                    height: 30
-                  },
-                  viewContainer:{backgroundColor: '#00007B'}
-                }}
-                placeholder={placeholder}
-                onValueChange={value => setChosenBooklist(value)}
-                items={booklist}
-                onDonePress={() => {}}
-                value={chosenBooklist}
-              />
-            </View> */}
+            <View>
+              <Button
+                color={'navy'}
+                onPress={() => {
+                  dispatch(saveBookId(bookId))
+                  navigation.navigate('AddToBookList');
+                }}>
+                {' '}
+                Add to Booklist
+              </Button>
+            </View>
 
             {/* BOOK PROFILE CARD */}
             <BookProfileCard bookInfo={activeBook} />
@@ -315,7 +318,7 @@ export default function BookProfile({route, navigation}: any) {
             </Text>
 
             {/* QUOTES */}
-            {/* <View style={[styles.regularBox, {backgroundColor: '#CCBD95'}]}>
+            <View style={[styles.regularBox, {backgroundColor: '#CCBD95'}]}>
               <Text style={[styles.titleText]}>Quotes</Text>
               <View style={{marginTop: 10}}>
                 {quotes &&
@@ -327,7 +330,7 @@ export default function BookProfile({route, navigation}: any) {
                     );
                   })}
               </View>
-            </View> */}
+            </View>
 
             {/* REVIEWS */}
             <View style={[styles.regularBox, {backgroundColor: 'white'}]}>
@@ -431,18 +434,7 @@ export default function BookProfile({route, navigation}: any) {
           </ScrollView>
         </View>
       )}
-      {isLoading != false && (
-        <View
-          style={{
-            flex: 1,
-            width: '100%',
-            height: '100%',
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <ActivityIndicator size="large" color="#5699ee" />
-        </View>
-      )}
+      {isLoading  && <Loading/>}
     </>
   );
 }

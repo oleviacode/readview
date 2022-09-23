@@ -21,6 +21,8 @@ import AddTopic from '../bookProfile/AddTopic';
 import ChangePassword from '../userProfile/ChangePassword';
 import ChangeProfilePicture from '../userProfile/ChangeProfilePicture';
 import Booklist from '../shelf/Components/Booklist';
+import CreateBookList from '../shelf/Pages/CreateBookList';
+import AddToBookList from '../bookProfile/AddToBookList';
 import Discussion from '../discussion/Discussion';
 
 const Tab = createBottomTabNavigator();
@@ -48,6 +50,12 @@ export default function DashBoard() {
               name="Main"
               component={MainScreen}
               options={{headerShown: false}}
+            />
+
+            <MainStack.Screen
+              name="AddToBookList"
+              component={AddToBookList}
+              options={{title: 'Add to Booklist'}}
             />
 
             <MainStack.Screen
@@ -93,7 +101,7 @@ export default function DashBoard() {
             />
             <ShelfStack.Screen
               name="CreateBookList"
-              component={Booklist}
+              component={CreateBookList}
               options={{headerShown: false}}
             />
           </ShelfStack.Navigator>
