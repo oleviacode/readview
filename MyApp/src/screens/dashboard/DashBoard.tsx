@@ -74,11 +74,6 @@ export default function DashBoard() {
               component={AddReview}
               options={{title: 'Add your Review'}}
             />
-            <MainStack.Screen
-              name="AddTopic"
-              component={AddTopic}
-              options={{title: 'Add your Review'}}
-            />
           </MainStack.Navigator>
         )}
       </Tab.Screen>
@@ -118,6 +113,11 @@ export default function DashBoard() {
               name="DiscussionScreen"
               component={Discussion}
               options={{headerShown: false}}
+            />
+            <DiscussionStack.Screen
+              name="AddTopic"
+              component={AddTopic}
+              options={{title: 'Add a topic', headerShown: true}}
             />
           </DiscussionStack.Navigator>
         )}

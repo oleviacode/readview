@@ -1,7 +1,13 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {Text, View, ScrollView, TouchableOpacity, RefreshControl} from 'react-native';
+import {
+  Text,
+  View,
+  ScrollView,
+  TouchableOpacity,
+  RefreshControl,
+} from 'react-native';
 import {styles} from '../../shared/stylesheet';
-import {HStack, ActivityIndicator} from '@react-native-material/core';
+import {HStack} from '@react-native-material/core';
 import {Button, Overlay} from '@rneui/themed';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faBookmark} from '@fortawesome/free-solid-svg-icons/faBookmark';
@@ -25,8 +31,8 @@ import {initialReviewInfo} from '../../model';
 import {getMethod, patchMethod} from '../../shared/fetchMethods';
 import Config from 'react-native-config';
 import {useAppSelector} from '../../../redux/store';
-import { useDispatch } from 'react-redux';
-import { saveBookId } from '../../../redux/book/action';
+import {useDispatch} from 'react-redux';
+import {saveBookId} from '../../../redux/book/action';
 import Loading from '../../shared/Loading';
 
 export default function BookProfile({route, navigation}: any) {
@@ -61,8 +67,7 @@ export default function BookProfile({route, navigation}: any) {
   const userId = useAppSelector(state => state.user.id);
   const [isLoading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
-  const dispatch = useDispatch()
-  
+  const dispatch = useDispatch();
 
   // -------------------------------------------------------------------------------------------------------------------
   // functions on updating the user_reading status and refresh
@@ -116,7 +121,6 @@ export default function BookProfile({route, navigation}: any) {
     setReadButton('lightgrey');
   }
 
-
   async function fresh() {
     //calling redux
     const _getMethod = await getMethod();
@@ -141,9 +145,7 @@ export default function BookProfile({route, navigation}: any) {
     setRatingInfo(rating);
     setLatestReviews(threeReviews);
     setRecommendations(recommendations);
-
   }
-
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -185,7 +187,6 @@ export default function BookProfile({route, navigation}: any) {
         _getMethod,
       );
 
-
       // wait for response
       const threeReviews = await resReviews.json();
       const activeBookInfo = await resBookInfo.json();
@@ -211,7 +212,6 @@ export default function BookProfile({route, navigation}: any) {
       setLatestReviews(threeReviews);
       setRecommendations(recommendations);
 
-
       //is loading = false
       setLoading(false);
     }
@@ -235,10 +235,9 @@ export default function BookProfile({route, navigation}: any) {
       {isLoading || (
         <View style={styles.container}>
           <ScrollView
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-          }
-          >
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }>
             <Text
               style={[
                 styles.smallText,
@@ -297,7 +296,7 @@ export default function BookProfile({route, navigation}: any) {
               <Button
                 color={'navy'}
                 onPress={() => {
-                  dispatch(saveBookId(bookId))
+                  dispatch(saveBookId(bookId));
                   navigation.navigate('AddToBookList');
                 }}>
                 {' '}
@@ -434,7 +433,7 @@ export default function BookProfile({route, navigation}: any) {
           </ScrollView>
         </View>
       )}
-      {isLoading  && <Loading/>}
+      {isLoading && <Loading />}
     </>
   );
 }

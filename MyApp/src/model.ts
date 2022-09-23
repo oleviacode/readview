@@ -22,6 +22,7 @@ export type RootStackParamList = {
   BookListScreen: {booklistId: number};
   Search: undefined;
   Scanner: undefined;
+  AddTopic: undefined;
 };
 
 export type BookInfo = {
