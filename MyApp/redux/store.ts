@@ -1,6 +1,7 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { useDispatch, TypedUseSelectorHook, useSelector } from "react-redux";
 import { authReducer } from "./auth/reducer";
+import { bookReducer } from "./book/reducer";
 import { searchReducer } from "./search/reducer";
 import { userDataReducer } from "./user/userData/reducer";
 import { userReducer } from "./user/userinfo/reducer";
@@ -12,6 +13,7 @@ const reducers = combineReducers({
   user: userReducer,
   userData: userDataReducer,
   search: searchReducer,
+  book: bookReducer,
 });
 
 //exports

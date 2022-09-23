@@ -17,6 +17,7 @@ export type RootStackParamList = {
   Settings: undefined;
   Details: undefined;
   BookProfile: {bookId: number};
+  AddToBookList: {bookId: number};
   AllReviews: {bookId: number};
   BookListScreen: {booklistId: number};
 };

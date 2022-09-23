@@ -16,6 +16,7 @@ import {useState} from 'react';
 import {styles} from '../../shared/stylesheet';
 import {initialBookPreviewContents} from '../../model';
 import BookRecCard from '../bookProfile/bookRecCard';
+import Loading from '../../shared/Loading';
 
 export default function MainScreen({navigation}: NaviProps) {
   const user = useAppSelector(state => state.user.username);
@@ -126,7 +127,7 @@ export default function MainScreen({navigation}: NaviProps) {
           )}
         </View>
 
-        {/* {
+        {
           <View style={styles.rankingSection}>
             <Text style={styles.titleText}>Ranking</Text>
             <ScrollView horizontal={true} showsVerticalScrollIndicator={false}>
@@ -137,7 +138,7 @@ export default function MainScreen({navigation}: NaviProps) {
               </HStack>
             </ScrollView>
           </View>
-        } */}
+        }
           <View
             style={{
               paddingTop: 15,
@@ -149,17 +150,7 @@ export default function MainScreen({navigation}: NaviProps) {
               <Text style={styles.titleText}>Recommendation</Text>
             </HStack>
             {isLoadingRecommendation ? (
-              <View
-                style={{
-                  flex: 1,
-                  width: '100%',
-                  height: '100%',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  paddingTop: 15,
-                }}>
-                <ActivityIndicator size="large" color="#5699ee" />
-              </View>
+              <Loading/>
             ) : (
               <View>
                 {books == undefined ? (

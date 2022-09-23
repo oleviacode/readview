@@ -46,7 +46,7 @@ export default function Search() {
               }}>
               Want to read
             </Button>
-            {/* <Button
+            <Button
               color="pink"
               onPress={() => {
                 setStatus('ownerBooklist');
@@ -59,7 +59,7 @@ export default function Search() {
                 setStatus('authors');
               }}>
               Authors
-            </Button> */}
+            </Button>
           </HStack>
         </ScrollView>
       </View>
@@ -83,8 +83,8 @@ export default function Search() {
         ) : (
           <View></View>
         )}
-        {/* {status == 'ownerBooklist' ? <BooklistList /> : <View></View>}
-        {status == 'author'} */}
+        {status == 'ownerBooklist' ? <BooklistList /> : <View></View>}
+        {status == 'author'}
       </View>
     </>
   );
