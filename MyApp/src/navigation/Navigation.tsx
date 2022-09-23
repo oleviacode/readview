@@ -54,7 +54,10 @@ export default function Navigation() {
             options={{headerShown: false}}
           />
           <RootStack.Screen name="Chat" component={Chat} />
-          <RootStack.Screen name="Search" component={Search} options={{
+          <RootStack.Screen
+            name="Search"
+            component={Search}
+            options={{
               headerLeft: () => <MessageTop />,
               headerRight: () => <QRCodeTop />,
               headerTitle: () => <TitleTop />,
@@ -67,6 +70,7 @@ export default function Navigation() {
               headerLeft: () => <MessageTop />,
               headerRight: () => <QRCodeTop />,
               headerTitle: () => <TitleTop />,
+              headerStyle: {backgroundColor: '#3766A6'},
             }}
           />
           <RootStack.Screen
@@ -76,6 +80,7 @@ export default function Navigation() {
               headerLeft: () => <MessageTop />,
               headerRight: () => <QRCodeTop />,
               headerTitle: () => <TitleTop />,
+              headerStyle: {backgroundColor: '#3766A6'},
               gestureEnabled: false,
             }}
           />

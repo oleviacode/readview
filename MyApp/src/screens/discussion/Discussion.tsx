@@ -31,7 +31,7 @@ export default function Discussion({navigation}: NaviProps) {
       <TouchableOpacity
         style={{position: 'absolute', bottom: 30, right: 30}}
         onPress={() => navigation.navigate('AddTopic')}>
-        <FontAwesomeIcon size={60} icon={faPlusCircle} color="#3766a6" />
+        <FontAwesomeIcon size={60} icon={faPlusCircle} color="#CCBD95" />
       </TouchableOpacity>
     </View>
     /* <TouchableOpacity
