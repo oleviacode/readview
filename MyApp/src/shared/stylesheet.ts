@@ -31,19 +31,23 @@ export const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   rankingSection: {
-    height: 250,
-    backgroundColor: 'pink',
+    height: 'auto',
+
     marginTop: 10,
   },
   rankBox: {
     width: 200,
-    height: 210,
-    backgroundColor: 'grey',
+    height: 'auto',
+    backgroundColor: '#CCBD95',
     margin: 10,
     borderRadius: 10,
+    padding: 20,
   },
   smallText: {
     fontSize: 12,
+  },
+  tinyText: {
+    fontSize: 13,
   },
   normalText: {
     fontSize: 16,
@@ -95,6 +99,16 @@ export const styles = StyleSheet.create({
     overflow: 'hidden',
     flexWrap: 'wrap',
     marginLeft: 10,
+    marginBottom: 10,
+  },
+  tinybook: {
+    width: 40,
+    height: 55,
+    backgroundColor: 'lightgrey',
+    borderRadius: 5,
+    overflow: 'hidden',
+    flexWrap: 'wrap',
+
     marginBottom: 10,
   },
 });

@@ -13,8 +13,11 @@ import {
   Pressable,
   TouchableOpacity,
 } from 'react-native';
+import Config from 'react-native-config';
+import {json} from 'stream/consumers';
+import {NaviProps} from '../../model';
 
-export default function AddTopic() {
+export default function AddTopic({navigation}: NaviProps) {
   const [topic, setTopic] = useState<string>('');
   const [body, setBody] = useState('');
   const [fail, setFail] = useState('');
@@ -22,12 +25,46 @@ export default function AddTopic() {
   async function submit() {
     if (topic == '' || body == '') {
       setFail('One or more of the above fields are empty');
+
+      if (topic.length > 100) {
+        setFail('Topic should be less than 100 chars');
+      }
+      if (body.length > 350) {
+        setFail('Body should be less than 350 chars');
+      }
       return;
     }
 
+    const discussionDto = {
+      title: topic,
+      info: body,
+    };
+
     const token = await AsyncStorage.getItem('token');
 
-    // MORE CODE HERE
+    console.log(Config.REACT_APP_BACKEND_URL);
+
+    const resTopic = await fetch(
+      `${Config.REACT_APP_BACKEND_URL}/discussion/create`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: 'Bearer ' + token,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(discussionDto),
+      },
+    );
+
+    const result = await resTopic.json();
+
+    console.log(result);
+
+    if (result.status == 200) {
+      navigation.goBack();
+    } else {
+      setFail(result.message);
+    }
   }
 
   return (

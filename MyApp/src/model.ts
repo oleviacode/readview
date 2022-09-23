@@ -102,6 +102,15 @@ export interface RegInfo {
   birthday: string | null;
 }
 
+export interface RankingBoxInfo {
+  toprated: number | null;
+  mostread: number | null;
+  mostcomment: number | null;
+  book_picture: string;
+  title: string;
+  id: number;
+}
+
 export const initialBookListInfo: BookListInfo = {
   id: 0,
   title: '',
@@ -169,10 +178,24 @@ export const initialReviewInfo: ReviewCardInfo = {
   id: 0,
 };
 
+export const initialRankingBoxInfo: RankingBoxInfo = {
+  toprated: 1,
+  mostread: 1,
+  mostcomment: 1,
+  book_picture: `${Config.REACT_APP_BACKEND_URL}/uploads/default.jpg`,
+  title: '',
+  id: 1,
+};
+
 export interface ReviewCardProps {
   reviewInfo: ReviewCardInfo;
   index: number;
 }
+
+export type RankingBoxProps = {
+  importedInfo: RankingBoxInfo[];
+  boxTitle: string;
+};
 
 export interface RatingCardProps {
   ratingInfo: RatingInfo;
