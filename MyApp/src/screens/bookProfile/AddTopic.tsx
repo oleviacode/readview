@@ -1,5 +1,4 @@
 import AsyncStorage from '@react-native-community/async-storage';
-import {AsyncLocalStorage} from 'async_hooks';
 import React, {useState} from 'react';
 import {
   Text,
@@ -15,8 +14,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-export default function AddTopic({route}: any) {
-  const {bookId} = route.params;
+export default function AddTopic() {
   const [topic, setTopic] = useState<string>('');
   const [body, setBody] = useState('');
   const [fail, setFail] = useState('');

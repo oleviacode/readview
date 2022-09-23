@@ -7,6 +7,7 @@ import BookProfile from '../bookProfile/BookProfile';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faHome} from '@fortawesome/free-solid-svg-icons/faHome';
 import {faBook} from '@fortawesome/free-solid-svg-icons/faBook';
+import {faComments} from '@fortawesome/free-solid-svg-icons/faComments';
 import {faPerson} from '@fortawesome/free-solid-svg-icons/faPerson';
 import {faSearch} from '@fortawesome/free-solid-svg-icons/faSearch';
 import UserProfile from '../userProfile/UserProfile';
@@ -39,7 +40,7 @@ export default function DashBoard() {
       <Tab.Screen
         name="Home"
         options={{
-          tabBarIcon: () => <FontAwesomeIcon icon={faHome} />,
+          tabBarIcon: () => <FontAwesomeIcon icon={faHome} size={25} />,
         }}>
         {() => (
           <MainStack.Navigator>
@@ -71,18 +72,13 @@ export default function DashBoard() {
               component={AddReview}
               options={{title: 'Add your Review'}}
             />
-            <MainStack.Screen
-              name="AddTopic"
-              component={AddTopic}
-              options={{title: 'Add your Review'}}
-            />
           </MainStack.Navigator>
         )}
       </Tab.Screen>
       <Tab.Screen
         name="Shelf"
         options={{
-          tabBarIcon: () => <FontAwesomeIcon icon={faBook} />,
+          tabBarIcon: () => <FontAwesomeIcon icon={faBook} size={25} />,
         }}>
         {() => (
           <ShelfStack.Navigator>
@@ -102,7 +98,7 @@ export default function DashBoard() {
       <Tab.Screen
         name="Discussion"
         options={{
-          tabBarIcon: () => <FontAwesomeIcon icon={faSearch} />,
+          tabBarIcon: () => <FontAwesomeIcon icon={faComments} size={25} />,
         }}>
         {() => (
           <DiscussionStack.Navigator>
@@ -110,6 +106,11 @@ export default function DashBoard() {
               name="DiscussionScreen"
               component={Discussion}
               options={{headerShown: false}}
+            />
+            <DiscussionStack.Screen
+              name="AddTopic"
+              component={AddTopic}
+              options={{title: 'Add a topic', headerShown: true}}
             />
           </DiscussionStack.Navigator>
         )}
@@ -119,9 +120,17 @@ export default function DashBoard() {
         options={{
           tabBarIcon: active =>
             active.focused ? (
-              <FontAwesomeIcon style={{color: 'blue'}} icon={faPerson} />
+              <FontAwesomeIcon
+                style={{color: 'blue'}}
+                icon={faPerson}
+                size={25}
+              />
             ) : (
-              <FontAwesomeIcon style={{color: 'blue'}} icon={faPerson} />
+              <FontAwesomeIcon
+                style={{color: 'blue'}}
+                icon={faPerson}
+                size={25}
+              />
             ),
         }}>
         {() => (
