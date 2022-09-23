@@ -12,9 +12,7 @@ import Config from 'react-native-config';
 import {SwipeListView} from 'react-native-swipe-list-view';
 import {
   BookInfo,
-  BookListInfo,
   initialBookInfo,
-  initialBookListInfo,
 } from '../../../model';
 import BookRecCard from '../../bookProfile/bookRecCard';
 
@@ -64,6 +62,27 @@ export default function Readlist(props: Props) {
     setTimeout(() => setRefreshing(false), 2000);
   }, []);
 
+
+  // delete an item
+  async function deleteItems(bookId: number){
+    const token = await AsyncStorage.getItem('token');
+    const res = await fetch(
+      `${Config.REACT_APP_BACKEND_URL}/book/saveBookStatus/${bookId}/unread`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        method: "PATCH"
+      },
+    );
+    const result = await res.json()
+    if (result[0].status == 200){
+      onRefresh()
+    } else {
+      console.log('something wrong happens')
+    }
+  }
+
   // -------------------------------------------------------------------------------------------------------------------
   // use effect
   // -------------------------------------------------------------------------------------------------------------------
@@ -110,28 +129,47 @@ export default function Readlist(props: Props) {
       !nobooks ? (
         <SwipeListView
           refreshing={refreshing}
+          keyExtractor={(item, index) => String(item.id)}
           onRefresh={onRefresh}
           useFlatList={true}
           data={books}
           disableRightSwipe={true}
           swipeToClosePercent={70}
           renderItem={(data, rowMap) => (
+            
             <BookRecCard bookInfo={data.item} key={data.item.id} />
           )}
           renderHiddenItem={(data, rowMap) => (
-            <View style={{}}>
-              <TouchableOpacity onPress={() => rowMap[data.item.id].closeRow()}>
-                <Text></Text>
-              </TouchableOpacity>
-            </View>
+            <View
+                  style={{
+                    alignItems: 'center',
+                    flex: 1,
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    paddingLeft: 15,
+                  }}>
+                  <TouchableOpacity
+                    style={{
+                      alignItems: 'center',
+                      bottom: 0,
+                      justifyContent: 'center',
+                      position: 'absolute',
+                      top: 0,
+                      width: 75,
+                      backgroundColor: '#CF4714',
+                      right: 0,
+                    }}
+                    onPress={() => 
+                    { 
+                      rowMap[String(data.item.id)].closeRow()
+                      deleteItems(data.item.id)
+                    }}>
+                    <Text>Delete</Text>
+                  </TouchableOpacity>
+                </View>
           )}
           leftOpenValue={75}
-          rightOpenValue={-75}
-          onRowOpen={(rowKey, rowMap) => {
-            setTimeout(() => {
-              rowMap[rowKey].closeRow();
-            }, 2000);
-          }}></SwipeListView>
+          rightOpenValue={-75}></SwipeListView>
       ) : (
         <View></View>
       )}

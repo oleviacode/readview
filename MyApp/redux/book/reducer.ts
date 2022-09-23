@@ -1,10 +1,10 @@
-
 import {BookActions} from './action';
 import {BookState} from './state';
 
 const initialState = {
-  lastBookId:0,
-  bookId:0,
+  lastBookId: 0,
+  bookId: 0,
+  bookListId: [0],
 };
 
 export function bookReducer(
@@ -21,6 +21,11 @@ export function bookReducer(
       return {
         ...state,
         bookId: action.bookId,
+      };
+    case '@@book/SAVE_BOOKLISTID':
+      return {
+        ...state,
+        bookListId: action.bookListId,
       };
     default:
       return state;

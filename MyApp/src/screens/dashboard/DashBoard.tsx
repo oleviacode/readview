@@ -3,7 +3,6 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import MainScreen from '../main/Main';
 import ShelfScreen from '../shelf/Shelf';
-import Search from '../search/Search';
 import BookProfile from '../bookProfile/BookProfile';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faHome} from '@fortawesome/free-solid-svg-icons/faHome';
@@ -20,8 +19,7 @@ import AddReview from '../bookProfile/AddRating';
 import AddTopic from '../bookProfile/AddTopic';
 import ChangePassword from '../userProfile/ChangePassword';
 import ChangeProfilePicture from '../userProfile/ChangeProfilePicture';
-import Booklist from '../shelf/Components/Booklist';
-import CreateBookList from '../shelf/Pages/CreateBookList';
+import Booklist from '../shelf/Pages/Booklist';
 import AddToBookList from '../bookProfile/AddToBookList';
 import Discussion from '../discussion/Discussion';
 
@@ -92,11 +90,6 @@ export default function DashBoard() {
             <ShelfStack.Screen
               name="BookListScreen"
               component={Booklist}
-              options={{headerShown: false}}
-            />
-            <ShelfStack.Screen
-              name="CreateBookList"
-              component={CreateBookList}
               options={{headerShown: false}}
             />
           </ShelfStack.Navigator>

@@ -373,47 +373,6 @@ export default function BookProfile({route, navigation}: any) {
               </TouchableOpacity>
             </View>
 
-            {/* DISCUSSIONS */}
-
-            {/* <View style={[styles.regularBox, {backgroundColor: 'white'}]}>
-              <HStack style={{flex: 1, justifyContent: 'space-between'}}>
-                <Text style={styles.titleText}>Discussion</Text>
-                <Text
-                  style={styles.smallText}
-                  onPress={() =>
-                    navigation.navigate('AllReviews', {bookId: [bookId]})
-                  }>
-                  All discussions →{' '}
-                </Text>
-              </HStack>
-
-              <View style={{marginTop: 30}}>
-                <DiscussionCard />
-                <DiscussionCard />
-              </View>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate('AddTopic', {bookId: bookId});
-                }}>
-                <HStack
-                  style={{
-                    flex: 1,
-                    justifyContent: 'flex-end',
-                    alignItems: 'center',
-                    marginTop: 20,
-                  }}>
-                  <Text style={[styles.titleText, {color: '#5699ee'}]}>
-                    Add a topic{' '}
-                  </Text>
-                  <FontAwesomeIcon
-                    size={20}
-                    icon={faPlusCircle}
-                    color="#5699ee"
-                  />
-                </HStack>
-              </TouchableOpacity>
-            </View> */}
-
             {/* RECOMMENDATION */}
             <Text style={[styles.titleText, {marginTop: 30}]}>
               Similar books

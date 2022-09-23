@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import {Divider, HStack} from '@react-native-material/core';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {Button} from '@rneui/themed';
 import React, {useCallback, useEffect, useState} from 'react';
 import {
@@ -13,10 +13,7 @@ import {
 } from 'react-native';
 import Config from 'react-native-config';
 import {SwipeListView} from 'react-native-swipe-list-view';
-import {
-  BookListInfo,
-  initialBookListInfo,
-} from '../../../model';
+import {BookListInfo, initialBookListInfo} from '../../../model';
 import Loading from '../../../shared/Loading';
 import BooklistRecCard from '../Components/BooklistRecCard';
 
@@ -32,7 +29,7 @@ export default function BooklistList() {
     initialBookListInfo,
   ]);
   const [nolist, setNolist] = useState(false);
-  const navigation = useNavigation()
+  const navigation = useNavigation();
 
   // -------------------------------------------------------------------------------------------------------------------
   // refrshing
@@ -79,6 +76,41 @@ export default function BooklistList() {
     refresh();
     setTimeout(() => setRefreshing(false), 2000);
   }, [status]);
+
+  // delete an item
+  async function deleteItems(id: number) {
+    const token = await AsyncStorage.getItem('token');
+    let result;
+    if (status == 'ownerBooklist') {
+      const res = await fetch(
+        `${Config.REACT_APP_BACKEND_URL}/booklist/removeBookList/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          method: 'PATCH',
+        },
+      );
+     result = await res.json();
+    } else {
+      const res = await fetch(
+        `${Config.REACT_APP_BACKEND_URL}/booklist/followOrUnfollowBooklist/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          method: 'POST',
+        },
+      );
+     result = await res.json();
+    }
+
+    if (result[0].status == 200) {
+      onRefresh();
+    } else {
+      console.log('something wrong happens');
+    }
+  }
 
   // -------------------------------------------------------------------------------------------------------------------
   // use effect
@@ -129,10 +161,7 @@ export default function BooklistList() {
 
   return (
     <>
-      {/* shown when have booklist list */}
-      {!isLoading && !nolist ? (
-        <>
-          <HStack style={{justifyContent: 'center'}} spacing={6}>
+    <HStack style={{justifyContent: 'center'}} spacing={6}>
             <Button
               color={'navy'}
               onPress={() => {
@@ -148,16 +177,25 @@ export default function BooklistList() {
               Followed Booklist
             </Button>
           </HStack>
-          <Divider />
-          {status == 'ownerBooklist' && (
-            <Button color={'navy'} style={{marginTop: 7}} onPress={() => {
-              navigation.navigate('CreateBookList')
-            }}>
+      {/* shown when have booklist list */}
+      {status == 'ownerBooklist' && (
+            <Button
+              color={'navy'}
+              style={{marginTop: 7}}
+              onPress={() => {
+                navigation.navigate('CreateBookList');
+              }}>
               + Create New Booklist
             </Button>
           )}
+      {!isLoading && !nolist && (
+        <>
+          
+          <Divider />
+          
           <SwipeListView
             refreshing={refreshing}
+            keyExtractor={(item, index) => String(item.id)}
             onRefresh={onRefresh}
             useFlatList={true}
             data={booklist}
@@ -167,29 +205,40 @@ export default function BooklistList() {
               <BooklistRecCard key={data.item.id} booklist={data.item} />
             )}
             renderHiddenItem={(data, rowMap) => (
-              <View style={{}}>
+              <View
+                style={{
+                  alignItems: 'center',
+                  flex: 1,
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                  paddingLeft: 15,
+                }}>
                 <TouchableOpacity
-                  onPress={() => rowMap[data.item.id].closeRow()}>
-                  <Text></Text>
+                  style={{
+                    alignItems: 'center',
+                    bottom: 0,
+                    justifyContent: 'center',
+                    position: 'absolute',
+                    top: 0,
+                    width: 75,
+                    backgroundColor: '#CF4714',
+                    right: 0,
+                  }}
+                  onPress={() => {
+                    rowMap[String(data.item.id)].closeRow();
+                    deleteItems(data.item.id);
+                  }}>
+                  <Text>Delete</Text>
                 </TouchableOpacity>
               </View>
             )}
             leftOpenValue={75}
-            rightOpenValue={-75}
-            onRowOpen={(rowKey, rowMap) => {
-              setTimeout(() => {
-                rowMap[rowKey].closeRow();
-              }, 2000);
-            }}></SwipeListView>
+            rightOpenValue={-75}></SwipeListView>
         </>
-      ) : (
-        <View></View>
       )}
 
       {/* shown when loading at the first time*/}
-      {isLoading ? (<Loading/>) : (
-        <View></View>
-      )}
+      {isLoading ? <Loading /> : <View></View>}
 
       {/* nothing in the list */}
       {!isLoading && nolist ? (
