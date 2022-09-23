@@ -15,6 +15,8 @@ import TitleTop, {MessageTop, QRCodeTop} from '../shared/Title';
 import {NaviProps} from '../model';
 import Chat from '../screens/chat/Chat';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import Search from '../screens/search/Search';
+import ISBNcodeSanner from '../screens/search/ISBNSanner';
 
 const RootStack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -23,8 +25,7 @@ export default function Navigation() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <RootStack.Navigator
-          initialRouteName="Loading">
+        <RootStack.Navigator initialRouteName="Loading">
           <RootStack.Screen
             name="Cover"
             component={CoverPage}
@@ -46,19 +47,24 @@ export default function Navigation() {
             component={RegisterPageTwo}
             options={{headerShown: false}}
           />
-          <RootStack.Screen name="Login" component={LoginScreen} options={{headerShown: false}}/>
+          <RootStack.Screen
+            name="Login"
+            component={LoginScreen}
+            options={{headerShown: false}}
+          />
           <RootStack.Screen name="Chat" component={Chat} />
+          <RootStack.Screen name="Search" component={Search} />
+          <RootStack.Screen name="Scanner" component={ISBNcodeSanner} />
 
           <RootStack.Screen
             name="DashBoard"
             component={DashBoard}
             options={{
               headerLeft: () => <MessageTop />,
-              // headerRight: () => <QRCodeTop />,
+              headerRight: () => <QRCodeTop />,
               headerTitle: () => <TitleTop />,
-              gestureEnabled: false
+              gestureEnabled: false,
             }}
-            
           />
         </RootStack.Navigator>
       </NavigationContainer>

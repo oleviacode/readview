@@ -6,7 +6,7 @@ import {styles} from '../../shared/stylesheet';
 export default function ISBNcodeSanner() {
   return (
     <View style={styles.container}>
-      <RNCamera
+      {/* <RNCamera
         style={{
           flex: 1,
           justifyContent: 'flex-end',
@@ -25,8 +25,8 @@ export default function ISBNcodeSanner() {
           message: 'We need your permission to use your audio',
           buttonPositive: 'Ok',
           buttonNegative: 'Cancel',
-        }}></RNCamera>
-        <Text>Camera</Text>
+        }}></RNCamera> */}
+      <Text>Camera</Text>
     </View>
   );
 }

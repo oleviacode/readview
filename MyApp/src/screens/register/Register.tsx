@@ -39,7 +39,6 @@ export default function RegisterPageOne({navigation}: NaviProps) {
   const [username, setUsername] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [gender, setGender] = useState<string>('other');
-  const [birthday, setBirthday] = useState<Birthday>(null);
   const [password, setPassword] = useState('');
 
   async function submit() {
@@ -47,7 +46,6 @@ export default function RegisterPageOne({navigation}: NaviProps) {
       username: username.toLowerCase(),
       email: email.toLowerCase(),
       gender: gender,
-      birthday: birthday,
       password: password,
     };
 
@@ -164,7 +162,7 @@ export default function RegisterPageOne({navigation}: NaviProps) {
             </TouchableOpacity>
           </View>
 
-          <DatePicker
+          {/* <DatePicker
             modal
             open={open}
             date={new Date()}
@@ -176,7 +174,7 @@ export default function RegisterPageOne({navigation}: NaviProps) {
             onCancel={() => {
               setOpen(false);
             }}
-          />
+          /> */}
         </View>
       </SafeAreaView>
     </TouchableWithoutFeedback>
