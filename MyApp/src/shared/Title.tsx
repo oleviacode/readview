@@ -50,10 +50,24 @@ export default function TitleTop() {
 
 export function MessageTop() {
   const navigation = useNavigation();
-  return <Pressable onPress={() => {}}></Pressable>;
+  return (
+    <Pressable
+      onPress={() => {
+        navigation.navigate('Chat');
+      }}>
+      <FontAwesomeIcon icon={faQrcode} />
+    </Pressable>
+  );
 }
 
 export function QRCodeTop() {
   const navigation = useNavigation();
-  return <Pressable onPress={() => {navigation.navigate('Cam')}}><FontAwesomeIcon icon={faQrcode} /></Pressable>;
+  return (
+    <Pressable
+      onPress={() => {
+        navigation.navigate('Scanner');
+      }}>
+      <FontAwesomeIcon icon={faQrcode} />
+    </Pressable>
+  );
 }

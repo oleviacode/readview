@@ -23,6 +23,7 @@ export default function AllReviews({route, navigation}: any) {
         _getMethod,
       );
       const resAllReviews = await res.json();
+
       SetAllReviews(resAllReviews);
     }
 
@@ -32,14 +33,14 @@ export default function AllReviews({route, navigation}: any) {
   return (
     <ScrollView>
       <View style={[styles.container]}>
-        {allReviews.map((review) => {
+        {allReviews.map((review, index) => {
           return (
             <View
               style={[
                 styles.regularBox,
                 {backgroundColor: 'white', borderBottomWidth: 0},
               ]}>
-              <ReviewCard key={review.id} reviewInfo={review} />
+              <ReviewCard key={index} reviewInfo={review} />
             </View>
           );
         })}

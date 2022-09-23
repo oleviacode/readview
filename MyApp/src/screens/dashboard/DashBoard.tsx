@@ -19,14 +19,14 @@ import AddReview from '../bookProfile/AddRating';
 import AddTopic from '../bookProfile/AddTopic';
 import ChangePassword from '../userProfile/ChangePassword';
 import ChangeProfilePicture from '../userProfile/ChangeProfilePicture';
-import ISBNcodeSanner from '../search/ISBNSanner';
 import Booklist from '../shelf/Components/Booklist';
 import CreateBookList from '../shelf/Pages/CreateBookList';
 import AddToBookList from '../bookProfile/AddToBookList';
+import Discussion from '../discussion/Discussion';
 
 const Tab = createBottomTabNavigator();
 const MainStack = createNativeStackNavigator();
-const SearchStack = createNativeStackNavigator();
+const DiscussionStack = createNativeStackNavigator();
 const ShelfStack = createNativeStackNavigator();
 const ProfileStack = createNativeStackNavigator();
 
@@ -107,23 +107,18 @@ export default function DashBoard() {
         )}
       </Tab.Screen>
       <Tab.Screen
-        name="Search"
+        name="Discussion"
         options={{
           tabBarIcon: () => <FontAwesomeIcon icon={faSearch} />,
         }}>
         {() => (
-          <SearchStack.Navigator>
-            <SearchStack.Screen
-              name="SearchScreen"
-              component={Search}
+          <DiscussionStack.Navigator>
+            <DiscussionStack.Screen
+              name="DiscussionScreen"
+              component={Discussion}
               options={{headerShown: false}}
             />
-            <SearchStack.Screen
-              name="Cam"
-              component={ISBNcodeSanner}
-              options={{headerShown: false}}
-            />
-          </SearchStack.Navigator>
+          </DiscussionStack.Navigator>
         )}
       </Tab.Screen>
       <Tab.Screen
