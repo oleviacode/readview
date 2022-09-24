@@ -8,7 +8,6 @@ import {getMethod} from '../../shared/fetchMethods';
 import Config from 'react-native-config';
 
 export default function AllReviews({route, navigation}: any) {
-  console.log('route is ', route);
 
   let {bookId} = route.params;
   bookId = bookId[0];
@@ -33,14 +32,15 @@ export default function AllReviews({route, navigation}: any) {
   return (
     <ScrollView>
       <View style={[styles.container]}>
-        {allReviews.map((review, index) => {
+        {allReviews.map((review) => {
           return (
             <View
+              key={review.id}
               style={[
                 styles.regularBox,
                 {backgroundColor: 'white', borderBottomWidth: 0},
               ]}>
-              <ReviewCard key={index} reviewInfo={review} />
+              <ReviewCard key={review.id} reviewInfo={review} />
             </View>
           );
         })}

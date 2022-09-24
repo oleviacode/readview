@@ -9,7 +9,7 @@ import {
 import {Button} from '@rneui/themed';
 import {HStack} from '@react-native-material/core';
 import {useAppDispatch, useAppSelector} from '../../../redux/store';
-import {fetchSearch, saveLastSearch} from '../../../redux/search/action';
+import {saveLastSearch} from '../../../redux/search/action';
 import {BookInfo, initialBookInfo} from '../../model';
 import BookRecCard from '../bookProfile/bookRecCard';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -72,15 +72,7 @@ export default function Search() {
   // return
   // -------------------------------------------------------------------------------------------------------------------
   return (
-    <View style={styles.container}>
-      <View>
-        <Button
-          onPress={() => {
-            navigation.goBack();
-          }}>
-          Back
-        </Button>
-      </View>
+    <View style={[styles.container, {marginTop: 10}]}>
       {/* <View>
       <HStack spacing={6}>
           <Button>Book</Button>

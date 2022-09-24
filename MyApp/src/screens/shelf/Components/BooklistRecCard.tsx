@@ -39,7 +39,7 @@ export default function (props: BooklistInfoProps) {
             </View>
             <View>
               {booklist.genre[0] == null ? <Text style={{marginBottom: 20}}>No Books yet</Text>:booklist.genre.slice(0, 3).map(item => (
-                <Text>{item}</Text>
+                <Text key={item}>{item}</Text>
               ))}
             </View>
           </View>
@@ -57,6 +57,7 @@ export default function (props: BooklistInfoProps) {
               ) : (
                 booklist.book_picture.slice(0, 6).map(book_picture => (
                   <Image
+                  key={book_picture}
                     style={styles.smallbook}
                     source={{
                       uri: book_picture,

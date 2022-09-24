@@ -4,6 +4,8 @@ import {Button} from '@rneui/themed';
 import {HStack} from '@react-native-material/core';
 import Readlist from './Pages/Readlist';
 import BooklistList from './Pages/BooklistList';
+import AuthorRecCard from './Components/AuthorRecCard';
+import AuthorList from './Pages/AuthorList';
 
 export default function Search() {
   // -------------------------------------------------------------------------------------------------------------------
@@ -78,7 +80,7 @@ export default function Search() {
           <Readlist status={'wantlist'} />
         )}
         {status == 'ownerBooklist' && <BooklistList />}
-        {status == 'author' }
+        {status == 'authors' && <AuthorList /> }
       </View>
     </>
   );

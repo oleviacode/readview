@@ -33,7 +33,7 @@ export default function ChangeInfo() {
       <TextInput
         style={styles.textInput}
         onChangeText={onChangeInfo}
-        placeholder={`  ${oldInfo as string}`}
+        placeholder={`${oldInfo as string}`}
         keyboardType={'default'}
       />
       <View>

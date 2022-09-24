@@ -64,7 +64,7 @@ export default function CreateBookList() {
       <TextInput
         style={styles.textInput}
         onChangeText={onChangeTitle}
-        placeholder={`   My bookList`}
+        placeholder={`My bookList`}
         keyboardType={'default'}
       />
       <View>
