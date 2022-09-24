@@ -77,6 +77,7 @@ export default function Booklist({route}: any) {
     setTimeout(() => setRefreshing(false), 2000);
   }, []);
 
+  //save button
   async function save() {
       const token = await AsyncStorage.getItem('token');
       const res = await fetch(
@@ -221,7 +222,8 @@ export default function Booklist({route}: any) {
             <ScrollView
               refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-              }>
+              }
+              contentContainerStyle={{paddingBottom:'70%'}}>
               {userId == booklist.booklist_creator_id && (
                 <Button
                   style={{marginBottom: 10, marginTop: 10}}
