@@ -155,7 +155,7 @@ export default function Readlist(props: Props) {
         paddingHorizontal: 9,
       }}>
       {/* shown when books in list*/}
-      {!isLoading && !nobooks ? (
+      {!isLoading && !nobooks && (
         <SwipeListView
           contentContainerStyle={{paddingBottom: '30%'}}
           refreshing={refreshing}
@@ -203,8 +203,6 @@ export default function Readlist(props: Props) {
           onEndReached={() => {
             !end && fetchMore();
           }}></SwipeListView>
-      ) : (
-        <View></View>
       )}
 
       {/* shown when loading at the first time*/}
