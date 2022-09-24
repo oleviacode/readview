@@ -90,6 +90,7 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: 15,
     marginBottom: 15,
+    paddingLeft:20,
   },
   smallbook: {
     width: 60,

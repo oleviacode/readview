@@ -1,7 +1,6 @@
 import {Button, HStack} from '@react-native-material/core';
 import React, {useCallback, useEffect, useState} from 'react';
 import {
-  ActivityIndicator,
   RefreshControl,
   ScrollView,
   Text,
@@ -18,6 +17,8 @@ import {Divider} from 'react-native-flex-layout';
 import {useAppSelector} from '../../../../redux/store';
 import {useNavigation} from '@react-navigation/native';
 import Loading from '../../../shared/Loading';
+import { faBookmark } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 
 export default function Booklist({route}: any) {
   // -------------------------------------------------------------------------------------------------------------------
@@ -29,12 +30,13 @@ export default function Booklist({route}: any) {
   const [isLoading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [nobooks, setNobooks] = useState(false);
-  const [booklist, setBookList] = useState({title: '', booklist_creator_id: 0});
+  const [booklist, setBookList] = useState({title: '', booklist_creator_id: 0, username: ''});
+  const [saveButton, setSaveButton] = useState('#eac645');
   const userId = useAppSelector(state => state.user.id);
   const navigation = useNavigation();
 
   // -------------------------------------------------------------------------------------------------------------------
-  // refrshing
+  // refreshing
   // -------------------------------------------------------------------------------------------------------------------
 
   async function refresh() {
@@ -74,6 +76,32 @@ export default function Booklist({route}: any) {
     refresh();
     setTimeout(() => setRefreshing(false), 2000);
   }, []);
+
+  async function save() {
+      const token = await AsyncStorage.getItem('token');
+      const res = await fetch(
+        `${Config.REACT_APP_BACKEND_URL}/booklist/followOrUnfollowBooklist/${booklistId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          method: 'POST',
+        },
+      );
+
+      const result = await res.json();
+      if (result[0].status == 200) {
+        if (saveButton == 'lightgrey'){
+           setSaveButton('#eac645');
+        } else {
+          setSaveButton('lightgrey');
+        }
+       
+      } else {
+        //do nothing
+      }
+    }
+  
 
   // delete an item
   async function deleteItems(bookId: number) {
@@ -121,12 +149,26 @@ export default function Booklist({route}: any) {
         },
       );
       const resultBooklist = await resBooklist.json();
+      const resCheckStatus = await fetch(
+        `${Config.REACT_APP_BACKEND_URL}/booklist/checkbooklist`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+      const check = await resCheckStatus.json();
       if (resultBooks.length == 0) {
         //nobooks
         setNobooks(true);
         setLoading(false);
       } else {
         // have books
+        if(check.length != 0){
+          setSaveButton('#eac645')
+        } else {
+          setSaveButton('lightgrey')
+        }
         setNobooks(false);
         setBook(resultBooks);
         setLoading(false);
@@ -134,7 +176,7 @@ export default function Booklist({route}: any) {
       setBookList(resultBooklist[0]);
     }
     fetchBook();
-  }, []);
+  }, [booklistId]);
 
   // -------------------------------------------------------------------------------------------------------------------
   // return
@@ -143,17 +185,44 @@ export default function Booklist({route}: any) {
   return (
     <>
       {/* LOADING */}
-      {isLoading ? <Loading /> : <View></View>}
+      {isLoading && <Loading />}
 
-      {/* if no books in booklist */}
+      {/* if no books in booklist ----------------------------------------------------------------------------*/}
       {!isLoading && nobooks && (
         <>
           <View style={styles.container}>
+
+            {/* The update button ---------------------------------------------------------------------------- */}
+            {userId == booklist.booklist_creator_id ? (
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('UpdatebooklistScreen', {
+                    booklistId: booklistId,
+                  });
+                }}>
+                <Text
+                  style={[
+                    styles.titleText,
+                    {textAlign: 'center', padding: 10},
+                  ]}>
+                  {booklist.title}
+                </Text>
+              </TouchableOpacity>
+            ) : (
+              <Text
+                style={[styles.titleText, {textAlign: 'center', padding: 10}]}>
+                {booklist.title}
+              </Text>
+            )}
+
+            <Divider />
+
+            {/* Message under the booklist ---------------------------------------------------------------------------- */}
             <ScrollView
               refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
               }>
-              {userId == booklist.booklist_creator_id ? (
+              {userId == booklist.booklist_creator_id && (
                 <Button
                   style={{marginBottom: 10, marginTop: 10}}
                   color={'navy'}
@@ -161,8 +230,6 @@ export default function Booklist({route}: any) {
                     navigation.navigate('Search');
                   }}
                   title={'Search and Add a New Book!'}></Button>
-              ) : (
-                <View></View>
               )}
               <View
                 style={{
@@ -175,23 +242,72 @@ export default function Booklist({route}: any) {
                   style={{
                     fontSize: 15,
                     textAlign: 'center',
-                  }}>{`You haven't added anything yet :(`}</Text>
+                  }}>{`Nothing here yet :(`}</Text>
               </View>
             </ScrollView>
           </View>
         </>
       )}
 
-      {/* Yes books in booklist */}
+      {/* Yes books in booklist ---------------------------------------------------------------------------- */}
       {!isLoading && !nobooks && (
         <>
           <View style={styles.container}>
-            <Text
-              style={[styles.titleText, {textAlign: 'center', padding: 10}]}>
-              {booklist.title}
-            </Text>
-            <Divider />
+
+            {/* the updated button */}
             {userId == booklist.booklist_creator_id ? (
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate('UpdatebooklistScreen', {
+                    booklistId: booklistId,
+                  });
+                }}>
+                <Text
+                  style={[
+                    styles.titleText,
+                    {textAlign: 'center', padding: 10},
+                  ]}>
+                  {booklist.title}
+                </Text>
+              </TouchableOpacity>
+            ) : (
+
+              // if the user is not the creator
+              <>
+                <Text
+                  style={[
+                    styles.titleText,
+                    {padding: 10},
+                  ]}>
+                  {booklist.title}
+                </Text>
+                <HStack style={{justifyContent: 'space-between', alignItems:'center', paddingBottom: 20}}>
+                <Text
+                  style={[
+                    styles.smallText,
+                    {padding: 10},
+                  ]}>
+                  by {booklist.username}
+                </Text>
+                <View style={{}}>
+                <TouchableOpacity
+                  onPress={() => {
+                    save();
+                  }}>
+                  <FontAwesomeIcon
+                    size={50}
+                    icon={faBookmark}
+                    color={saveButton}
+                  />
+                </TouchableOpacity>
+              </View>
+                </HStack>
+              </>
+            )}
+            <Divider />
+
+            {/* if the user is the creator ---------------------------------------------------------------------------- */}
+            {userId == booklist.booklist_creator_id && (
               <Button
                 style={{marginBottom: 10}}
                 color={'navy'}
@@ -199,11 +315,9 @@ export default function Booklist({route}: any) {
                   navigation.navigate('Search');
                 }}
                 title={'Search and Add a New Book!'}></Button>
-            ) : (
-              <View></View>
             )}
-            
-            {/* check if the user is the owner of the booklist */}
+
+            {/*  if the user is the owner of the booklist ---------------------------------------------------------------------------- */}
             {userId != booklist.booklist_creator_id ? (
               <ScrollView>
                 {books.map(book => (
@@ -212,6 +326,7 @@ export default function Booklist({route}: any) {
               </ScrollView>
             ) : (
               <SwipeListView
+                contentContainerStyle={{paddingBottom: '30%'}}
                 refreshing={refreshing}
                 keyExtractor={(item, index) => String(item.id)}
                 onRefresh={onRefresh}

@@ -4,7 +4,7 @@ import {faEnvelope} from '@fortawesome/free-solid-svg-icons/faEnvelope';
 import {faQrcode} from '@fortawesome/free-solid-svg-icons/faQrcode';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {useNavigation, useRoute} from '@react-navigation/native';
-import {faBackward, faSearch} from '@fortawesome/free-solid-svg-icons';
+import {faArrowAltCircleLeft, faBackward, faSearch} from '@fortawesome/free-solid-svg-icons';
 import {useAppDispatch} from '../../redux/store';
 import {saveSearchParams} from '../../redux/search/action';
 import {HStack} from '@react-native-material/core';
@@ -51,11 +51,11 @@ export default function TitleTop() {
 export function MessageTop() {
   const navigation = useNavigation();
   return (
-    <Pressable>
-      {/* // onPress={() => {
-      //   navigation.navigate('Chat');
-      // }}>
-      // <FontAwesomeIcon icon={faEnvelope} size={30} color="#f8f7f7" /> */}
+    <Pressable
+      onPress={() => {
+        navigation.navigate('Chat');
+      }}>
+      <FontAwesomeIcon icon={faEnvelope} size={30} color="#f8f7f7" />
     </Pressable>
   );
 }
@@ -68,6 +68,18 @@ export function QRCodeTop() {
         navigation.navigate('Scanner');
       }}>
       <FontAwesomeIcon icon={faQrcode} size={30} color="#f8f7f7" />
+    </Pressable>
+  );
+}
+
+export function GoBackTop() {
+  const navigation = useNavigation();
+  return (
+    <Pressable
+      onPress={() => {
+        navigation.goBack()
+      }}>
+      <FontAwesomeIcon icon={faArrowAltCircleLeft} size={30} color="#f8f7f7" />
     </Pressable>
   );
 }

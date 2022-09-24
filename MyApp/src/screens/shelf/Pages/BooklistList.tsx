@@ -177,7 +177,7 @@ export default function BooklistList() {
               Followed Booklist
             </Button>
           </HStack>
-      {/* shown when have booklist list */}
+      {/* shown when userid = booklist_create_id */}
       {status == 'ownerBooklist' && (
             <Button
               color={'navy'}
@@ -194,6 +194,7 @@ export default function BooklistList() {
           <Divider />
           
           <SwipeListView
+            contentContainerStyle={{paddingBottom: '50%'}}
             refreshing={refreshing}
             keyExtractor={(item, index) => String(item.id)}
             onRefresh={onRefresh}

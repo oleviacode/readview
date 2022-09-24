@@ -11,13 +11,14 @@ import CoverPage from '../screens/CoverPage';
 import LoginScreen from '../screens/LoginScreen';
 import BookProfile from '../screens/bookProfile/BookProfile';
 import DashBoard from '../screens/dashboard/DashBoard';
-import TitleTop, {MessageTop, QRCodeTop} from '../shared/Title';
+import TitleTop, {GoBackTop, MessageTop, QRCodeTop} from '../shared/Title';
 import {NaviProps} from '../model';
 import Chat from '../screens/chat/Chat';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Search from '../screens/search/Search';
 import ISBNcodeSanner from '../screens/search/ISBNSanner';
 import CreateBookList from '../screens/shelf/Pages/CreateBookList';
+import UpdateBookList from '../screens/shelf/Pages/UpdateBookList';
 
 const RootStack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -58,9 +59,9 @@ export default function Navigation() {
             name="Search"
             component={Search}
             options={{
-              headerLeft: () => <MessageTop />,
-              // headerRight: () => <QRCodeTop />,
+              headerLeft: () => <GoBackTop/>,
               headerTitle: () => <TitleTop />,
+              headerStyle: {backgroundColor: '#3766A6'},
             }}/>
           <RootStack.Screen name="Scanner" component={ISBNcodeSanner} />
           <RootStack.Screen
@@ -73,6 +74,16 @@ export default function Navigation() {
               headerStyle: {backgroundColor: '#3766A6'},
             }}
           />
+          {/* <RootStack.Screen
+            name="UpdatebooklistScreen"
+            component={UpdateBookList}
+            options={{
+              headerLeft: () => <MessageTop />,
+              // headerRight: () => <QRCodeTop />,
+              headerTitle: () => <TitleTop />,
+              headerStyle: {backgroundColor: '#3766A6'},
+            }}
+          /> */}
           <RootStack.Screen
             name="DashBoard"
             component={DashBoard}

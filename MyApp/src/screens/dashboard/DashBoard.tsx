@@ -22,6 +22,8 @@ import ChangeProfilePicture from '../userProfile/ChangeProfilePicture';
 import Booklist from '../shelf/Pages/Booklist';
 import AddToBookList from '../bookProfile/AddToBookList';
 import Discussion from '../discussion/Discussion';
+import AuthorScreen from '../shelf/Pages/AuthorScreen';
+import UpdateBookList from '../shelf/Pages/UpdateBookList';
 
 const Tab = createBottomTabNavigator();
 const MainStack = createNativeStackNavigator();
@@ -88,14 +90,24 @@ export default function DashBoard() {
               options={{headerShown: false}}
             />
             <ShelfStack.Screen
+              name="AuthorScreen"
+              component={AuthorScreen}
+              options={{headerShown: false}}
+            />            
+            <ShelfStack.Screen
               name="BookListScreen"
               component={Booklist}
+              options={{headerShown: false}}
+            />
+            <ShelfStack.Screen
+              name="UpdatebooklistScreen"
+              component={UpdateBookList}
               options={{headerShown: false}}
             />
           </ShelfStack.Navigator>
         )}
       </Tab.Screen>
-      {/* <Tab.Screen
+      <Tab.Screen
         name="Discussion"
         options={{
           tabBarIcon: () => <FontAwesomeIcon icon={faComments} size={25} />,
@@ -114,7 +126,7 @@ export default function DashBoard() {
             />
           </DiscussionStack.Navigator>
         )}
-      </Tab.Screen> */}
+      </Tab.Screen>
       <Tab.Screen
         name="userProfile"
         options={{

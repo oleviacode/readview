@@ -35,7 +35,7 @@ export default function ChangeEmail() {
       <TextInput
         style={styles.textInput}
         onChangeText={onChangeEmail}
-        placeholder={`  ${oldEmail as string}`}
+        placeholder={`${oldEmail as string}`}
         keyboardType={'default'}
       />
       <View>

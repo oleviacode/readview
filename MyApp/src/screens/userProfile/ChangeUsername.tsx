@@ -34,7 +34,7 @@ export default function ChangeUsername() {
       <TextInput
         style={styles.textInput}
         onChangeText={onChangeUsername}
-        placeholder={`  ${oldUsername as string}`}
+        placeholder={`${oldUsername as string}`}
         keyboardType={'default'}
       />
       <View>

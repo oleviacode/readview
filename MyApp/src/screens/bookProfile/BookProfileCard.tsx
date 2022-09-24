@@ -1,17 +1,22 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {HStack} from '@react-native-material/core';
 import DisplayBook from './DisplayBook';
 import {View, Text, Image} from 'react-native';
 import {styles} from '../../shared/stylesheet';
 import {BookProfileProps} from '../../model';
+import {Button} from '@rneui/themed';
+import {useNavigation} from '@react-navigation/native';
 
 export default function BookProfileCard(props: BookProfileProps) {
   const book = props['bookInfo'];
   let genres = '';
+  const navigation = useNavigation();
 
-  for (let genre of book['genre']!) {
-    genres = genres.concat(genre, ' ');
-  }
+  useEffect(() => {
+    for (let genre of book['genre']!) {
+      genres = genres.concat(genre, ' ');
+    }
+  }, []);
 
   return (
     <HStack style={[styles.regularBox, {padding: 0}]}>
@@ -30,7 +35,12 @@ export default function BookProfileCard(props: BookProfileProps) {
         }}>
         <Text style={{fontSize: 15, fontWeight: 'bold'}}>{book['title']}</Text>
         <View>
-          <Text style={styles.smallText}>{book['author_name']}</Text>
+          <Button
+            title={book['author_name']}
+            size={'sm'}
+            onPress={() => {
+              navigation.navigate('AuthorScreen', {authorId: book.author_id});
+            }}></Button>
           <Text style={styles.smallText}>{book['publisher_name']}</Text>
           <Text style={styles.smallText}>
             {book['publish_date'].slice(0, 10)}

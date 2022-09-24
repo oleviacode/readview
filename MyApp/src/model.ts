@@ -20,9 +20,11 @@ export type RootStackParamList = {
   AddToBookList: {bookId: number};
   AllReviews: {bookId: number};
   BookListScreen: {booklistId: number};
+  AuthorScreen: {authorId:number};
   Search: undefined;
   Scanner: undefined;
   AddTopic: undefined;
+  UpdatebooklistScreen: {booklistId: number};
 };
 
 export type BookInfo = {
@@ -38,19 +40,16 @@ export type BookInfo = {
   readerstatus: 'read' | 'reading' | 'want to read' | undefined;
   isbn: string;
   pages: number;
+  author_id:number;
 };
-
-export type AuthorInfoTitle = {
-  book_id: number;
-  book_picture: string;
-};
-
 export type AuthorInfo = {
   id: number;
   author_name: string;
-  titles: AuthorInfoTitle[];
-  info: string;
-  pages: number;
+  bookids:number[];
+  array_agg:string[];
+  bookpictures:string[]
+  genres:string[]
+  numoffollowers:number
 };
 
 export type DiscussionInfo = {
@@ -111,6 +110,16 @@ export interface RankingBoxInfo {
   id: number;
 }
 
+export const initialAuthorInfo: AuthorInfo = {
+  id: 0,
+  author_name: '',
+  bookids:[0],
+  array_agg:[''],
+  bookpictures:[''],
+  genres:[''],
+  numoffollowers:0,
+};
+
 export const initialBookListInfo: BookListInfo = {
   id: 0,
   title: '',
@@ -143,6 +152,7 @@ export const initialBookInfo: BookInfo = {
   readerstatus: undefined,
   pages: 0,
   isbn: '',
+  author_id:0,
 };
 
 export type Birthday = Date | null;
@@ -214,6 +224,9 @@ export interface DiscussionInfoProps {
 }
 export interface BooklistInfoProps {
   booklist: BookListInfo;
+}
+export interface AuthorInfoProps {
+  authorlist: AuthorInfo;
 }
 
 export type NaviProps = NativeStackScreenProps<RootStackParamList>;

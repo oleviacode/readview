@@ -217,18 +217,11 @@ export default function BookProfile({route, navigation}: any) {
     }
 
     main();
-
-    // CALL API
   }, [bookId, userId]);
 
-  // TESTING DATA
-
-  // const discussionInfo: DiscussionInfo = {
-  //   authorName: 'VoldemortLover123',
-  //   publishDate: '24-05-1990',
-  //   topic: 'guyz Who the hell killed Dumbledore?',
-  //   text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed urna sed massa molestie condimentum. Nam convallis felis non lacus posuere, id lacinia lacus volutpat. Fusce vel dignissim orci, non ullamcorper leo.',
-  // };
+  // -------------------------------------------------------------------------------------------------------------------
+  // component
+  // -------------------------------------------------------------------------------------------------------------------
 
   return (
     <>
