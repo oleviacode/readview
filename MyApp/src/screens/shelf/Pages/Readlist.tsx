@@ -81,7 +81,7 @@ export default function Readlist(props: Props) {
     );
     const result = await res.json();
     if (result[0].status == 200) {
-      onRefresh();
+      setBook(books.filter(item => item.id !== bookId))
     } else {
       console.log('something wrong happens');
     }

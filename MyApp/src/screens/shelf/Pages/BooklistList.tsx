@@ -106,7 +106,7 @@ export default function BooklistList() {
     }
 
     if (result[0].status == 200) {
-      onRefresh();
+      setBookList(booklist.filter(item => item.id != id))
     } else {
       console.log('something wrong happens');
     }

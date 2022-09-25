@@ -9,7 +9,6 @@ import {faHome} from '@fortawesome/free-solid-svg-icons/faHome';
 import {faBook} from '@fortawesome/free-solid-svg-icons/faBook';
 import {faComments} from '@fortawesome/free-solid-svg-icons/faComments';
 import {faPerson} from '@fortawesome/free-solid-svg-icons/faPerson';
-import {faSearch} from '@fortawesome/free-solid-svg-icons/faSearch';
 import UserProfile from '../userProfile/UserProfile';
 import AllReviews from '../bookProfile/AllReviews';
 import ChangeUsername from '../userProfile/ChangeUsername';
@@ -74,6 +73,21 @@ export default function DashBoard() {
               component={AddReview}
               options={{title: 'Add your Review'}}
             />
+            <MainStack.Screen
+              name="AuthorScreen"
+              component={AuthorScreen}
+              options={{title: 'Author'}}
+            />            
+            <MainStack.Screen
+              name="BookListScreen"
+              component={Booklist}
+              options={{headerShown: false}}
+            />
+            <MainStack.Screen
+              name="UpdatebooklistScreen"
+              component={UpdateBookList}
+              options={{headerShown: false}}
+            />
           </MainStack.Navigator>
         )}
       </Tab.Screen>
@@ -81,7 +95,9 @@ export default function DashBoard() {
         name="Shelf"
         options={{
           tabBarIcon: () => <FontAwesomeIcon icon={faBook} size={25} />,
-        }}>
+          
+        }}
+        >
         {() => (
           <ShelfStack.Navigator>
             <ShelfStack.Screen

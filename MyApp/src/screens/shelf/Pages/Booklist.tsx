@@ -118,7 +118,7 @@ export default function Booklist({route}: any) {
     );
     const result = await res.json();
     if (result[0].status == 200) {
-      onRefresh();
+      setBook(books.filter(book => book.id !== bookId))
     } else {
       console.log('something wrong happens');
     }
@@ -151,7 +151,7 @@ export default function Booklist({route}: any) {
       );
       const resultBooklist = await resBooklist.json();
       const resCheckStatus = await fetch(
-        `${Config.REACT_APP_BACKEND_URL}/booklist/checkbooklist`,
+        `${Config.REACT_APP_BACKEND_URL}/booklist/checkbooklist/${booklistId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -159,6 +159,7 @@ export default function Booklist({route}: any) {
         },
       );
       const check = await resCheckStatus.json();
+      console.log(check)
       if (resultBooks.length == 0) {
         //nobooks
         setNobooks(true);

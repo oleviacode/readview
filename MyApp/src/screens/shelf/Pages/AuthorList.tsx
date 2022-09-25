@@ -69,7 +69,7 @@ export default function AuthorList() {
     );
     const result = await res.json();
     if (result[0].status == 200) {
-      onRefresh();
+      setAuthor(authors.filter(author => author.id !== authorId))
     } else {
       console.log('something wrong happens');
     }
