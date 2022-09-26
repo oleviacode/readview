@@ -240,7 +240,7 @@ export default function BooklistList() {
       )}
 
       {/* shown when loading at the first time*/}
-      {isLoading ? <Loading /> : <View></View>}
+      {isLoading && <Loading /> }
 
       {/* nothing in the list */}
       {!isLoading && nolist ? (

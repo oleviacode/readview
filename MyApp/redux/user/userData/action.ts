@@ -42,9 +42,10 @@ export function fetchUserData() {
 // -------------------------------------------------------------------------------------------------------------------
 
 export function insertDataIntoRedux(data: UserDataState) {
+  const rating = data.rating.filter(item => item.rating != null)
   return {
     type: '@@data/DATA_INSERT' as const,
-    rating: data.rating,
+    rating: rating,
     genre: data.genre,
     reading: data.reading,
     author: data.author,

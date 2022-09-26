@@ -18,7 +18,7 @@ export default function RatingRecord() {
 
   return (
     <>
-      {isShown ? (
+      {isShown && (
         <View style={styles.userData}>
           <Text style={{
             fontSize: 20,
@@ -50,8 +50,6 @@ export default function RatingRecord() {
             </VictoryChart>
           </View>
         </View>
-      ) : (
-        <View></View>
       )}
     </>
   );

@@ -23,6 +23,7 @@ import AddToBookList from '../bookProfile/AddToBookList';
 import Discussion from '../discussion/Discussion';
 import AuthorScreen from '../shelf/Pages/AuthorScreen';
 import UpdateBookList from '../shelf/Pages/UpdateBookList';
+import OtherUserPage from '../userProfile/OtherUserPage/OtherUserPage';
 
 const Tab = createBottomTabNavigator();
 const MainStack = createNativeStackNavigator();
@@ -88,6 +89,11 @@ export default function DashBoard() {
               component={UpdateBookList}
               options={{headerShown: false}}
             />
+            <MainStack.Screen
+              name="UserScreen"
+              component={OtherUserPage}
+              options={{headerShown: false}}
+            />
           </MainStack.Navigator>
         )}
       </Tab.Screen>
@@ -118,6 +124,11 @@ export default function DashBoard() {
             <ShelfStack.Screen
               name="UpdatebooklistScreen"
               component={UpdateBookList}
+              options={{headerShown: false}}
+            />
+            <ShelfStack.Screen
+              name="UserScreen"
+              component={OtherUserPage}
               options={{headerShown: false}}
             />
           </ShelfStack.Navigator>

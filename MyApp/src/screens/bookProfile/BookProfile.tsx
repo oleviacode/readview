@@ -175,17 +175,17 @@ export default function BookProfile({route, navigation}: any) {
         _getMethod,
       );
 
-      const resRecommendations = await fetch(
-        `${Config.REACT_APP_BACKEND_URL}/user-interaction/recommendation`,
-        _getMethod,
-      );
+      // const resRecommendations = await fetch(
+      //   `${Config.REACT_APP_BACKEND_URL}/user-interaction/recommendation`,
+      //   _getMethod,
+      // );
 
       // wait for response
       const threeReviews = await resReviews.json();
       const activeBookInfo = await resBookInfo.json();
       const quotes = await resQuotes.json();
       const rating = await resRatingInfo.json();
-      const recommendations = await resRecommendations.json();
+      // const recommendations = await resRecommendations.json();
       //set Options
       navigation.setOptions({title: activeBookInfo['title']});
 
@@ -203,7 +203,7 @@ export default function BookProfile({route, navigation}: any) {
       setQuotes(quotes);
       setRatingInfo(rating);
       setLatestReviews(threeReviews);
-      setRecommendations(recommendations);
+      // setRecommendations(recommendations);
 
       //is loading = false
       setLoading(false);
@@ -360,7 +360,7 @@ export default function BookProfile({route, navigation}: any) {
             </View>
 
             {/* RECOMMENDATION */}
-            <Text style={[styles.titleText, {marginTop: 30}]}>
+            {/* <Text style={[styles.titleText, {marginTop: 30}]}>
               Similar books
             </Text>
             <View style={{marginTop: 20}}>
@@ -374,7 +374,7 @@ export default function BookProfile({route, navigation}: any) {
                   ))}
                 </View>
               </View>
-            </View>
+            </View> */}
           </ScrollView>
         </View>
       )}

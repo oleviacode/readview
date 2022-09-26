@@ -41,7 +41,7 @@ export default function ByBookList() {
     if (result.length == 0) {
       setToEnd(true);
     } else {
-
+      setBookList([...bookList, ...result])
       setPageNo(pageNo + 1);
     }
   }

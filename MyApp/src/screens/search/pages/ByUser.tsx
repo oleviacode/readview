@@ -4,21 +4,22 @@ import { FlatList, Text, View } from "react-native";
 import Config from "react-native-config";
 import { saveLastSearch } from "../../../../redux/search/action";
 import { useAppDispatch, useAppSelector } from "../../../../redux/store";
-import { AuthorInfo, initialAuthorInfo } from "../../../model";
+import { initialUserInfo, UserInfo } from "../../../model";
 import Loading from "../../../shared/Loading";
-import AuthorRecCard from "../../shelf/Components/AuthorRecCard";
+import UserRecCard from "../../userProfile/OtherUserPage/UserComponent/UserRecCard";
 
 
-export default function ByAuthor() {
+export default function ByUser() {
   // -------------------------------------------------------------------------------------------------------------------
   // settings
   // -------------------------------------------------------------------------------------------------------------------
   const dispatch = useAppDispatch();
   const search = useAppSelector(state => state.search.search);
+  const userId = useAppSelector(state => state.user.id)
   const [error, setError] = useState('search by title, author or ISBN!');
-  const [author, setAuthor] = useState<AuthorInfo[]>([initialAuthorInfo]);
+  const [user, setUser] = useState<UserInfo[]>([initialUserInfo]);
   const [isLoading, setLoading] = useState(false);
-  const [noAuthor, setNoAuthor] = useState(false);
+  const [noUser, setNoUser] = useState(false);
   const [pageNo, setPageNo] = useState(0);
   const [end, setToEnd] = useState(false);
 
@@ -29,7 +30,7 @@ export default function ByAuthor() {
   async function fetchMore() {
     const token = await AsyncStorage.getItem('token');
     const res = await fetch(
-      `${Config.REACT_APP_BACKEND_URL}/search/author?search=${search}&page=${pageNo}`,
+      `${Config.REACT_APP_BACKEND_URL}/search/user?search=${search}&page=${pageNo}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -40,7 +41,7 @@ export default function ByAuthor() {
     if (result.length == 0) {
       setToEnd(true);
     } else {
-      setAuthor([...author, ...result])
+      setUser([...user, ...result])
       setPageNo(pageNo + 1);
     }
   }
@@ -51,16 +52,16 @@ export default function ByAuthor() {
   useEffect(() => {
     async function fetchBook() {
       if (search === '' || search.length < 3) {
-        setNoAuthor(true);
+        setNoUser(true);
         setError('Please input at least 3 characters!');
       } else {
         setPageNo(0);
-        setNoAuthor(false);
+        setNoUser(false);
         setLoading(true);
         setError('searching...');
         const token = await AsyncStorage.getItem('token');
         const res = await fetch(
-          `${Config.REACT_APP_BACKEND_URL}/search/author?search=${search}&page=0`,
+          `${Config.REACT_APP_BACKEND_URL}/search/user?search=${search}&page=0`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -69,20 +70,21 @@ export default function ByAuthor() {
         );
         const result = await res.json();
         dispatch(saveLastSearch(search));
-        if (result.length == 0 || result[0].message) {
+        const users = result.filter((item : UserInfo) => item.id != userId)
+        if (users.length == 0 || result[0].message) {
           setError('no results :(');
-          setNoAuthor(true);
+          setNoUser(true);
           setLoading(false);
           setToEnd(true);
         } else if (result.length < 10) {
-          setNoAuthor(false);
-          setAuthor(result)
+          setNoUser(false);
+          setUser(users)
           setError('search results');
           setLoading(false);
           setToEnd(true);
         } else {
-          setNoAuthor(false);
-          setAuthor(result)
+          setNoUser(false);
+          setUser(users)
           setError('search results');
           setLoading(false);
           setPageNo(pageNo + 1);
@@ -112,12 +114,12 @@ export default function ByAuthor() {
             {error}
           </Text>
         </View>
-        {!isLoading && !noAuthor && (
+        {!isLoading && !noUser && (
           <FlatList
             contentContainerStyle={{paddingBottom: '50%'}}
-            data={author}
+            data={user}
             renderItem={({item}) => (
-              <AuthorRecCard authorlist={item} key={item.id} />
+              <UserRecCard userInfo={item} key={item.id} />
             )}
             onEndReachedThreshold={0.5}
             onEndReached={() => {

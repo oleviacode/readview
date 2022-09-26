@@ -8,6 +8,7 @@ import ByTitle from './pages/ByTitle';
 import ByAuthor from './pages/ByAuthor';
 import ByBookList from './pages/ByBookList';
 import { HStack } from '@react-native-material/core';
+import ByUser from './pages/ByUser';
 
 export default function Search() {
   // -------------------------------------------------------------------------------------------------------------------
@@ -45,12 +46,21 @@ export default function Search() {
             }}>
             Booklist
           </Button>
+          <Button
+            style={{marginRight: 10}}
+            color="pink"
+            onPress={() => {
+              setStatus('user')
+            }}>
+            User
+          </Button>
         </HStack>
       </View>
 
       {status == 'book' && <ByTitle />}
       {status == 'author' && <ByAuthor />}
       {status == 'booklist' && <ByBookList />}
+      {status == 'user' && <ByUser />}
         
     </View>
   );

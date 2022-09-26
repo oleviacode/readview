@@ -7,7 +7,7 @@ import {
   RefreshControl,
 } from 'react-native';
 import {useAppSelector} from '../../../redux/store';
-import {BookInfo, initialRankingBoxInfo, NaviProps} from '../../model';
+import {BookInfo, initialBookInfo, initialRankingBoxInfo, NaviProps} from '../../model';
 import {HStack, Divider} from '@react-native-material/core';
 import DisplayBook, {PreviewBookContents} from '../bookProfile/DisplayBook';
 import Config from 'react-native-config';
@@ -38,22 +38,7 @@ export default function MainScreen({navigation}: NaviProps) {
   const [mostRead, setMostRead] = useState([initialRankingBoxInfo]);
   const [mostLoved, setMostLoved] = useState([initialRankingBoxInfo]);
 
-  const [books, setbooks] = useState<BookInfo[]>([
-    {
-      id: 0,
-      title: '',
-      author_name: '',
-      publisher_name: '',
-      publish_date: '',
-      book_picture: '',
-      genre: [''],
-      info: '',
-      rating: undefined,
-      readerstatus: undefined,
-      isbn: '',
-      pages: 0,
-    },
-  ]);
+  const [books, setbooks] = useState<BookInfo[]>([initialBookInfo]);
 
   // FUNCTIONS
 

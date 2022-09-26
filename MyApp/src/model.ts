@@ -52,6 +52,15 @@ export type AuthorInfo = {
   numoffollowers:number
 };
 
+export type UserInfo = {
+  id: number;
+  username: string;
+  gender:string;
+  profile_picture: string;
+  info:string;
+  level:number;
+};
+
 export type DiscussionInfo = {
   authorName: string;
   publishDate: string;
@@ -155,6 +164,15 @@ export const initialBookInfo: BookInfo = {
   author_id:0,
 };
 
+export const initialUserInfo = {
+  id: 0,
+  username: '',
+  gender: 'other',
+  profile_picture: `${Config.REACT_APP_BACKEND_URL}/uploads/default_profile_picture.jpg`,
+  info:'',
+  level:0,
+};
+
 export type Birthday = Date | null;
 
 export const initialRegInfo: RegInfo = {
@@ -227,6 +245,10 @@ export interface BooklistInfoProps {
 }
 export interface AuthorInfoProps {
   authorlist: AuthorInfo;
+}
+
+export interface UserInfoProps {
+  userInfo: UserInfo;
 }
 
 export type NaviProps = NativeStackScreenProps<RootStackParamList>;

@@ -11,7 +11,6 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {
   faMars,
   faMarsAndVenus,
-  faPersonDress,
   faVenus,
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -26,7 +25,6 @@ export default function UserProfile() {
   const gender = useAppSelector(state => state.user.gender);
   const userId = useAppSelector(state => state.user.id);
   const [page, setPage] = useState('data');
-
 
   return (
     <>
@@ -47,41 +45,38 @@ export default function UserProfile() {
             source={{uri: `${Config.REACT_APP_BACKEND_URL}/uploads/${img}`}}
           />
         </View>
-        <View
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          <Text style={styles.userProfileText}>
-            {user}
-            {gender == 'Female' && (
-              <FontAwesomeIcon
-                icon={faVenus}
-                color={'red'}
-                style={{
-                  marginLeft: 10,
-                }}
-              />
-            )}
-            {gender == 'Male' && (
-              <FontAwesomeIcon
-                icon={faMars}
-                color={'blue'}
-                style={{
-                  marginLeft: 10,
-                }}
-              />
-            )}
-            {gender == 'Others' && (
-              <FontAwesomeIcon
-                icon={faMarsAndVenus}
-                color={'blue'}
-                style={{
-                  marginLeft: 10,
-                }}
-              />
-            )}
-          </Text>
+        <View style={{justifyContent:'center', alignItems:'center'}}>
+          <HStack >
+            <Text style={styles.userProfileText}>{user}
+              {gender == 'female' && (
+                <FontAwesomeIcon
+                  icon={faVenus}
+                  color={'red'}
+                  style={{
+                    marginLeft: 10,
+                  }}
+                />
+              )}
+              {gender == 'male' && (
+                <FontAwesomeIcon
+                  icon={faMars}
+                  color={'blue'}
+                  style={{
+                    marginLeft: 10,
+                  }}
+                />
+              )}
+              {gender == 'Other' && (
+                <FontAwesomeIcon
+                  icon={faMarsAndVenus}
+                  color={'blue'}
+                  style={{
+                    marginLeft: 10,
+                  }}
+                />
+              )}
+            </Text>
+          </HStack>
           <Text
             style={{
               fontSize: 15,

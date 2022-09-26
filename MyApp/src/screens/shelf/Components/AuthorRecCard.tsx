@@ -7,7 +7,7 @@ import {Image, Pressable, Text, View} from 'react-native';
 import { AuthorInfoProps} from '../../../model';
 import {styles} from '../../../shared/stylesheet';
 
-export default function (props: AuthorInfoProps) {
+export default function AuthorRecCard(props: AuthorInfoProps) {
   const authorlist = props['authorlist'];
   const navigation = useNavigation();
 
