@@ -37,6 +37,7 @@ export default function ChangeEmail() {
         onChangeText={onChangeEmail}
         placeholder={`${oldEmail as string}`}
         keyboardType={'default'}
+        maxLength={50}
       />
       <View>
       <Button

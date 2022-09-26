@@ -45,9 +45,13 @@ export default function BookProfile({route, navigation}: any) {
   const [latestReviews, setLatestReviews] = useState<Array<ReviewCardInfo>>([
     initialReviewInfo,
   ]);
-  const [Recommendations, setRecommendations] = useState<BookInfo[]>([initialBookInfo]);
+  const [Recommendations, setRecommendations] = useState<BookInfo[]>([
+    initialBookInfo,
+  ]);
   const userId = useAppSelector(state => state.user.id);
   const [isLoading, setLoading] = useState(true);
+  const [isReviewLoading, setReviewLoading] = useState(true);
+  const [isRecommendationLoading, setRecommendationLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const dispatch = useDispatch();
 
@@ -130,7 +134,7 @@ export default function BookProfile({route, navigation}: any) {
       `${Config.REACT_APP_BACKEND_URL}/user-interaction/recommendation`,
       _getMethod,
     );
-    
+
     const threeReviews = await resReviews.json();
     const rating = await resRatingInfo.json();
     const recommendations = await resRecommendations.json();
@@ -154,39 +158,30 @@ export default function BookProfile({route, navigation}: any) {
     async function main() {
       //set Loading is true
       setLoading(true);
+      setRecommendationLoading(true);
       let _getMethod = {};
       _getMethod = await getMethod();
 
+      //fetching book info
       const resBookInfo = await fetch(
         `${Config.REACT_APP_BACKEND_URL}/book/setProfile/${bookId}`,
         _getMethod,
       );
+      const activeBookInfo = await resBookInfo.json();
+
+      //fetching quotes
       const resQuotes = await fetch(
         `${Config.REACT_APP_BACKEND_URL}/book/topQuotes/${bookId}/`,
         _getMethod,
       );
+      const quotes = await resQuotes.json();
+      //fetching rating
       const resRatingInfo = await fetch(
         `${Config.REACT_APP_BACKEND_URL}/book/fullRating/${bookId}/`,
         _getMethod,
       );
-
-      const resReviews = await fetch(
-        `${Config.REACT_APP_BACKEND_URL}/reviews/3review/${bookId}/`,
-        _getMethod,
-      );
-
-      // const resRecommendations = await fetch(
-      //   `${Config.REACT_APP_BACKEND_URL}/user-interaction/recommendation`,
-      //   _getMethod,
-      // );
-
-      // wait for response
-      const threeReviews = await resReviews.json();
-      const activeBookInfo = await resBookInfo.json();
-      const quotes = await resQuotes.json();
       const rating = await resRatingInfo.json();
-      // const recommendations = await resRecommendations.json();
-      //set Options
+
       navigation.setOptions({title: activeBookInfo['title']});
 
       // set the reading status
@@ -197,16 +192,29 @@ export default function BookProfile({route, navigation}: any) {
       } else if (activeBookInfo['readerstatus'] == 'reading') {
         setReadingButton('#7380AA');
       }
-
       // set all the needed information
       setActiveBook(activeBookInfo);
       setQuotes(quotes);
       setRatingInfo(rating);
-      setLatestReviews(threeReviews);
-      // setRecommendations(recommendations);
 
-      //is loading = false
+      //fetch reviews
+      const resReviews = await fetch(
+        `${Config.REACT_APP_BACKEND_URL}/reviews/3review/${bookId}/`,
+        _getMethod,
+      );
+      const threeReviews = await resReviews.json();
+      setLatestReviews(threeReviews);
       setLoading(false);
+      
+      //set recommendations
+      const resRecommendations = await fetch(
+        `${Config.REACT_APP_BACKEND_URL}/user-interaction/recommendation`,
+        _getMethod,
+      );
+
+      const recommendations = await resRecommendations.json();
+      setRecommendations(recommendations);
+      setRecommendationLoading(false);
     }
 
     main();
@@ -360,21 +368,27 @@ export default function BookProfile({route, navigation}: any) {
             </View>
 
             {/* RECOMMENDATION */}
-            {/* <Text style={[styles.titleText, {marginTop: 30}]}>
+            <Text style={[styles.titleText, {marginTop: 30}]}>
               Similar books
             </Text>
-            <View style={{marginTop: 20}}>
-              <View
-                style={{
-                  paddingTop: 15,
-                }}>
-                <View>
-                  {Recommendations.map(book => (
-                    <BookRecCard bookInfo={book} key={book.id} />
-                  ))}
+            {isRecommendationLoading ? (
+              <Loading />
+            ) : (
+              <>
+                <View style={{marginTop: 20}}>
+                  <View
+                    style={{
+                      paddingTop: 15,
+                    }}>
+                    <View>
+                      {Recommendations.map(book => (
+                        <BookRecCard bookInfo={book} key={book.id} />
+                      ))}
+                    </View>
+                  </View>
                 </View>
-              </View>
-            </View> */}
+              </>
+            )}
           </ScrollView>
         </View>
       )}

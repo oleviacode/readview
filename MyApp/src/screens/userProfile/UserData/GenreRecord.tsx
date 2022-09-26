@@ -29,8 +29,8 @@ export default function GenreRecord() {
           animate={{
              duration: 2000
           }}
-          colorScale={["violet", "cornflowerblue", "gold", "orange",
-          "turquoise", "tomato", "greenyellow"]}
+          colorScale={["#F8F7F7", "#C7BE9D", "#7780A4", "#7196E1",
+          "#4A649D"]}
             height={300}
             width={500}
             data={genreDatas.map(data => ({x: data.genre_name, y: data.count}))}

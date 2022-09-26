@@ -44,7 +44,7 @@ export default function AuthorRecord() {
               }}
               horizontal
               style={{
-                data: {fill: 'navy'},
+                data: {fill: '#BAB28E'},
               }}
               data={authorDatas.map(data => ({
                 x: data.author_name,

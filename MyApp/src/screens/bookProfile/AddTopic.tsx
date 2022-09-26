@@ -42,7 +42,6 @@ export default function AddTopic({navigation}: NaviProps) {
 
     const token = await AsyncStorage.getItem('token');
 
-    console.log(Config.REACT_APP_BACKEND_URL);
 
     const resTopic = await fetch(
       `${Config.REACT_APP_BACKEND_URL}/discussion/create`,
@@ -58,7 +57,6 @@ export default function AddTopic({navigation}: NaviProps) {
 
     const result = await resTopic.json();
 
-    console.log(result);
 
     if (result.status == 200) {
       navigation.goBack();

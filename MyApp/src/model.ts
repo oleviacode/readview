@@ -57,6 +57,7 @@ export type AuthorInfo = {
   bookpictures: string[];
   genres: string[];
   numoffollowers: number;
+  updated_at:string;
 };
 
 export type UserInfo = {
@@ -64,8 +65,9 @@ export type UserInfo = {
   username: string;
   gender: string;
   profile_picture: string;
-  info: string;
-  level: number;
+  info:string;
+  level:number;
+  count: number;
 };
 
 export type DiscussionInfo = {
@@ -101,6 +103,7 @@ export type BookListInfo = {
   numoffollowers: number;
   book_picture: string[];
   book_id: number;
+  updated_at: string;
 };
 
 export interface ReviewCardInfo {
@@ -144,6 +147,7 @@ export const initialAuthorInfo: AuthorInfo = {
   bookpictures: [''],
   genres: [''],
   numoffollowers: 0,
+  updated_at: '',
 };
 
 export const initialBookListInfo: BookListInfo = {
@@ -157,6 +161,7 @@ export const initialBookListInfo: BookListInfo = {
     `${Config.REACT_APP_BACKEND_URL}/uploads/default_profile_picture`,
   ],
   book_id: 0,
+  updated_at: '',
 };
 
 export const initialBookPreviewContents: PreviewBookContents = {
@@ -186,8 +191,9 @@ export const initialUserInfo = {
   username: '',
   gender: 'other',
   profile_picture: `${Config.REACT_APP_BACKEND_URL}/uploads/default_profile_picture.jpg`,
-  info: '',
-  level: 0,
+  info:'',
+  level:0,
+  count: 0,
 };
 
 export type Birthday = Date | null;

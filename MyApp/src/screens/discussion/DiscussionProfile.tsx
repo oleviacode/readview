@@ -33,6 +33,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 export default function DiscussionProfile({route, navigation}: any) {
   const discussId = route.params.topicId;
+  console.log(discussId)
 
   let _getMethod;
   let _patchMethod;
@@ -219,7 +220,7 @@ export default function DiscussionProfile({route, navigation}: any) {
 
         return;
       } catch (e) {
-        console.log('fetch error');
+        console.log(e);
       }
     }
 

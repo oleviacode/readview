@@ -31,32 +31,35 @@ export default function Search() {
           showsHorizontalScrollIndicator={false}>
           <HStack spacing={6}>
             <Button
+              color={'#4A649D'}
               onPress={() => {
                 setStatus('readinglist');
               }}>
               Reading
             </Button>
             <Button
+              color={'#4A649D'}
               onPress={() => {
                 setStatus('readlist');
               }}>
               Read
             </Button>
             <Button
+              color={'#4A649D'}
               onPress={() => {
                 setStatus('wantlist');
               }}>
               Want to read
             </Button>
             <Button
-              color="pink"
+              color="#C7BE9D"
               onPress={() => {
                 setStatus('ownerBooklist');
               }}>
               BookList
             </Button>
             <Button
-              color="violet"
+              color="#7780A4"
               onPress={() => {
                 setStatus('authors');
               }}>
@@ -70,17 +73,11 @@ export default function Search() {
         style={{
           paddingHorizontal: 9,
         }}>
-        {status == 'readinglist' && (
-          <Readlist status={'readinglist'} />
-        )}
-        {status == 'readlist' && (
-          <Readlist status={'readlist'} />
-        )}
-        {status == 'wantlist' && (
-          <Readlist status={'wantlist'} />
-        )}
+        {status == 'readinglist' && <Readlist status={'readinglist'} />}
+        {status == 'readlist' && <Readlist status={'readlist'} />}
+        {status == 'wantlist' && <Readlist status={'wantlist'} />}
         {status == 'ownerBooklist' && <BooklistList />}
-        {status == 'authors' && <AuthorList /> }
+        {status == 'authors' && <AuthorList />}
       </View>
     </>
   );

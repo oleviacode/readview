@@ -11,7 +11,6 @@ import {faArrowDown} from '@fortawesome/free-solid-svg-icons/faArrowDown';
 export default function DiscussionCard(props: DiscussionInfoProps) {
   const card: DiscussionInfo = props['discussionInfo'];
   const navigation = useNavigation();
-  console.log(card);
 
   return (
     <TouchableOpacity

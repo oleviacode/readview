@@ -43,35 +43,35 @@ export default function UserSettings() {
           <Text>{error}</Text>
 
           <Button
-            color="#7380AA"
+            color="#C7BE9D"
             style={{marginTop: 10}}
             title={'change username'}
             onPress={() => {
               navigation.navigate('changeUsername');
             }}></Button>
           <Button
-            color="#7380AA"
+            color="#C7BE9D"
             style={{marginTop: 15}}
             title={'change email'}
             onPress={() => {
               navigation.navigate('changeEmail');
             }}></Button>
           <Button
-            color="#7380AA"
+            color="#C7BE9D"
             style={{marginTop: 15}}
             title={'change Profile Picture'}
             onPress={() => {
               navigation.navigate('changePicture');
             }}></Button>
           <Button
-            color="#7380AA"
+            color="#C7BE9D"
             style={{marginTop: 15}}
             title={'change information'}
             onPress={() => {
               navigation.navigate('changeInfo');
             }}></Button>
           <Button
-            color="#7380AA"
+            color="#C7BE9D"
             style={{marginTop: 15}}
             title={'change Password'}
             onPress={() => {
@@ -82,6 +82,7 @@ export default function UserSettings() {
       <View style={styles.container}>
         <Button
           style={{marginTop: 25}}
+          color={'pink'}
           title={'Logout'}
           onPress={async () => {
             dispatch(logOut());

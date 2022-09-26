@@ -7,13 +7,19 @@ import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {HStack} from '@react-native-material/core';
 import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
-import {Image, ScrollView, Text, View} from 'react-native';
+import {FlatList, Image, ScrollView, Text, View} from 'react-native';
 import Config from 'react-native-config';
 import {Bar, VictoryBar, VictoryChart} from 'victory-native';
-import {initialUserInfo} from '../../../model';
+import {
+  BookListInfo,
+  initialBookListInfo,
+  initialUserInfo,
+} from '../../../model';
 import {getMethod} from '../../../shared/fetchMethods';
+import Loading from '../../../shared/Loading';
 import {styles} from '../../../shared/stylesheet';
 import DisplayBook, {PreviewBookContents} from '../../bookProfile/DisplayBook';
+import BooklistRecCard from '../../shelf/Components/BooklistRecCard';
 
 export default function OtherUserPage({route}: any) {
   // -------------------------------------------------------------------------------------------------------------------
@@ -27,7 +33,12 @@ export default function OtherUserPage({route}: any) {
     {id: 0, book_picture: ''},
   ]);
   const [ratingDatas, setRatingDatas] = useState([{rating: 0, count: 0}]);
-  const [booklist, setBookList] = useState()
+  const [isLoading, setIsLoading] = useState(true);
+  const [isBooklistLoading, setBookListLoading] = useState(true);
+  const [booklist, setBookList] = useState<BookListInfo[]>([
+    initialBookListInfo,
+  ]);
+  const [noBooklist, setNoBookList] = useState(false);
   const navigation = useNavigation();
 
   // -------------------------------------------------------------------------------------------------------------------
@@ -37,6 +48,9 @@ export default function OtherUserPage({route}: any) {
   useEffect(() => {
     async function fetchdata() {
       setError(``);
+      setIsLoading(true);
+      setNoBookList(false);
+      setBookListLoading(true);
       // fetch User
       const _getmethod = await getMethod();
       const resUser = await fetch(
@@ -56,18 +70,35 @@ export default function OtherUserPage({route}: any) {
         _getmethod,
       );
       const result = await res.json();
+      const data = result.filter((item: any) => item.rating != null);
       navigation.setOptions({title: resultUser[0].username});
       if (resultUser[0].message) {
         navigation.goBack();
       } else if (resultRecent.length == 0) {
         setError(`This user hasn't read anything yet~`);
+        setRatingDatas(data);
         setUser(resultUser[0]);
+        setIsLoading(false);
       } else {
-        {
-          result.length != 0 && setRatingDatas(result);
-        }
+        setRatingDatas(data);
         setUser(resultUser[0]);
         setRecent(resultRecent);
+        setIsLoading(false);
+      }
+
+      //fetch user booklist
+      const resBooklist = await fetch(
+        `${Config.REACT_APP_BACKEND_URL}/booklist/userbooklist/${userId}`,
+        _getmethod,
+      );
+      const booklist = await resBooklist.json();
+
+      if (booklist.length == 0) {
+        setNoBookList(true);
+        setBookListLoading(false);
+      } else {
+        setBookList(booklist);
+        setBookListLoading(false);
       }
     }
 
@@ -101,38 +132,7 @@ export default function OtherUserPage({route}: any) {
           />
         </View>
         <View style={{justifyContent: 'center', alignItems: 'center'}}>
-          <HStack>
-            <Text style={styles.userProfileText}>
-              {user.username}
-              {user.gender == 'female' && (
-                <FontAwesomeIcon
-                  icon={faVenus}
-                  color={'red'}
-                  style={{
-                    marginLeft: 10,
-                  }}
-                />
-              )}
-              {user.gender == 'male' && (
-                <FontAwesomeIcon
-                  icon={faMars}
-                  color={'blue'}
-                  style={{
-                    marginLeft: 10,
-                  }}
-                />
-              )}
-              {user.gender == 'other' && (
-                <FontAwesomeIcon
-                  icon={faMarsAndVenus}
-                  color={'blue'}
-                  style={{
-                    marginLeft: 10,
-                  }}
-                />
-              )}
-            </Text>
-          </HStack>
+          <Text style={styles.userProfileText}>{user.username}</Text>
           <Text
             style={{
               fontSize: 15,
@@ -157,11 +157,12 @@ export default function OtherUserPage({route}: any) {
       </View>
       <View style={styles.container}>
         <ScrollView>
+          {isLoading && <Loading />}
           {/* messages */}
           {error != '' && (
             <View
               style={{
-                backgroundColor: 'lightblue',
+                backgroundColor: '#C7BE9D',
                 margin: 10,
                 borderRadius: 10,
                 padding: 10,
@@ -176,12 +177,12 @@ export default function OtherUserPage({route}: any) {
             </View>
           )}
           {/* recent read */}
-          {error == '' && (
+          {!isLoading && error != `This user hasn't read anything yet~` && (
             <>
               <Text style={[styles.titleText, {marginBottom: 10}]}>
                 Recent Read
               </Text>
-              <HStack style={{justifyContent: 'space-between'}}>
+              <HStack style={{justifyContent: 'space-evenly'}}>
                 {recent.map(item => (
                   <DisplayBook book={item} key={item.id} />
                 ))}
@@ -189,17 +190,18 @@ export default function OtherUserPage({route}: any) {
             </>
           )}
           {/* rating data */}
-          {error == '' && (
-            <>
+          <Text
+            style={{
+              fontSize: 20,
+              fontWeight: '700',
+              marginTop: 15,
+            }}>
+            Rating record
+          </Text>
+          {isLoading && <Loading />}
+          {!isLoading && ratingDatas.length != 0 && (
+            <View style={{justifyContent: 'center', alignItems: 'center'}}>
               <View style={[styles.userData]}>
-                <Text
-                  style={{
-                    fontSize: 20,
-                    fontWeight: '700',
-                    marginTop: 15,
-                  }}>
-                  Rating record
-                </Text>
                 <View
                   style={{
                     alignItems: 'center',
@@ -208,7 +210,7 @@ export default function OtherUserPage({route}: any) {
                   <VictoryChart
                     height={200}
                     width={350}
-                    domainPadding={{x: [10, 20], y: [10, 20]}}>
+                    domainPadding={{x: [30, 20], y: [10, 20]}}>
                     <VictoryBar
                       padding={{top: 20, bottom: 60}}
                       style={{data: {fill: '#c43a31'}}}
@@ -221,19 +223,60 @@ export default function OtherUserPage({route}: any) {
                   </VictoryChart>
                 </View>
               </View>
-            </>
+            </View>
+          )}
+          {!isLoading && ratingDatas.length == 0 && (
+            <View
+              style={{
+                backgroundColor: '#C7BE9D',
+                margin: 10,
+                borderRadius: 10,
+                padding: 10,
+              }}>
+              <Text
+                style={{
+                  fontSize: 15,
+                  textAlign: 'center',
+                }}>
+                {`This user hasn't rate anything yet :(`}
+              </Text>
+            </View>
           )}
           {/* Booklists */}
-          {error == '' &&(
+          <Text
+            style={{
+              fontSize: 20,
+              fontWeight: '700',
+              marginTop: 15,
+            }}>
+            BookLists
+          </Text>
+
+          {isBooklistLoading && <Loading />}
+          {!noBooklist && !isBooklistLoading && (
             <>
-              <Text
-                style={[styles.titleText, {marginBottom: 10, marginTop: 10}]}>
-                BookLists
-              </Text>
-              <HStack style={{justifyContent: 'space-between'}}></HStack>
+              {booklist.map(item => (
+                <BooklistRecCard booklist={item} key={item.id} />
+              ))}
             </>
           )}
-          
+          {noBooklist && !isBooklistLoading &&  (
+            <View
+              style={{
+                backgroundColor: '#C7BE9D',
+                margin: 10,
+                borderRadius: 10,
+                padding: 10,
+              }}>
+              <Text
+                style={{
+                  fontSize: 15,
+                  textAlign: 'center',
+                }}>
+                {`This user hasn't create any booklist yet :(`}
+              </Text>
+            </View>
+          )}
         </ScrollView>
       </View>
     </>

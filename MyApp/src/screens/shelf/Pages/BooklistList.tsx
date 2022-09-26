@@ -156,38 +156,42 @@ export default function BooklistList() {
         setLoading(false);
       }
     }
+    const focus = navigation.addListener('focus', async () => {
+      refresh()
+    })
     fetchBook();
+    return focus
   }, [status]);
 
   return (
     <>
     <HStack style={{justifyContent: 'center'}} spacing={6}>
             <Button
-              color={'navy'}
+              color={'#7196E1'}
               onPress={() => {
                 setStatus('ownerBooklist');
               }}>
               My Booklist
             </Button>
             <Button
-              color={'navy'}
+              color={'#7196E1'}
               onPress={() => {
                 setStatus('ownerFollowedBooklist');
               }}>
               Followed Booklist
             </Button>
-          </HStack>
+          
       {/* shown when userid = booklist_create_id */}
       {status == 'ownerBooklist' && (
             <Button
-              color={'navy'}
-              style={{marginTop: 7}}
+              color={'#7780A4'}
               onPress={() => {
                 navigation.navigate('CreateBookList');
               }}>
-              + Create New Booklist
+              +
             </Button>
           )}
+          </HStack>
       {!isLoading && !nolist && (
         <>
           
@@ -253,7 +257,7 @@ export default function BooklistList() {
             >
             <View
               style={{
-                backgroundColor: 'lightblue',
+                backgroundColor: '#C7BE9D',
                 margin: 10,
                 borderRadius: 10,
                 padding: 10,
