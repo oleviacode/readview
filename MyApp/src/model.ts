@@ -65,14 +65,9 @@ export type UserInfo = {
   username: string;
   gender: string;
   profile_picture: string;
-<<<<<<< HEAD
   info:string;
   level:number;
   count: number;
-=======
-  info: string;
-  level: number;
->>>>>>> c0abf7678d277e05a99a294abdd5af7e5bec20fb
 };
 
 export type DiscussionInfo = {
