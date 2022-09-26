@@ -192,6 +192,10 @@ export default function DiscussionProfile({route}: any) {
           const allResponse = await resResponse.json();
           const checkStatus = await resCheckStatus.json();
 
+          console.log('topic is: ', topic);
+          console.log('all Response: ', allResponse);
+          console.log('checkStatus is: ', checkStatus);
+
           if (checkStatus['status'] == 'liked') {
             setLikeButtonSwitch(true);
           } else if (checkStatus['status'] == 'unliked') {
