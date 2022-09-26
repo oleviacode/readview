@@ -11,11 +11,14 @@ import {faArrowDown} from '@fortawesome/free-solid-svg-icons/faArrowDown';
 export default function DiscussionCard(props: DiscussionInfoProps) {
   const card: DiscussionInfo = props['discussionInfo'];
   const navigation = useNavigation();
+  console.log(card);
 
   return (
     <TouchableOpacity
       onPress={() =>
-        navigation.navigate('DiscussionProfileScreen', {topicId: card['id']})
+        navigation.navigate('DiscussionProfileScreen', {
+          topicId: card['discussionid'],
+        })
       }>
       <View style={[styles.regularBox, {backgroundColor: 'white'}]}>
         <HStack style={{marginTop: 20}}>

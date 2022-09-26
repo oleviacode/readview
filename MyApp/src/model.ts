@@ -63,17 +63,23 @@ export type AuthorInfo = {
 export type UserInfo = {
   id: number;
   username: string;
-  gender:string;
+  gender: string;
   profile_picture: string;
+<<<<<<< HEAD
   info:string;
   level:number;
   count: number;
+=======
+  info: string;
+  level: number;
+>>>>>>> c0abf7678d277e05a99a294abdd5af7e5bec20fb
 };
 
 export type DiscussionInfo = {
   substring: string;
   username: string;
-  id: number;
+  userid: number;
+  discussionid: number;
   info: string;
   likes: number;
   unlikes: number;
@@ -240,10 +246,11 @@ export const initialRankingBoxInfo: RankingBoxInfo = {
 export const initialDiscussInfo: DiscussionInfo = {
   substring: '',
   username: '',
-  id: 0,
+  userid: 0,
   info: '',
   likes: 0,
   unlikes: 0,
+  discussionid: 0,
   updated_at: '',
 };
 
