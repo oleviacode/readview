@@ -9,8 +9,6 @@ import {
 import {AuthorInfo, initialAuthorInfo} from '../../../model';
 import AsyncStorage from '@react-native-community/async-storage';
 import Config from 'react-native-config';
-import {styles} from '../../../shared/stylesheet';
-import {Divider} from 'react-native-flex-layout';
 
 import Loading from '../../../shared/Loading';
 import AuthorRecCard from '../Components/AuthorRecCard';

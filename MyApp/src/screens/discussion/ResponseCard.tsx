@@ -4,9 +4,6 @@ import {HStack, Divider} from '@react-native-material/core';
 import {styles} from '../../shared/stylesheet';
 import {ResponseInfo, ResponseInfoProps} from '../../model';
 import {useNavigation} from '@react-navigation/native';
-import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faArrowUp} from '@fortawesome/free-solid-svg-icons/faArrowUp';
-import {faArrowDown} from '@fortawesome/free-solid-svg-icons/faArrowDown';
 
 export default function ResponseCard(props: ResponseInfoProps) {
   const card: ResponseInfo = props['responseInfo'];
