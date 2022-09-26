@@ -101,12 +101,14 @@ export default function ChangeProfilePicture() {
         </View>
       )}
       <Button
+      color={'#7780A4'}
         style={{marginTop: 10}}
         title={'Select Photo'}
         onPress={() => {
           handleChoosePhoto();
         }}></Button>
       <Button
+      color={'#7196E1'}
         style={{marginTop: 10}}
         title={'Submit'}
         onPress={() => {

@@ -40,6 +40,7 @@ export default function ChangeInfo() {
       />
       <View>
       <Button
+      color={'#7196E1'}
       style={{marginTop: 10}}
       title={'Submit'}
       onPress={() => {

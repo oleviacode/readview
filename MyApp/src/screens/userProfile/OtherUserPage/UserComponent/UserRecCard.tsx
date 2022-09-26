@@ -12,7 +12,7 @@ export default function UserRecCard(props: UserInfoProps) {
   const userInfo = props.userInfo;
   const navigation = useNavigation();
   return (
-    <View style={[styles.container, {backgroundColor: '#F1F0F0'}]}>
+    <View style={[styles.container, {backgroundColor: '#F1F0F0', padding: 5}]}>
       <Pressable
         onPress={() => {
           navigation.navigate('UserScreen', {userId: userInfo.id});
@@ -26,40 +26,13 @@ export default function UserRecCard(props: UserInfoProps) {
             }}></Image>
             <View>
           <Text style={[styles.titleText, {marginTop: 1}]}>{userInfo.username}
-          {userInfo.gender == 'female' && (
-                <FontAwesomeIcon
-                  icon={faVenus}
-                  color={'red'}
-                  style={{
-                    marginLeft: 10,
-                  }}
-                />
-              )}
-              {userInfo.gender == 'male' && (
-                <FontAwesomeIcon
-                  icon={faMars}
-                  color={'blue'}
-                  style={{
-                    marginLeft: 10,
-                  }}
-                />
-              )}
-              {userInfo.gender == 'other' && (
-                <FontAwesomeIcon
-                  icon={faMarsAndVenus}
-                  color={'blue'}
-                  style={{
-                    marginLeft: 10,
-                  }}
-                />
-              )}
           </Text>
-          <Text style={{marginTop:4}}>{userInfo.info}</Text>
+          <Text style={{marginTop:4, marginBottom:6}}>{userInfo.info}</Text>
           </View>
           </HStack>
           <View style={{justifyContent: 'flex-end', alignItems:'flex-end', padding:10}}>
-            <Text style={{color: 'navy', fontWeight:'500'}}>Lv {userInfo.level}</Text>
-            <Text><FontAwesomeIcon icon={faHeart} color={'pink'} /> {userInfo.count}</Text>
+            {/* <Text style={{color: 'navy', fontWeight:'500'}}>Lv {userInfo.level}</Text> */}
+            {/* <Text><FontAwesomeIcon icon={faHeart} color={'pink'} /> {userInfo.count}</Text> */}
           </View>
         </HStack>
         <Divider />

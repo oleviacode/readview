@@ -21,7 +21,6 @@ import Loading from '../../shared/Loading';
 
 export default function DiscussionProfile({route, navigation}: any) {
   const discussId = route.params.topicId;
-  console.log(discussId)
 
   let _getMethod;
   let _patchMethod;

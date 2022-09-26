@@ -77,6 +77,14 @@ export default function UserSettings() {
             onPress={() => {
               navigation.navigate('changePassword');
             }}></Button>
+            {user.id == 1 && <Button
+            color="#7196E1"
+            style={{marginTop: 15}}
+            title={'DashBoard'}
+            onPress={() => {
+              navigation.navigate('PowerBi');
+            }}></Button>}
+          
         </View>
       </View>
       <View style={styles.container}>

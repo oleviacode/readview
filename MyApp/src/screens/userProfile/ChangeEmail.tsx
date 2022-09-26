@@ -41,6 +41,7 @@ export default function ChangeEmail() {
       />
       <View>
       <Button
+      color={'#7196E1'}
       style={{marginTop: 10}}
       title={'Submit'}
       onPress={() => {

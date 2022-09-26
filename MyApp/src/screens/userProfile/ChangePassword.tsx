@@ -109,6 +109,7 @@ export default function ChangePassword() {
 
       <View>
         <Button
+        color={'#7196E1'}
           style={{marginTop: 10}}
           title={'Submit'}
           onPress={() => {

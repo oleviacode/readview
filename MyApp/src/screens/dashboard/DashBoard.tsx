@@ -25,6 +25,7 @@ import AuthorScreen from '../shelf/Pages/AuthorScreen';
 import UpdateBookList from '../shelf/Pages/UpdateBookList';
 import OtherUserPage from '../userProfile/OtherUserPage/OtherUserPage';
 import DiscussionProfile from '../discussion/DiscussionProfile';
+import PowerBi from '../userProfile/PowerBi';
 
 const Tab = createBottomTabNavigator();
 const MainStack = createNativeStackNavigator();
@@ -213,6 +214,11 @@ export default function DashBoard() {
             <ProfileStack.Screen
               name="changePicture"
               component={ChangeProfilePicture}
+              options={{headerShown: false}}
+            />
+            <ProfileStack.Screen
+              name="PowerBi"
+              component={PowerBi}
               options={{headerShown: false}}
             />
           </ProfileStack.Navigator>

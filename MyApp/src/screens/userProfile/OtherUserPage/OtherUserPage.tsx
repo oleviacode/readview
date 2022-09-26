@@ -156,7 +156,9 @@ export default function OtherUserPage({route}: any) {
           }}></HStack>
       </View>
       <View style={styles.container}>
-        <ScrollView>
+        <ScrollView
+        contentContainerStyle={{paddingBottom: '30%'}}
+        >
           {isLoading && <Loading />}
           {/* messages */}
           {error != '' && (
