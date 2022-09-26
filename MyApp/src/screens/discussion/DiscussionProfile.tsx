@@ -1,6 +1,17 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, TouchableOpacity, ScrollView} from 'react-native';
-import {HStack, Divider} from '@react-native-material/core';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  TouchableWithoutFeedback,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  Button,
+  Pressable,
+} from 'react-native';
+import {HStack, Divider, TextInput} from '@react-native-material/core';
 import {styles} from '../../shared/stylesheet';
 import {
   DiscussionInfo,
@@ -18,6 +29,7 @@ import Config from 'react-native-config';
 import ResponseCard from './ResponseCard';
 import {faPlusCircle} from '@fortawesome/free-solid-svg-icons/faPlusCircle';
 import Loading from '../../shared/Loading';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export default function DiscussionProfile({route, navigation}: any) {
   const discussId = route.params.topicId;
@@ -41,6 +53,7 @@ export default function DiscussionProfile({route, navigation}: any) {
   const [likeButton, setLikeButton] = useState('grey');
   const [unlikeButton, setUnlikeButton] = useState('grey');
   const [pageLoaded, setPageLoaded] = useState(false);
+  const [text, setText] = useState('');
 
   // FUNCTIONS
 
@@ -122,6 +135,35 @@ export default function DiscussionProfile({route, navigation}: any) {
     }
   }
 
+  async function send() {
+    if (text.length == 0) {
+      return;
+    } else {
+      _postMethod = await postMethod();
+      const token = await AsyncStorage.getItem('token');
+      const content = {
+        content: text,
+      };
+
+      const resAddComment = await fetch(
+        `${Config.REACT_APP_BACKEND_URL}/discussion/addComment/${discussId}`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: 'Bearer ' + token,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(content),
+        },
+      );
+
+      const res = await resAddComment.json();
+
+      console.log(res['status']);
+      setText('');
+      Keyboard.dismiss();
+    }
+  }
   // USE EFFECT
 
   useEffect(() => {
@@ -192,78 +234,134 @@ export default function DiscussionProfile({route, navigation}: any) {
     <>
       {isLoading && <Loading />}
       {isLoading || (
-        <View style={styles.container}>
-          <ScrollView>
-            <View style={[styles.regularBox, {backgroundColor: 'white'}]}>
-              <HStack style={{marginTop: 20}}>
-                <View style={styles.smallProfilePic} />
-                <View
-                  style={{marginLeft: 20, flex: 1, justifyContent: 'center'}}>
-                  <Text style={{fontSize: 15, fontWeight: 'bold'}}>
-                    {topic['username']}
-                  </Text>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          keyboardVerticalOffset={130}
+          style={[styles.container, {flex: 1}]}>
+          {/* <TouchableWithoutFeedback onPress={Keyboard.dismiss}> */}
+          <View>
+            <ScrollView>
+              <View style={styles.container}>
+                <View style={[styles.regularBox, {backgroundColor: 'white'}]}>
+                  <HStack style={{marginTop: 20}}>
+                    <View style={styles.smallProfilePic} />
+                    <View
+                      style={{
+                        marginLeft: 20,
+                        flex: 1,
+                        justifyContent: 'center',
+                      }}>
+                      <Text style={{fontSize: 15, fontWeight: 'bold'}}>
+                        {topic['username']}
+                      </Text>
+
+                      <Text
+                        style={[
+                          styles.smallText,
+                          {color: 'grey', marginLeft: 5},
+                        ]}>
+                        {topic['updated_at'].slice(0, 10)}
+                      </Text>
+                    </View>
+                  </HStack>
 
                   <Text
-                    style={[styles.smallText, {color: 'grey', marginLeft: 5}]}>
-                    {topic['updated_at'].slice(0, 10)}
+                    style={[
+                      styles.titleText,
+                      {marginTop: 15, marginBottom: 20},
+                    ]}>
+                    {topic['substring']}
                   </Text>
+                  <Text style={[styles.normalText, {marginBottom: 30}]}>
+                    {topic['info']}
+                  </Text>
+                  <HStack style={{marginBottom: 20}}>
+                    <TouchableOpacity
+                      style={{
+                        flex: 1,
+                        flexDirection: 'row',
+                        marginRight: 30,
+
+                        alignItems: 'center',
+                      }}
+                      onPress={like}>
+                      <FontAwesomeIcon
+                        icon={faArrowUp}
+                        size={10}
+                        color={likeButton}
+                      />
+                      <Text style={[styles.smallText]}>{likes}</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                      onPress={unlike}
+                      style={{
+                        flex: 5,
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                      }}>
+                      <FontAwesomeIcon
+                        icon={faArrowDown}
+                        size={10}
+                        color={unlikeButton}
+                      />
+                      <Text style={[styles.smallText]}>{unlikes}</Text>
+                    </TouchableOpacity>
+                  </HStack>
+
+                  <Divider />
+
+                  <Text
+                    style={[
+                      styles.titleText,
+                      {marginTop: 20, marginBottom: 20},
+                    ]}>
+                    Responses
+                  </Text>
+                  {responses.map((response, index) => {
+                    return <ResponseCard responseInfo={response} key={index} />;
+                  })}
                 </View>
-              </HStack>
 
-              <Text
-                style={[styles.titleText, {marginTop: 15, marginBottom: 20}]}>
-                {topic['substring']}
-              </Text>
-              <Text style={[styles.normalText, {marginBottom: 30}]}>
-                {topic['info']}
-              </Text>
-              <HStack style={{marginBottom: 20}}>
-                <TouchableOpacity
-                  style={{
-                    flex: 1,
-                    flexDirection: 'row',
-                    marginRight: 30,
-
-                    alignItems: 'center',
-                  }}
-                  onPress={like}>
-                  <FontAwesomeIcon
-                    icon={faArrowUp}
-                    size={10}
-                    color={likeButton}
-                  />
-                  <Text style={[styles.smallText]}>{likes}</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                  onPress={unlike}
-                  style={{flex: 5, flexDirection: 'row', alignItems: 'center'}}>
-                  <FontAwesomeIcon
-                    icon={faArrowDown}
-                    size={10}
-                    color={unlikeButton}
-                  />
-                  <Text style={[styles.smallText]}>{unlikes}</Text>
-                </TouchableOpacity>
-              </HStack>
-
-              <Divider />
-
-              <Text
-                style={[styles.titleText, {marginTop: 20, marginBottom: 20}]}>
-                Responses
-              </Text>
-              {responses.map((response, index) => {
-                return <ResponseCard responseInfo={response} key={index} />;
-              })}
-            </View>
-          </ScrollView>
-          <TouchableOpacity
+                {/* <TouchableOpacity
             style={{position: 'absolute', bottom: 30, right: 30}}
             onPress={() => navigation.navigate('AddTopic')}>
             <FontAwesomeIcon size={60} icon={faPlusCircle} color="#CCBD95" />
-          </TouchableOpacity>
-        </View>
+          </TouchableOpacity> */}
+              </View>
+            </ScrollView>
+            <HStack
+              style={{
+                height: 40,
+                width: '100%',
+                bottom: 10,
+                position: 'absolute',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+              <TextInput
+                placeholder="comment here"
+                multiline
+                style={{flex: 5}}
+                onChangeText={value => setText(value)}
+                value={text}
+              />
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  backgroundColor: '#CCBD95',
+                  height: 55,
+                }}>
+                <Pressable onPress={send}>
+                  <Text>Send</Text>
+                </Pressable>
+              </View>
+            </HStack>
+          </View>
+          {/* </TouchableWithoutFeedback> */}
+        </KeyboardAvoidingView>
       )}
     </>
   );
