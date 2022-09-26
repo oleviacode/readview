@@ -20,11 +20,18 @@ export type RootStackParamList = {
   AddToBookList: {bookId: number};
   AllReviews: {bookId: number};
   BookListScreen: {booklistId: number};
-  AuthorScreen: {authorId:number};
+  AuthorScreen: {authorId: number};
   Search: undefined;
   Scanner: undefined;
   AddTopic: undefined;
   UpdatebooklistScreen: {booklistId: number};
+  DiscussionProfileScreen: {topicId: number};
+};
+
+export type ResponseInfo = {
+  username: string;
+  updated_at: string;
+  content: string;
 };
 
 export type BookInfo = {
@@ -40,16 +47,16 @@ export type BookInfo = {
   readerstatus: 'read' | 'reading' | 'want to read' | undefined;
   isbn: string;
   pages: number;
-  author_id:number;
+  author_id: number;
 };
 export type AuthorInfo = {
   id: number;
   author_name: string;
-  bookids:number[];
-  array_agg:string[];
-  bookpictures:string[]
-  genres:string[]
-  numoffollowers:number
+  bookids: number[];
+  array_agg: string[];
+  bookpictures: string[];
+  genres: string[];
+  numoffollowers: number;
 };
 
 export type UserInfo = {
@@ -62,10 +69,13 @@ export type UserInfo = {
 };
 
 export type DiscussionInfo = {
-  authorName: string;
-  publishDate: string;
-  topic: string;
-  text: string;
+  substring: string;
+  username: string;
+  id: number;
+  info: string;
+  likes: number;
+  unlikes: number;
+  updated_at: string;
 };
 
 export type RatingInfo = {
@@ -119,14 +129,20 @@ export interface RankingBoxInfo {
   id: number;
 }
 
+export const initialResponseInfo: ResponseInfo = {
+  username: '',
+  updated_at: '',
+  content: '',
+};
+
 export const initialAuthorInfo: AuthorInfo = {
   id: 0,
   author_name: '',
-  bookids:[0],
-  array_agg:[''],
-  bookpictures:[''],
-  genres:[''],
-  numoffollowers:0,
+  bookids: [0],
+  array_agg: [''],
+  bookpictures: [''],
+  genres: [''],
+  numoffollowers: 0,
 };
 
 export const initialBookListInfo: BookListInfo = {
@@ -161,7 +177,7 @@ export const initialBookInfo: BookInfo = {
   readerstatus: undefined,
   pages: 0,
   isbn: '',
-  author_id:0,
+  author_id: 0,
 };
 
 export const initialUserInfo = {
@@ -215,9 +231,23 @@ export const initialRankingBoxInfo: RankingBoxInfo = {
   id: 1,
 };
 
+export const initialDiscussInfo: DiscussionInfo = {
+  substring: '',
+  username: '',
+  id: 0,
+  info: '',
+  likes: 0,
+  unlikes: 0,
+  updated_at: '',
+};
+
 export interface ReviewCardProps {
   reviewInfo: ReviewCardInfo;
   index: number;
+}
+
+export interface ResponseInfoProps {
+  responseInfo: ResponseInfo;
 }
 
 export type RankingBoxProps = {

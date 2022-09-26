@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Pressable,
   ScrollView,
@@ -6,27 +6,43 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {DiscussionInfo, NaviProps} from '../../model';
+import {DiscussionInfo, initialDiscussInfo, NaviProps} from '../../model';
 import {styles} from '../../shared/stylesheet';
 import {HStack} from '@react-native-material/core';
 import DiscussionCard from '../bookProfile/DiscussionCard';
 import {FAB} from '@rneui/themed';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faPlusCircle} from '@fortawesome/free-solid-svg-icons/faPlusCircle';
-
-const discussionInfo: DiscussionInfo = {
-  authorName: 'VoldemortLover123',
-  publishDate: '24-05-1990',
-  topic: 'guyz Who the hell killed Dumbledore?',
-  text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sed urna sed massa molestie condimentum. Nam convallis felis non lacus posuere, id lacinia lacus volutpat. Fusce vel dignissim orci, non ullamcorper leo.',
-};
+import {getMethod} from '../../shared/fetchMethods';
+import Config from 'react-native-config';
 
 export default function Discussion({navigation}: NaviProps) {
+  const [discuss, setDiscuss] = useState<Array<DiscussionInfo>>([
+    initialDiscussInfo,
+  ]);
+
+  useEffect(() => {
+    async function main() {
+      const _getMethod = await getMethod();
+
+      const res = await fetch(
+        `${Config.REACT_APP_BACKEND_URL}/discussion/allDiscussion`,
+        _getMethod,
+      );
+      const result = await res.json();
+
+      setDiscuss(result);
+    }
+    main();
+  }, []);
+
   return (
     <View style={[styles.container, {marginTop: 10}]}>
       <ScrollView>
-        <DiscussionCard />
-        <DiscussionCard />
+        {discuss &&
+          discuss.map(card => (
+            <DiscussionCard discussionInfo={card} key={card['id']} />
+          ))}
       </ScrollView>
       <TouchableOpacity
         style={{position: 'absolute', bottom: 30, right: 30}}

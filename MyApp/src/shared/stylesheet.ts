@@ -15,7 +15,7 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
   },
   titleText: {
-    fontSize: 20,
+    fontSize: 16,
     fontWeight: 'bold',
   },
   bookStack: {
@@ -90,7 +90,7 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
     marginTop: 15,
     marginBottom: 15,
-    paddingLeft:20,
+    paddingLeft: 20,
   },
   smallbook: {
     width: 60,

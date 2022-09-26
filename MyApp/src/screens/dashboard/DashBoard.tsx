@@ -24,6 +24,7 @@ import Discussion from '../discussion/Discussion';
 import AuthorScreen from '../shelf/Pages/AuthorScreen';
 import UpdateBookList from '../shelf/Pages/UpdateBookList';
 import OtherUserPage from '../userProfile/OtherUserPage/OtherUserPage';
+import DiscussionProfile from '../discussion/DiscussionProfile';
 
 const Tab = createBottomTabNavigator();
 const MainStack = createNativeStackNavigator();
@@ -115,7 +116,7 @@ export default function DashBoard() {
               name="AuthorScreen"
               component={AuthorScreen}
               options={{headerShown: false}}
-            />            
+            />
             <ShelfStack.Screen
               name="BookListScreen"
               component={Booklist}
@@ -150,6 +151,11 @@ export default function DashBoard() {
               name="AddTopic"
               component={AddTopic}
               options={{title: 'Add a topic', headerShown: true}}
+            />
+            <DiscussionStack.Screen
+              name="DiscussionProfileScreen"
+              component={DiscussionProfile}
+              options={{title: 'Topic', headerShown: true}}
             />
           </DiscussionStack.Navigator>
         )}
