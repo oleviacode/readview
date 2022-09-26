@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, TouchableOpacity} from 'react-native';
 import {HStack, Divider} from '@react-native-material/core';
 import {styles} from '../../shared/stylesheet';
 import {ResponseInfo, ResponseInfoProps} from '../../model';
@@ -14,9 +14,16 @@ export default function ResponseCard(props: ResponseInfoProps) {
       <HStack style={{marginTop: 20}}>
         <View style={styles.smallProfilePic} />
         <View style={{marginLeft: 20, flex: 1, justifyContent: 'center'}}>
-          <Text style={{fontSize: 15, fontWeight: 'bold'}}>
-            {card['username']}
-          </Text>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate('UserScreen', {
+                userId: card['userid'],
+              })
+            }>
+            <Text style={{fontSize: 15, fontWeight: 'bold'}}>
+              {card['username']}
+            </Text>
+          </TouchableOpacity>
 
           <Text style={[styles.smallText, {color: 'grey', marginLeft: 5}]}>
             {card['updated_at'].slice(0, 10)}

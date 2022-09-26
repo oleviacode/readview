@@ -26,12 +26,14 @@ export type RootStackParamList = {
   AddTopic: undefined;
   UpdatebooklistScreen: {booklistId: number};
   DiscussionProfileScreen: {topicId: number};
+  OtherUserPage: {userId: number};
 };
 
 export type ResponseInfo = {
   username: string;
   updated_at: string;
   content: string;
+  userid: number;
 };
 
 export type BookInfo = {
@@ -57,7 +59,7 @@ export type AuthorInfo = {
   bookpictures: string[];
   genres: string[];
   numoffollowers: number;
-  updated_at:string;
+  updated_at: string;
 };
 
 export type UserInfo = {
@@ -65,8 +67,8 @@ export type UserInfo = {
   username: string;
   gender: string;
   profile_picture: string;
-  info:string;
-  level:number;
+  info: string;
+  level: number;
   count: number;
 };
 
@@ -137,6 +139,7 @@ export const initialResponseInfo: ResponseInfo = {
   username: '',
   updated_at: '',
   content: '',
+  userid: 0,
 };
 
 export const initialAuthorInfo: AuthorInfo = {
@@ -191,8 +194,8 @@ export const initialUserInfo = {
   username: '',
   gender: 'other',
   profile_picture: `${Config.REACT_APP_BACKEND_URL}/uploads/default_profile_picture.jpg`,
-  info:'',
-  level:0,
+  info: '',
+  level: 0,
   count: 0,
 };
 

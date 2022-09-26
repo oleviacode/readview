@@ -31,8 +31,9 @@ import {faPlusCircle} from '@fortawesome/free-solid-svg-icons/faPlusCircle';
 import Loading from '../../shared/Loading';
 import AsyncStorage from '@react-native-community/async-storage';
 
-export default function DiscussionProfile({route, navigation}: any) {
+export default function DiscussionProfile({route}: any) {
   const discussId = route.params.topicId;
+  const navigation = useNavigation();
 
   let _getMethod;
   let _patchMethod;
@@ -251,9 +252,16 @@ export default function DiscussionProfile({route, navigation}: any) {
                         flex: 1,
                         justifyContent: 'center',
                       }}>
-                      <Text style={{fontSize: 15, fontWeight: 'bold'}}>
-                        {topic['username']}
-                      </Text>
+                      <TouchableOpacity
+                        onPress={() =>
+                          navigation.navigate('UserScreen', {
+                            userId: topic['userid'],
+                          })
+                        }>
+                        <Text style={{fontSize: 15, fontWeight: 'bold'}}>
+                          {topic['username']}
+                        </Text>
+                      </TouchableOpacity>
 
                       <Text
                         style={[

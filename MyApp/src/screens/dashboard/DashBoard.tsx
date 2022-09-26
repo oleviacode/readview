@@ -80,7 +80,7 @@ export default function DashBoard() {
               name="AuthorScreen"
               component={AuthorScreen}
               options={{title: 'Author'}}
-            />            
+            />
             <MainStack.Screen
               name="BookListScreen"
               component={Booklist}
@@ -94,7 +94,7 @@ export default function DashBoard() {
             <MainStack.Screen
               name="UserScreen"
               component={OtherUserPage}
-              options={{headerShown: false}}
+              options={{headerShown: true}}
             />
           </MainStack.Navigator>
         )}
@@ -103,9 +103,7 @@ export default function DashBoard() {
         name="Shelf"
         options={{
           tabBarIcon: () => <FontAwesomeIcon icon={faBook} size={25} />,
-          
-        }}
-        >
+        }}>
         {() => (
           <ShelfStack.Navigator>
             <ShelfStack.Screen
@@ -147,6 +145,11 @@ export default function DashBoard() {
               name="DiscussionScreen"
               component={Discussion}
               options={{headerShown: false}}
+            />
+            <DiscussionStack.Screen
+              name="UserScreen"
+              component={OtherUserPage}
+              options={{headerShown: true}}
             />
             <DiscussionStack.Screen
               name="AddTopic"
