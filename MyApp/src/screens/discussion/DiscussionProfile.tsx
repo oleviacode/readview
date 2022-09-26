@@ -61,7 +61,6 @@ export default function DiscussionProfile({route, navigation}: any) {
   async function dbAddLike() {
     _postMethod = await postMethod();
 
-    console.log(Config.REACT_APP_BACKEND_URL);
     try {
       const res = await fetch(
         `${Config.REACT_APP_BACKEND_URL}/discussion/like/${discussId}`,
@@ -106,6 +105,7 @@ export default function DiscussionProfile({route, navigation}: any) {
   }
 
   async function unlike() {
+    setUnlikeButtonSwitch(!unlikeButtonSwitch);
     if (likeButtonSwitch) {
       dbRemove();
       setLikes((likes -= 1));
@@ -129,7 +129,6 @@ export default function DiscussionProfile({route, navigation}: any) {
       _getMethod = await getMethod();
 
       try {
-        console.log('discussId is :', discussId);
         if (!pageLoaded) {
           setIsLoading(true);
           const resAll = await fetch(
@@ -141,9 +140,20 @@ export default function DiscussionProfile({route, navigation}: any) {
             `${Config.REACT_APP_BACKEND_URL}/discussion/discussionComments/${discussId}`,
             _getMethod,
           );
+          const resCheckStatus = await fetch(
+            `${Config.REACT_APP_BACKEND_URL}/discussion/checkStatus/${discussId}`,
+            _getMethod,
+          );
 
           const topic = await resAll.json();
           const allResponse = await resResponse.json();
+          const checkStatus = await resCheckStatus.json();
+
+          if (checkStatus['status'] == 'liked') {
+            setLikeButtonSwitch(true);
+          } else if (checkStatus['status'] == 'unliked') {
+            setUnlikeButtonSwitch(true);
+          }
 
           setTopic(topic[0]);
           setResponses(allResponse);
