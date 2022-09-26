@@ -144,16 +144,6 @@ export default function RegisterPageOne({navigation}: NaviProps) {
               </Text>
             </TouchableOpacity>
           </HStack>
-          {/* <HStack style={{alignItems: 'center', marginTop: 10}} spacing={20}>
-            <Text style={styles.titleText}>Birthday</Text>
-            <TouchableOpacity
-              style={{backgroundColor: 'white'}}
-              onPress={() => setOpen(true)}>
-              <Text style={{color: '#3766a6', fontWeight: 'bold'}}>
-                Choose date
-              </Text>
-            </TouchableOpacity>
-          </HStack> */}
 
           <Text style={{color: 'red'}}>{errorMsg}</Text>
           <View style={{alignItems: 'flex-end', marginTop: 30}}>
@@ -161,20 +151,6 @@ export default function RegisterPageOne({navigation}: NaviProps) {
               <Text style={{fontSize: 30, fontWeight: 'bold'}}>Next</Text>
             </TouchableOpacity>
           </View>
-
-          {/* <DatePicker
-            modal
-            open={open}
-            date={new Date()}
-            mode="date"
-            onConfirm={date => {
-              setOpen(false);
-              setBirthday(date);
-            }}
-            onCancel={() => {
-              setOpen(false);
-            }}
-          /> */}
         </View>
       </SafeAreaView>
     </TouchableWithoutFeedback>
