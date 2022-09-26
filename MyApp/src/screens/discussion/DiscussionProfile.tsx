@@ -4,30 +4,25 @@ import {
   Text,
   TouchableOpacity,
   ScrollView,
-  TouchableWithoutFeedback,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
-  Button,
   Pressable,
 } from 'react-native';
 import {HStack, Divider, TextInput} from '@react-native-material/core';
 import {styles} from '../../shared/stylesheet';
 import {
   DiscussionInfo,
-  DiscussionInfoProps,
   initialDiscussInfo,
   initialResponseInfo,
   ResponseInfo,
 } from '../../model';
-import {useNavigation} from '@react-navigation/native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faArrowUp} from '@fortawesome/free-solid-svg-icons/faArrowUp';
 import {faArrowDown} from '@fortawesome/free-solid-svg-icons/faArrowDown';
 import {getMethod, patchMethod, postMethod} from '../../shared/fetchMethods';
 import Config from 'react-native-config';
 import ResponseCard from './ResponseCard';
-import {faPlusCircle} from '@fortawesome/free-solid-svg-icons/faPlusCircle';
 import Loading from '../../shared/Loading';
 import AsyncStorage from '@react-native-community/async-storage';
 

@@ -4,7 +4,7 @@ import {useNavigation} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import {Switch, Text, TextInput, View} from 'react-native';
 import Config from 'react-native-config';
-import { resourceLimits } from 'worker_threads';
+import {resourceLimits} from 'worker_threads';
 import {styles} from '../../../shared/stylesheet';
 
 export default function UpdateBookList({route}: any) {
@@ -15,16 +15,41 @@ export default function UpdateBookList({route}: any) {
   const [title, onChangeTitle] = useState('');
   const navigation = useNavigation();
   const [error, setError] = useState('');
+  const [oldPrivateStatus, setOldPrivateStatus] = useState(false);
   const [privateSwitch, setPrivateSwitch] = useState(false);
   const [privateMsg, setPrivateMsg] = useState('Public');
-  const [placeholder, setPlaceholder] = useState('')
+  const [oldPlaceHolder, setOldPlaceHolder] = useState('');
+  const [placeholder, setPlaceholder] = useState('');
 
   // -------------------------------------------------------------------------------------------------------------------
   // functions
   // -------------------------------------------------------------------------------------------------------------------
-  
+
   async function updateBooklist() {
-    if (title.length < 3) {
+    if (title.length < 3 && privateSwitch != oldPrivateStatus) {
+      const token = await AsyncStorage.getItem('token');
+      const res = await fetch(
+        `${Config.REACT_APP_BACKEND_URL}/booklist/updated/${booklistId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          method: 'PATCH',
+
+          body: JSON.stringify({
+            title: oldPlaceHolder,
+            privateStatus: privateSwitch,
+          }),
+        },
+      );
+      const result = await res.json();
+      if (result[0].status == 200) {
+        navigation.goBack();
+      } else {
+        setError('Please Try Again');
+      }
+    } else if (title.length < 3) {
       setError('Please input at least 3 charaters!');
     } else {
       const token = await AsyncStorage.getItem('token');
@@ -67,33 +92,35 @@ export default function UpdateBookList({route}: any) {
   // -------------------------------------------------------------------------------------------------------------------
 
   useEffect(() => {
-    async function fetchBookList(){
+    async function fetchBookList() {
       const token = await AsyncStorage.getItem('token');
       //fetch booklists
       const resBooklist = await fetch(
         `${Config.REACT_APP_BACKEND_URL}/booklist/booklistInfo/${booklistId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
-      },
       );
       const result = await resBooklist.json();
 
-      if(result[0].message){
-        navigation.goBack()
+      if (result[0].message) {
+        navigation.goBack();
       } else {
-        setPrivateSwitch(result[0].private)
+        setOldPrivateStatus(result[0].private);
+        setPrivateSwitch(result[0].private);
         if (result[0].private == false) {
           setPrivateMsg('Public');
         } else {
           setPrivateMsg('Private');
         }
-        setPlaceholder(result[0].title)
+        setPlaceholder(result[0].title);
+        setOldPlaceHolder(result[0].title);
       }
     }
-    fetchBookList()
-  },[])
+    fetchBookList();
+  }, []);
 
   //-------------------------------------------------------------------------------------------------------------------
   // return
@@ -101,7 +128,17 @@ export default function UpdateBookList({route}: any) {
 
   return (
     <View style={styles.container}>
-      <Text>{error}</Text>
+      {error == '' ? <View style={{padding: 10}}></View> : <View style={{
+          backgroundColor: 'pink',
+          margin : 10,
+          borderRadius : 10,
+          padding: 10,
+        }}>
+          <Text style={{
+            fontSize: 15,
+            textAlign: 'center'
+          }}>{error}</Text>
+        </View>}
       <HStack style={{justifyContent: 'space-between'}}>
         <Text style={styles.userProfileText}>Input a title</Text>
 
