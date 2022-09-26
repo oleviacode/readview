@@ -34,6 +34,7 @@ export default function Readlist(props: Props) {
   // -------------------------------------------------------------------------------------------------------------------
 
   async function refresh() {
+    await setPage(0)
     const token = await AsyncStorage.getItem('token');
     const res = await fetch(
       `${Config.REACT_APP_BACKEND_URL}/user-interaction/${props.status}?page=0`,
@@ -47,7 +48,7 @@ export default function Readlist(props: Props) {
     if (result.length == 0) {
       //nobooks
       setNobooks(true);
-    } else if (result.length < 20) {
+    } else if (result.length < 10) {
       setNobooks(false);
       setBook(result);
       setToEnd(true);
@@ -129,7 +130,7 @@ export default function Readlist(props: Props) {
         //nobooks
         setNobooks(true);
         setLoading(false);
-      } else if (result.length < 20) {
+      } else if (result.length < 10) {
         setNobooks(false);
         setBook(result);
         setLoading(false);
@@ -199,7 +200,7 @@ export default function Readlist(props: Props) {
           leftOpenValue={75}
           rightOpenValue={-75}
           ListFooterComponent={end ? <View></View> : <Loading />}
-          onEndReachedThreshold={0.5}
+          onEndReachedThreshold={1}
           onEndReached={() => {
             !end && fetchMore();
           }}></SwipeListView>

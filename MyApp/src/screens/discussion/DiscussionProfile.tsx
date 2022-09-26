@@ -4,18 +4,15 @@ import {
   Text,
   TouchableOpacity,
   ScrollView,
-  TouchableWithoutFeedback,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
-  Button,
   Pressable,
 } from 'react-native';
 import {HStack, Divider, TextInput} from '@react-native-material/core';
 import {styles} from '../../shared/stylesheet';
 import {
   DiscussionInfo,
-  DiscussionInfoProps,
   initialDiscussInfo,
   initialResponseInfo,
   ResponseInfo,
@@ -27,7 +24,6 @@ import {faArrowDown} from '@fortawesome/free-solid-svg-icons/faArrowDown';
 import {getMethod, patchMethod, postMethod} from '../../shared/fetchMethods';
 import Config from 'react-native-config';
 import ResponseCard from './ResponseCard';
-import {faPlusCircle} from '@fortawesome/free-solid-svg-icons/faPlusCircle';
 import Loading from '../../shared/Loading';
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -191,10 +187,6 @@ export default function DiscussionProfile({route}: any) {
           const topic = await resAll.json();
           const allResponse = await resResponse.json();
           const checkStatus = await resCheckStatus.json();
-
-          console.log('topic is: ', topic);
-          console.log('all Response: ', allResponse);
-          console.log('checkStatus is: ', checkStatus);
 
           if (checkStatus['status'] == 'liked') {
             setLikeButtonSwitch(true);
