@@ -124,7 +124,7 @@ export default function AuthorList() {
             contentContainerStyle={{paddingBottom: '70%'}}>
             <View
               style={{
-                backgroundColor: 'lightblue',
+                backgroundColor: '#C7BE9D',
                 margin: 10,
                 borderRadius: 10,
                 padding: 10,

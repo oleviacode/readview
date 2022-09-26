@@ -36,6 +36,7 @@ export default function ChangeUsername() {
         onChangeText={onChangeUsername}
         placeholder={`${oldUsername as string}`}
         keyboardType={'default'}
+        maxLength={20}
       />
       <View>
       <Button

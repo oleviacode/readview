@@ -115,7 +115,7 @@ export default function ByTitle() {
     <View>
       <View
         style={{
-          backgroundColor: 'lightblue',
+          backgroundColor: '#C7BE9D',
           margin: 10,
           borderRadius: 10,
           padding: 10,

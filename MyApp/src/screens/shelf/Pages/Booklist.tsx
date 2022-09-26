@@ -17,8 +17,8 @@ import {Divider} from 'react-native-flex-layout';
 import {useAppSelector} from '../../../../redux/store';
 import {useNavigation} from '@react-navigation/native';
 import Loading from '../../../shared/Loading';
-import { faBookmark } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import {faBookmark} from '@fortawesome/free-solid-svg-icons';
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 
 export default function Booklist({route}: any) {
   // -------------------------------------------------------------------------------------------------------------------
@@ -30,7 +30,11 @@ export default function Booklist({route}: any) {
   const [isLoading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [nobooks, setNobooks] = useState(false);
-  const [booklist, setBookList] = useState({title: '', booklist_creator_id: 0, username: ''});
+  const [booklist, setBookList] = useState({
+    title: '',
+    booklist_creator_id: 0,
+    username: '',
+  });
   const [saveButton, setSaveButton] = useState('#eac645');
   const userId = useAppSelector(state => state.user.id);
   const navigation = useNavigation();
@@ -79,30 +83,28 @@ export default function Booklist({route}: any) {
 
   //save button
   async function save() {
-      const token = await AsyncStorage.getItem('token');
-      const res = await fetch(
-        `${Config.REACT_APP_BACKEND_URL}/booklist/followOrUnfollowBooklist/${booklistId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          method: 'POST',
+    const token = await AsyncStorage.getItem('token');
+    const res = await fetch(
+      `${Config.REACT_APP_BACKEND_URL}/booklist/followOrUnfollowBooklist/${booklistId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-      );
+        method: 'POST',
+      },
+    );
 
-      const result = await res.json();
-      if (result[0].status == 200) {
-        if (saveButton == 'lightgrey'){
-           setSaveButton('#eac645');
-        } else {
-          setSaveButton('lightgrey');
-        }
-       
+    const result = await res.json();
+    if (result[0].status == 200) {
+      if (saveButton == 'lightgrey') {
+        setSaveButton('#eac645');
       } else {
-        //do nothing
+        setSaveButton('lightgrey');
       }
+    } else {
+      //do nothing
     }
-  
+  }
 
   // delete an item
   async function deleteItems(bookId: number) {
@@ -118,7 +120,7 @@ export default function Booklist({route}: any) {
     );
     const result = await res.json();
     if (result[0].status == 200) {
-      setBook(books.filter(book => book.id !== bookId))
+      setBook(books.filter(book => book.id !== bookId));
     } else {
       console.log('something wrong happens');
     }
@@ -159,17 +161,17 @@ export default function Booklist({route}: any) {
         },
       );
       const check = await resCheckStatus.json();
-      console.log(check)
+      console.log(check);
       if (resultBooks.length == 0) {
         //nobooks
         setNobooks(true);
         setLoading(false);
       } else {
         // have books
-        if(check.length != 0){
-          setSaveButton('#eac645')
+        if (check.length != 0) {
+          setSaveButton('#eac645');
         } else {
-          setSaveButton('lightgrey')
+          setSaveButton('lightgrey');
         }
         setNobooks(false);
         setBook(resultBooks);
@@ -177,7 +179,12 @@ export default function Booklist({route}: any) {
       }
       setBookList(resultBooklist[0]);
     }
+    //focus
+    const focus = navigation.addListener('focus', async () => {
+      refresh();
+    });
     fetchBook();
+    return focus;
   }, [booklistId]);
 
   // -------------------------------------------------------------------------------------------------------------------
@@ -193,7 +200,6 @@ export default function Booklist({route}: any) {
       {!isLoading && nobooks && (
         <>
           <View style={styles.container}>
-
             {/* The update button ---------------------------------------------------------------------------- */}
             {userId == booklist.booklist_creator_id ? (
               <TouchableOpacity
@@ -224,11 +230,11 @@ export default function Booklist({route}: any) {
               refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
               }
-              contentContainerStyle={{paddingBottom:'70%'}}>
+              contentContainerStyle={{paddingBottom: '70%'}}>
               {userId == booklist.booklist_creator_id && (
                 <Button
                   style={{marginBottom: 10, marginTop: 10}}
-                  color={'navy'}
+                  color={'#4A649D'}
                   onPress={() => {
                     navigation.navigate('Search');
                   }}
@@ -236,7 +242,7 @@ export default function Booklist({route}: any) {
               )}
               <View
                 style={{
-                  backgroundColor: 'lightblue',
+                  backgroundColor: '#C7BE9D',
                   margin: 10,
                   borderRadius: 10,
                   padding: 10,
@@ -256,7 +262,6 @@ export default function Booklist({route}: any) {
       {!isLoading && !nobooks && (
         <>
           <View style={styles.container}>
-
             {/* the updated button */}
             {userId == booklist.booklist_creator_id ? (
               <TouchableOpacity
@@ -274,36 +279,32 @@ export default function Booklist({route}: any) {
                 </Text>
               </TouchableOpacity>
             ) : (
-
               // if the user is not the creator
               <>
-                <Text
-                  style={[
-                    styles.titleText,
-                    {padding: 10},
-                  ]}>
+                <Text style={[styles.titleText, {padding: 10}]}>
                   {booklist.title}
                 </Text>
-                <HStack style={{justifyContent: 'space-between', alignItems:'center', paddingBottom: 20}}>
-                <Text
-                  style={[
-                    styles.smallText,
-                    {padding: 10},
-                  ]}>
-                  by {booklist.username}
-                </Text>
-                <View style={{}}>
-                <TouchableOpacity
-                  onPress={() => {
-                    save();
+                <HStack
+                  style={{
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    paddingBottom: 20,
                   }}>
-                  <FontAwesomeIcon
-                    size={50}
-                    icon={faBookmark}
-                    color={saveButton}
-                  />
-                </TouchableOpacity>
-              </View>
+                  <Text style={[styles.smallText, {padding: 10}]}>
+                    by {booklist.username}
+                  </Text>
+                  <View style={{}}>
+                    <TouchableOpacity
+                      onPress={() => {
+                        save();
+                      }}>
+                      <FontAwesomeIcon
+                        size={50}
+                        icon={faBookmark}
+                        color={saveButton}
+                      />
+                    </TouchableOpacity>
+                  </View>
                 </HStack>
               </>
             )}
@@ -313,7 +314,7 @@ export default function Booklist({route}: any) {
             {userId == booklist.booklist_creator_id && (
               <Button
                 style={{marginBottom: 10}}
-                color={'navy'}
+                color={'#4A649D'}
                 onPress={() => {
                   navigation.navigate('Search');
                 }}

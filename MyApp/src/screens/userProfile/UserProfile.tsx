@@ -45,37 +45,9 @@ export default function UserProfile() {
             source={{uri: `${Config.REACT_APP_BACKEND_URL}/uploads/${img}`}}
           />
         </View>
-        <View style={{justifyContent:'center', alignItems:'center'}}>
-          <HStack >
-            <Text style={styles.userProfileText}>{user}
-              {gender == 'female' && (
-                <FontAwesomeIcon
-                  icon={faVenus}
-                  color={'red'}
-                  style={{
-                    marginLeft: 10,
-                  }}
-                />
-              )}
-              {gender == 'male' && (
-                <FontAwesomeIcon
-                  icon={faMars}
-                  color={'blue'}
-                  style={{
-                    marginLeft: 10,
-                  }}
-                />
-              )}
-              {gender == 'Other' && (
-                <FontAwesomeIcon
-                  icon={faMarsAndVenus}
-                  color={'blue'}
-                  style={{
-                    marginLeft: 10,
-                  }}
-                />
-              )}
-            </Text>
+        <View style={{justifyContent: 'center', alignItems: 'center'}}>
+          <HStack>
+            <Text style={styles.userProfileText}>{user}</Text>
           </HStack>
           <Text
             style={{
@@ -98,10 +70,10 @@ export default function UserProfile() {
             justifyContent: 'center',
             alignItems: 'center',
           }}>
-          <Button onPress={() => setPage('data')}>Data</Button>
+          <Button color={'#4A649D'} onPress={() => setPage('data')}>Data</Button>
           {/* <Button style={{backgroundColor: 'pink'}}>History</Button> */}
           <Button
-            color="green"
+            color="#4A649D"
             onPress={() => {
               setPage('settings');
             }}>

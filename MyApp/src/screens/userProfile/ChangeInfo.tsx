@@ -35,6 +35,8 @@ export default function ChangeInfo() {
         onChangeText={onChangeInfo}
         placeholder={`${oldInfo as string}`}
         keyboardType={'default'}
+        maxLength={50}
+        
       />
       <View>
       <Button

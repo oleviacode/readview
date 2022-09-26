@@ -4,6 +4,7 @@ import {Divider, HStack} from '@react-native-material/core';
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {Image, Pressable, Text, View} from 'react-native';
+import Config from 'react-native-config';
 import {UserInfoProps} from '../../../../model';
 import {styles} from '../../../../shared/stylesheet';
 
@@ -21,7 +22,7 @@ export default function UserRecCard(props: UserInfoProps) {
           <Image
             style={styles.smallProfilePic}
             source={{
-              uri: userInfo.profile_picture,
+              uri: `${Config.REACT_APP_BACKEND_URL}/uploads/${userInfo.profile_picture}`,
             }}></Image>
             <View>
           <Text style={[styles.titleText, {marginTop: 1}]}>{userInfo.username}
@@ -43,7 +44,7 @@ export default function UserRecCard(props: UserInfoProps) {
                   }}
                 />
               )}
-              {userInfo.gender == 'Other' && (
+              {userInfo.gender == 'other' && (
                 <FontAwesomeIcon
                   icon={faMarsAndVenus}
                   color={'blue'}
@@ -58,7 +59,7 @@ export default function UserRecCard(props: UserInfoProps) {
           </HStack>
           <View style={{justifyContent: 'flex-end', alignItems:'flex-end', padding:10}}>
             <Text style={{color: 'navy', fontWeight:'500'}}>Lv {userInfo.level}</Text>
-            <Text><FontAwesomeIcon icon={faHeart} color={'pink'} />{' '}</Text>
+            <Text><FontAwesomeIcon icon={faHeart} color={'pink'} /> {userInfo.count}</Text>
           </View>
         </HStack>
         <Divider />

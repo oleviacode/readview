@@ -20,8 +20,6 @@ export default function TimelineRecord() {
     isShown = true;
   }
 
-  console.log(timelineDatas)
-
   return (
     <>
       {isShown ? (

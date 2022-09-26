@@ -78,6 +78,7 @@ export default function ChangePassword() {
         onChangeText={onChangeOldPassword}
         secureTextEntry={true}
         keyboardType={'default'}
+        maxLength={20}
       />
       <Text
         style={{

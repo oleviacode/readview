@@ -37,10 +37,10 @@ export default function RatingRecord() {
                 duration: 2000,
                 onLoad: {duration: 100},
               }}
-              domainPadding={{x: [10, 20], y: [10, 20]}}>
+              domainPadding={{x: [30, 20], y: [10, 20]}}>
               <VictoryBar
                 padding={{ top: 20, bottom: 60 }}
-                style={{data: {fill: '#c43a31'}}}
+                style={{data: {fill: '#7780A4'}}}
                 dataComponent={<Bar/>}
                 data={ratingDatas.map(data => ({
                   x: Math.round(data.rating),

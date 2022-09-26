@@ -25,6 +25,7 @@ export default function Search() {
         <HStack style={{justifyContent: 'center'}} spacing={10}>
           <Button
             style={{marginRight: 10}}
+            color={'#7196E1'}
             onPress={() => {
               setStatus('book')
             }}>
@@ -32,7 +33,7 @@ export default function Search() {
           </Button>
           <Button
             style={{marginRight: 10}}
-            color="pink"
+            color="#7780A4"
             onPress={() => {
               setStatus('author')
             }}>
@@ -40,7 +41,7 @@ export default function Search() {
           </Button>
           <Button
             style={{marginRight: 10}}
-            color="pink"
+            color="#7780A4"
             onPress={() => {
               setStatus('booklist')
             }}>
@@ -48,7 +49,7 @@ export default function Search() {
           </Button>
           <Button
             style={{marginRight: 10}}
-            color="pink"
+            color="#7780A4"
             onPress={() => {
               setStatus('user')
             }}>
