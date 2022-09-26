@@ -77,6 +77,7 @@ export default function Booklist({route}: any) {
     setTimeout(() => setRefreshing(false), 2000);
   }, []);
 
+  //save button
   async function save() {
       const token = await AsyncStorage.getItem('token');
       const res = await fetch(
@@ -117,7 +118,7 @@ export default function Booklist({route}: any) {
     );
     const result = await res.json();
     if (result[0].status == 200) {
-      onRefresh();
+      setBook(books.filter(book => book.id !== bookId))
     } else {
       console.log('something wrong happens');
     }
@@ -150,7 +151,7 @@ export default function Booklist({route}: any) {
       );
       const resultBooklist = await resBooklist.json();
       const resCheckStatus = await fetch(
-        `${Config.REACT_APP_BACKEND_URL}/booklist/checkbooklist`,
+        `${Config.REACT_APP_BACKEND_URL}/booklist/checkbooklist/${booklistId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -158,6 +159,7 @@ export default function Booklist({route}: any) {
         },
       );
       const check = await resCheckStatus.json();
+      console.log(check)
       if (resultBooks.length == 0) {
         //nobooks
         setNobooks(true);
@@ -221,7 +223,8 @@ export default function Booklist({route}: any) {
             <ScrollView
               refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-              }>
+              }
+              contentContainerStyle={{paddingBottom:'70%'}}>
               {userId == booklist.booklist_creator_id && (
                 <Button
                   style={{marginBottom: 10, marginTop: 10}}

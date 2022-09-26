@@ -1,4 +1,3 @@
-
 import React, {useCallback, useEffect, useState} from 'react';
 import {
   RefreshControl,
@@ -15,7 +14,7 @@ import {Divider} from 'react-native-flex-layout';
 
 import Loading from '../../../shared/Loading';
 import AuthorRecCard from '../Components/AuthorRecCard';
-import { SwipeListView } from 'react-native-swipe-list-view';
+import {SwipeListView} from 'react-native-swipe-list-view';
 
 export default function AuthorList() {
   // -------------------------------------------------------------------------------------------------------------------
@@ -33,14 +32,11 @@ export default function AuthorList() {
 
   async function refresh() {
     const token = await AsyncStorage.getItem('token');
-    const res = await fetch(
-      `${Config.REACT_APP_BACKEND_URL}/author/user`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+    const res = await fetch(`${Config.REACT_APP_BACKEND_URL}/author/user`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
       },
-    );
+    });
     const result = await res.json();
     if (result.length == 0 || result[0].message) {
       //no lists
@@ -72,9 +68,8 @@ export default function AuthorList() {
       },
     );
     const result = await res.json();
-    console.log(result)
     if (result[0].status == 200) {
-      onRefresh();
+      setAuthor(authors.filter(author => author.id !== authorId))
     } else {
       console.log('something wrong happens');
     }
@@ -121,44 +116,41 @@ export default function AuthorList() {
       {isLoading ? <Loading /> : <View></View>}
 
       {/* if no result */}
-      {(!isLoading && noAuthors) && (
-        <>
-          <View style={styles.container}>
-            <ScrollView
-              refreshControl={
-                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-              }>
-              <View
+      {!isLoading && noAuthors && (
+          <ScrollView
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+            contentContainerStyle={{paddingBottom: '70%'}}>
+            <View
+              style={{
+                backgroundColor: 'lightblue',
+                margin: 10,
+                borderRadius: 10,
+                padding: 10,
+              }}>
+              <Text
                 style={{
-                  backgroundColor: 'lightblue',
-                  margin: 10,
-                  borderRadius: 10,
-                  padding: 10,
-                }}>
-                <Text
-                  style={{
-                    fontSize: 15,
-                    textAlign: 'center',
-                  }}>{`You haven't added anything yet :(`}</Text>
-              </View>
-            </ScrollView>
-          </View>
-        </>
+                  fontSize: 15,
+                  textAlign: 'center',
+                }}>{`You haven't added anything yet :(`}</Text>
+            </View>
+          </ScrollView> 
       )}
 
       {/* Yes authorlist */}
-      {(!isLoading && !noAuthors) && (
+      {!isLoading && !noAuthors && (
         <>
           <SwipeListView
             contentContainerStyle={{paddingBottom: '30%'}}
             refreshing={refreshing}
-            keyExtractor={(item) => String(item.id)}
+            keyExtractor={item => String(item.id)}
             onRefresh={onRefresh}
             useFlatList={true}
             data={authors}
             disableRightSwipe={true}
             swipeToClosePercent={70}
-            renderItem={(data) => (
+            renderItem={data => (
               <AuthorRecCard key={data.item.id} authorlist={data.item} />
             )}
             renderHiddenItem={(data, rowMap) => (

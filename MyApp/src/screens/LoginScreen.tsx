@@ -143,7 +143,7 @@ export default function LoginScreen() {
             <View>
               <Text style={styles.text}>Email:</Text>
                 <TextInput
-                  style={styles.textInput}
+                  style={[styles.textInput, {paddingLeft:10}]}
                   onChangeText={onChangeEmail}
                   placeholder={' email'}
                   keyboardType={'email-address'}
@@ -151,7 +151,7 @@ export default function LoginScreen() {
                 <Text style={styles.text}>Password: </Text>
 
               <TextInput
-                style={styles.textInput}
+                style={[styles.textInput, {paddingLeft:10}]}
                 secureTextEntry={true}
                 onChangeText={onChangePassword}
                 keyboardType={'default'}

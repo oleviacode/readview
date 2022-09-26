@@ -106,7 +106,7 @@ export default function BooklistList() {
     }
 
     if (result[0].status == 200) {
-      onRefresh();
+      setBookList(booklist.filter(item => item.id != id))
     } else {
       console.log('something wrong happens');
     }
@@ -234,7 +234,8 @@ export default function BooklistList() {
               </View>
             )}
             leftOpenValue={75}
-            rightOpenValue={-75}></SwipeListView>
+            rightOpenValue={-75}
+            ></SwipeListView>
         </>
       )}
 
@@ -247,7 +248,9 @@ export default function BooklistList() {
           <ScrollView
             refreshControl={
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-            }>
+            }
+            contentContainerStyle={{paddingBottom:'70%'}}
+            >
             <View
               style={{
                 backgroundColor: 'lightblue',

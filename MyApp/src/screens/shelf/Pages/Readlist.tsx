@@ -10,10 +10,8 @@ import {
 } from 'react-native';
 import Config from 'react-native-config';
 import {SwipeListView} from 'react-native-swipe-list-view';
-import {
-  BookInfo,
-  initialBookInfo,
-} from '../../../model';
+import {BookInfo, initialBookInfo} from '../../../model';
+import Loading from '../../../shared/Loading';
 import BookRecCard from '../../bookProfile/bookRecCard';
 
 type Props = {
@@ -21,7 +19,6 @@ type Props = {
 };
 
 export default function Readlist(props: Props) {
-  
   // -------------------------------------------------------------------------------------------------------------------
   // settings
   // -------------------------------------------------------------------------------------------------------------------
@@ -29,6 +26,8 @@ export default function Readlist(props: Props) {
   const [refreshing, setRefreshing] = useState(false);
   const [books, setBook] = useState<BookInfo[]>([initialBookInfo]);
   const [isLoading, setLoading] = useState(true);
+  const [page, setPage] = useState(0);
+  const [end, setToEnd] = useState(false);
 
   // -------------------------------------------------------------------------------------------------------------------
   // refrshing
@@ -37,7 +36,7 @@ export default function Readlist(props: Props) {
   async function refresh() {
     const token = await AsyncStorage.getItem('token');
     const res = await fetch(
-      `${Config.REACT_APP_BACKEND_URL}/user-interaction/${props.status}`,
+      `${Config.REACT_APP_BACKEND_URL}/user-interaction/${props.status}?page=0`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -48,38 +47,63 @@ export default function Readlist(props: Props) {
     if (result.length == 0) {
       //nobooks
       setNobooks(true);
+    } else if (result.length < 20) {
+      setNobooks(false);
+      setBook(result);
+      setToEnd(true);
     } else {
       // have books
       setNobooks(false);
       setBook(result);
+      setPage(page + 1);
     }
   }
 
   // callback on fresh
   const onRefresh = useCallback(() => {
+    setPage(0);
     setRefreshing(true);
     refresh();
     setTimeout(() => setRefreshing(false), 2000);
   }, []);
 
-
   // delete an item
-  async function deleteItems(bookId: number){
+  async function deleteItems(bookId: number) {
     const token = await AsyncStorage.getItem('token');
     const res = await fetch(
-      `${Config.REACT_APP_BACKEND_URL}/book/saveBookStatus/${bookId}/unread`,
+      `${Config.REACT_APP_BACKEND_URL}/book/saveBookStatus/${bookId}/null`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-        method: "PATCH"
+        method: 'PATCH',
       },
     );
-    const result = await res.json()
-    if (result[0].status == 200){
-      onRefresh()
+    const result = await res.json();
+    if (result[0].status == 200) {
+      setBook(books.filter(item => item.id !== bookId))
     } else {
-      console.log('something wrong happens')
+      console.log('something wrong happens');
+    }
+  }
+
+  //fetch more books
+  async function fetchMore() {
+    const token = await AsyncStorage.getItem('token');
+    const res = await fetch(
+      `${Config.REACT_APP_BACKEND_URL}/user-interaction/${props.status}?page=${page}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+    const result = await res.json();
+    if (result.length == 0) {
+      setToEnd(true);
+    } else {
+      setBook([...books, ...result]);
+      setPage(page + 1);
     }
   }
 
@@ -91,26 +115,32 @@ export default function Readlist(props: Props) {
     async function fetchBook() {
       setLoading(true);
       const token = await AsyncStorage.getItem('token');
-        //fetch readinglists
-        const res = await fetch(
-          `${Config.REACT_APP_BACKEND_URL}/user-interaction/${props.status}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+      //fetch readinglists
+      const res = await fetch(
+        `${Config.REACT_APP_BACKEND_URL}/user-interaction/${props.status}?page=0`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
           },
-        );
-        const result = await res.json();
-        if (result.length == 0) {
-          //nobooks
-          setNobooks(true);
-          setLoading(false);
-        } else {
-          // have books
-          setNobooks(false);
-          setBook(result);
-          setLoading(false);
-        }
+        },
+      );
+      const result = await res.json();
+      if (result.length == 0 || result[0].message) {
+        //nobooks
+        setNobooks(true);
+        setLoading(false);
+      } else if (result.length < 20) {
+        setNobooks(false);
+        setBook(result);
+        setLoading(false);
+        setToEnd(true);
+      } else {
+        // have books
+        setNobooks(false);
+        setBook(result);
+        setLoading(false);
+        setPage(page + 1);
+      }
     }
     fetchBook();
   }, []);
@@ -125,9 +155,9 @@ export default function Readlist(props: Props) {
         paddingHorizontal: 9,
       }}>
       {/* shown when books in list*/}
-      {!isLoading &&
-      !nobooks ? (
+      {!isLoading && !nobooks && (
         <SwipeListView
+          contentContainerStyle={{paddingBottom: '30%'}}
           refreshing={refreshing}
           keyExtractor={(item, index) => String(item.id)}
           onRefresh={onRefresh}
@@ -136,69 +166,56 @@ export default function Readlist(props: Props) {
           disableRightSwipe={true}
           swipeToClosePercent={70}
           renderItem={(data, rowMap) => (
-            
             <BookRecCard bookInfo={data.item} key={data.item.id} />
           )}
           renderHiddenItem={(data, rowMap) => (
             <View
-                  style={{
-                    alignItems: 'center',
-                    flex: 1,
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    paddingLeft: 15,
-                  }}>
-                  <TouchableOpacity
-                    style={{
-                      alignItems: 'center',
-                      bottom: 0,
-                      justifyContent: 'center',
-                      position: 'absolute',
-                      top: 0,
-                      width: 75,
-                      backgroundColor: '#CF4714',
-                      right: 0,
-                    }}
-                    onPress={() => 
-                    { 
-                      rowMap[String(data.item.id)].closeRow()
-                      deleteItems(data.item.id)
-                    }}>
-                    <Text>Delete</Text>
-                  </TouchableOpacity>
-                </View>
+              style={{
+                alignItems: 'center',
+                flex: 1,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                paddingLeft: 15,
+              }}>
+              <TouchableOpacity
+                style={{
+                  alignItems: 'center',
+                  bottom: 0,
+                  justifyContent: 'center',
+                  position: 'absolute',
+                  top: 0,
+                  width: 75,
+                  backgroundColor: '#CF4714',
+                  right: 0,
+                }}
+                onPress={() => {
+                  rowMap[String(data.item.id)].closeRow();
+                  deleteItems(data.item.id);
+                }}>
+                <Text>Delete</Text>
+              </TouchableOpacity>
+            </View>
           )}
           leftOpenValue={75}
-          rightOpenValue={-75}></SwipeListView>
-      ) : (
-        <View></View>
+          rightOpenValue={-75}
+          ListFooterComponent={end ? <View></View> : <Loading />}
+          onEndReachedThreshold={0.5}
+          onEndReached={() => {
+            !end && fetchMore();
+          }}></SwipeListView>
       )}
 
       {/* shown when loading at the first time*/}
-      {isLoading ? (
-        <View
-          style={{
-            flex: 1,
-            width: '100%',
-            height: '100%',
-            justifyContent: 'center',
-            alignItems: 'center',
-            paddingTop: 20,
-          }}>
-          <ActivityIndicator size="large" color="#5699ee" />
-        </View>
-      ) : (
-        <View></View>
-      )}
+      {isLoading && <Loading />}
 
       {/* nothing in the list */}
-      {(!isLoading &&
-        nobooks) ? (
+      {!isLoading && nobooks ? (
         <>
           <ScrollView
             refreshControl={
               <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-            }>
+            }
+            contentContainerStyle={{paddingBottom: '70%'}}>
             <View
               style={{
                 backgroundColor: 'lightblue',

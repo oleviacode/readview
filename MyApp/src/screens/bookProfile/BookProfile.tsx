@@ -16,15 +16,12 @@ import BookProfileCard from './BookProfileCard';
 import Ranking from './RankingBox';
 import ReviewCard from './ReviewCard';
 import BookRecCard from './bookRecCard';
-import DiscussionCard from './DiscussionCard';
 import {
-  DiscussionInfo,
   RatingInfo,
   initialBookInfo,
   BookInfo,
   initialRatingInfo,
   ReviewCardInfo,
-  initialBookListInfo,
 } from '../../model';
 import {initialReviewInfo} from '../../model';
 
@@ -48,22 +45,7 @@ export default function BookProfile({route, navigation}: any) {
   const [latestReviews, setLatestReviews] = useState<Array<ReviewCardInfo>>([
     initialReviewInfo,
   ]);
-  const [Recommendations, setRecommendations] = useState<BookInfo[]>([
-    {
-      id: 0,
-      title: '',
-      author_name: '',
-      publisher_name: '',
-      publish_date: '',
-      book_picture: '',
-      genre: [''],
-      info: '',
-      rating: 0,
-      readerstatus: undefined,
-      isbn: '',
-      pages: 0,
-    },
-  ]);
+  const [Recommendations, setRecommendations] = useState<BookInfo[]>([initialBookInfo]);
   const userId = useAppSelector(state => state.user.id);
   const [isLoading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -84,7 +66,11 @@ export default function BookProfile({route, navigation}: any) {
 
     const test = await res.json();
 
-    setReadingButton('#7380AA');
+    if (readingButton == '#7380AA') {
+      setReadingButton('lightgrey');
+    } else {
+      setReadingButton('#7380AA');
+    }
     setReadButton('lightgrey');
     setSaveButton('lightgrey');
   }
@@ -99,8 +85,11 @@ export default function BookProfile({route, navigation}: any) {
     );
 
     const test = await res.json();
-
-    setReadButton('#7380AA');
+    if (readButton == '#7380AA') {
+      setReadButton('lightgrey');
+    } else {
+      setReadButton('#7380AA');
+    }
     setReadingButton('lightgrey');
     setSaveButton('lightgrey');
   }
@@ -115,8 +104,11 @@ export default function BookProfile({route, navigation}: any) {
     );
 
     const test = await res.json();
-
-    setSaveButton('#eac645');
+    if (saveButton == '#eac645') {
+      setSaveButton('lightgrey');
+    } else {
+      setSaveButton('#eac645');
+    }
     setReadingButton('lightgrey');
     setReadButton('lightgrey');
   }
@@ -138,6 +130,7 @@ export default function BookProfile({route, navigation}: any) {
       `${Config.REACT_APP_BACKEND_URL}/user-interaction/recommendation`,
       _getMethod,
     );
+    
     const threeReviews = await resReviews.json();
     const rating = await resRatingInfo.json();
     const recommendations = await resRecommendations.json();
