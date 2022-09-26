@@ -62,16 +62,17 @@ export type AuthorInfo = {
 export type UserInfo = {
   id: number;
   username: string;
-  gender:string;
+  gender: string;
   profile_picture: string;
-  info:string;
-  level:number;
+  info: string;
+  level: number;
 };
 
 export type DiscussionInfo = {
   substring: string;
   username: string;
-  id: number;
+  userid: number;
+  discussionid: number;
   info: string;
   likes: number;
   unlikes: number;
@@ -185,8 +186,8 @@ export const initialUserInfo = {
   username: '',
   gender: 'other',
   profile_picture: `${Config.REACT_APP_BACKEND_URL}/uploads/default_profile_picture.jpg`,
-  info:'',
-  level:0,
+  info: '',
+  level: 0,
 };
 
 export type Birthday = Date | null;
@@ -234,10 +235,11 @@ export const initialRankingBoxInfo: RankingBoxInfo = {
 export const initialDiscussInfo: DiscussionInfo = {
   substring: '',
   username: '',
-  id: 0,
+  userid: 0,
   info: '',
   likes: 0,
   unlikes: 0,
+  discussionid: 0,
   updated_at: '',
 };
 

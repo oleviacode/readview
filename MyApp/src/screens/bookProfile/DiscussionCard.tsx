@@ -15,7 +15,9 @@ export default function DiscussionCard(props: DiscussionInfoProps) {
   return (
     <TouchableOpacity
       onPress={() =>
-        navigation.navigate('DiscussionProfileScreen', {topicId: card['id']})
+        navigation.navigate('DiscussionProfileScreen', {
+          topicId: card['discussionid'],
+        })
       }>
       <View style={[styles.regularBox, {backgroundColor: 'white'}]}>
         <HStack style={{marginTop: 20}}>

@@ -22,6 +22,7 @@ export default function Discussion({navigation}: NaviProps) {
   ]);
 
   useEffect(() => {
+    console.log(Config.REACT_APP_BACKEND_URL);
     async function main() {
       const _getMethod = await getMethod();
 
@@ -41,7 +42,7 @@ export default function Discussion({navigation}: NaviProps) {
       <ScrollView>
         {discuss &&
           discuss.map(card => (
-            <DiscussionCard discussionInfo={card} key={card['id']} />
+            <DiscussionCard discussionInfo={card} key={card['discussionid']} />
           ))}
       </ScrollView>
       <TouchableOpacity

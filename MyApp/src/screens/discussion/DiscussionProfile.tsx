@@ -13,7 +13,7 @@ import {useNavigation} from '@react-navigation/native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faArrowUp} from '@fortawesome/free-solid-svg-icons/faArrowUp';
 import {faArrowDown} from '@fortawesome/free-solid-svg-icons/faArrowDown';
-import {getMethod} from '../../shared/fetchMethods';
+import {getMethod, patchMethod, postMethod} from '../../shared/fetchMethods';
 import Config from 'react-native-config';
 import ResponseCard from './ResponseCard';
 import {faPlusCircle} from '@fortawesome/free-solid-svg-icons/faPlusCircle';
@@ -22,6 +22,12 @@ import Loading from '../../shared/Loading';
 export default function DiscussionProfile({route, navigation}: any) {
   const discussId = route.params.topicId;
 
+  let _getMethod;
+  let _patchMethod;
+  let _postMethod;
+
+  // USESTATES
+
   const [topic, setTopic] = useState<DiscussionInfo>(initialDiscussInfo);
   const [responses, setResponses] = useState<ResponseInfo[]>([
     initialResponseInfo,
@@ -29,21 +35,108 @@ export default function DiscussionProfile({route, navigation}: any) {
   const [isLoading, setIsLoading] = useState(false);
   const [likeButtonSwitch, setLikeButtonSwitch] = useState(false);
   const [unlikeButtonSwitch, setUnlikeButtonSwitch] = useState(false);
+  let [likes, setLikes] = useState(0);
+  let [unlikes, setUnlikes] = useState(0);
+
   const [likeButton, setLikeButton] = useState('grey');
   const [unlikeButton, setUnlikeButton] = useState('grey');
   const [pageLoaded, setPageLoaded] = useState(false);
 
+  // FUNCTIONS
+
+  async function dbRemove() {
+    _patchMethod = await patchMethod();
+
+    try {
+      await fetch(
+        `${Config.REACT_APP_BACKEND_URL}/discussion/removeLikeUnlike/${discussId}`,
+        _patchMethod,
+      );
+      return;
+    } catch (e) {
+      console.log('dbRemove not working');
+    }
+  }
+
+  async function dbAddLike() {
+    _postMethod = await postMethod();
+
+    console.log(Config.REACT_APP_BACKEND_URL);
+    try {
+      const res = await fetch(
+        `${Config.REACT_APP_BACKEND_URL}/discussion/like/${discussId}`,
+        _postMethod,
+      );
+
+      return;
+    } catch (e) {
+      console.log('dbAdd not working');
+    }
+  }
+
+  async function dbAddUnlike() {
+    try {
+      _postMethod = await postMethod();
+      await fetch(
+        `${Config.REACT_APP_BACKEND_URL}/discussion/unlike/${discussId}`,
+        _postMethod,
+      );
+      return;
+    } catch (e) {
+      console.log('dbAddUnlike not working');
+    }
+  }
+
+  async function like() {
+    setLikeButtonSwitch(!likeButtonSwitch);
+
+    if (unlikeButtonSwitch) {
+      dbRemove();
+      setUnlikes((unlikes -= 1));
+      setUnlikeButtonSwitch(false);
+    }
+
+    if (!likeButtonSwitch) {
+      dbAddLike();
+      setLikes((likes += 1));
+    } else {
+      dbRemove();
+      setLikes((likes -= 1));
+    }
+  }
+
+  async function unlike() {
+    if (likeButtonSwitch) {
+      dbRemove();
+      setLikes((likes -= 1));
+      setLikeButtonSwitch(false);
+    }
+
+    setUnlikeButtonSwitch(!unlikeButtonSwitch);
+    if (!unlikeButtonSwitch) {
+      dbAddUnlike();
+      setUnlikes((unlikes += 1));
+    } else {
+      dbRemove();
+      setUnlikes((unlikes -= 1));
+    }
+  }
+
+  // USE EFFECT
+
   useEffect(() => {
     async function main() {
-      const _getMethod = await getMethod();
+      _getMethod = await getMethod();
 
       try {
+        console.log('discussId is :', discussId);
         if (!pageLoaded) {
           setIsLoading(true);
           const resAll = await fetch(
             `${Config.REACT_APP_BACKEND_URL}/discussion/discussionLead/${discussId}`,
             _getMethod,
           );
+
           const resResponse = await fetch(
             `${Config.REACT_APP_BACKEND_URL}/discussion/discussionComments/${discussId}`,
             _getMethod,
@@ -56,13 +149,20 @@ export default function DiscussionProfile({route, navigation}: any) {
           setResponses(allResponse);
           setIsLoading(false);
           setPageLoaded(true);
+          setLikes(topic[0]['likes']);
+          setUnlikes(topic[0]['unlikes']);
         }
 
-        if (likeButtonSwitch == true) {
+        if (likeButtonSwitch) {
           setLikeButton('red');
+        } else {
+          setLikeButton('grey');
         }
-        if (unlikeButtonSwitch == true) {
-          setUnlikeButton('blue');
+
+        if (unlikeButtonSwitch) {
+          setUnlikeButton('lightblue');
+        } else {
+          setUnlikeButton('grey');
         }
 
         return;
@@ -72,7 +172,7 @@ export default function DiscussionProfile({route, navigation}: any) {
     }
 
     main();
-  }, [likeButtonSwitch, setUnlikeButtonSwitch]);
+  }, [likeButtonSwitch, unlikeButtonSwitch]);
 
   return (
     // ---------------------------------------------------------------
@@ -116,25 +216,24 @@ export default function DiscussionProfile({route, navigation}: any) {
 
                     alignItems: 'center',
                   }}
-                  onPress={() => {
-                    setLikeButtonSwitch(!likeButtonSwitch);
-                  }}>
+                  onPress={like}>
                   <FontAwesomeIcon
                     icon={faArrowUp}
                     size={10}
                     color={likeButton}
                   />
-                  <Text style={[styles.smallText]}>{topic['likes']}</Text>
+                  <Text style={[styles.smallText]}>{likes}</Text>
                 </TouchableOpacity>
 
                 <TouchableOpacity
+                  onPress={unlike}
                   style={{flex: 5, flexDirection: 'row', alignItems: 'center'}}>
                   <FontAwesomeIcon
                     icon={faArrowDown}
                     size={10}
                     color={unlikeButton}
                   />
-                  <Text style={[styles.smallText]}>{topic['unlikes']}</Text>
+                  <Text style={[styles.smallText]}>{unlikes}</Text>
                 </TouchableOpacity>
               </HStack>
 
