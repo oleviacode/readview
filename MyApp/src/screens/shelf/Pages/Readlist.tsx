@@ -48,7 +48,7 @@ export default function Readlist(props: Props) {
     if (result.length == 0) {
       //nobooks
       setNobooks(true);
-    } else if (result.length < 10) {
+    } else if (result.length < 20) {
       setNobooks(false);
       setBook(result);
       setToEnd(true);
@@ -130,7 +130,7 @@ export default function Readlist(props: Props) {
         //nobooks
         setNobooks(true);
         setLoading(false);
-      } else if (result.length < 10) {
+      } else if (result.length < 20) {
         setNobooks(false);
         setBook(result);
         setLoading(false);
