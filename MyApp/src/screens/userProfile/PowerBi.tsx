@@ -7,7 +7,7 @@ export default function PowerBi() {
     <>
       <WebView
         source={{
-          uri: `https://app.powerbi.com/view?r=eyJrIjoiZWI3NjEzM2EtYmZmNi00Y2UwLTgxZjctNGI1NDY2OTVkZGE2IiwidCI6ImQxYjY3M2I5LTdjY2QtNDM5Yi04NmJjLWUzNGNjNmM5NTNiYiIsImMiOjEwfQ%3D%3D`,
+          uri: `https://app.powerbi.com/view?r=eyJrIjoiOTI0OGM5OWEtMzBhOC00MzM0LTkwYWUtMzcxM2I5NDJlNTNiIiwidCI6ImQxYjY3M2I5LTdjY2QtNDM5Yi04NmJjLWUzNGNjNmM5NTNiYiIsImMiOjEwfQ%3D%3D`,
         }}></WebView>
     </>
   );
