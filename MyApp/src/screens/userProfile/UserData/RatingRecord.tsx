@@ -43,7 +43,7 @@ export default function RatingRecord() {
                 style={{data: {fill: '#7780A4'}}}
                 dataComponent={<Bar/>}
                 data={ratingDatas.map(data => ({
-                  x: Math.round(data.rating),
+                  x: Math.round(data.rating / 2),
                   y: data.count,
                 }))}
               />
