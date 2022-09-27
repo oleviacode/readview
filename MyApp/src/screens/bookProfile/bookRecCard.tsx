@@ -20,7 +20,6 @@ export default function BookRecCard(props: BookProfileProps) {
   const route = useRoute();
   const title = route.name;
 
-
   //save
   async function save() {
     const patch = await patchMethod();

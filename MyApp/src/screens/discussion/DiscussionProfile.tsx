@@ -237,7 +237,8 @@ export default function DiscussionProfile({route}: any) {
           style={[styles.container, {flex: 1}]}>
           {/* <TouchableWithoutFeedback onPress={Keyboard.dismiss}> */}
           <View>
-            <ScrollView>
+            <ScrollView 
+            contentContainerStyle={{paddingBottom: '40%'}}>
               <View style={styles.container}>
                 <View style={[styles.regularBox, {backgroundColor: 'white'}]}>
                   <HStack style={{marginTop: 20}}>
